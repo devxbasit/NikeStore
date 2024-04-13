@@ -1,0 +1,119 @@
+using System.Net.Mime;
+using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using NikeStore.Services.CouponApi.Data;
+using NikeStore.Services.CouponApi.Models;
+using NikeStore.Services.CouponApi.Models.Dto;
+
+namespace NikeStore.Services.CouponApi.Controllers;
+
+[ApiController]
+[Route("api/coupon")]
+public class CouponController : ControllerBase
+{
+    private readonly AppDbContext _db;
+    private readonly IMapper _mapper;
+    private readonly ResponseDto _response;
+
+    public CouponController(AppDbContext db, IMapper mapper)
+    {
+        _db = db;
+        _mapper = mapper;
+        _response = new ResponseDto();
+    }
+
+    [HttpGet]
+    public ActionResult GetCoupons()
+    {
+        try
+        {
+            var couponList = _db.Coupons.ToList();
+            _response.Result = _mapper.Map<IEnumerable<CouponDto>>(couponList);
+        }
+        catch (Exception e)
+        {
+            _response.IsSuccess = false;
+            _response.Message = e.Message;
+        }
+
+        return Ok(_response);
+    }
+
+
+    [HttpGet("{couponId:int}", Name = nameof(GetCouponById))]
+    public IActionResult GetCouponById(int couponId)
+    {
+        try
+        {
+            // or we can use FirstOrDefault, .First() will throw error if not found.
+            var coupon = _db.Coupons.First(c => c.CouponId == couponId);
+            _response.Result = _mapper.Map<CouponDto>(coupon);
+        }
+        catch (Exception e)
+        {
+            _response.IsSuccess = false;
+            _response.Message = e.Message;
+        }
+
+        return Ok(_response);
+    }
+
+    [HttpPost]
+    public IActionResult CreateCoupon([FromBody] CouponDto couponDto)
+    {
+        try
+        {
+            var coupon = _mapper.Map<Coupon>(couponDto);
+            _db.Coupons.Add(coupon);
+            _db.SaveChanges();
+
+            _response.Result = _mapper.Map<CouponDto>(coupon);
+            return CreatedAtRoute(nameof(GetCouponById), new { couponId = coupon.CouponId }, _response);
+        }
+        catch (Exception e)
+        {
+            _response.IsSuccess = false;
+            _response.Message = e.Message;
+            return BadRequest(_response);
+        }
+    }
+
+    [HttpDelete("{couponId:int}")]
+    public IActionResult DeleteCoupon(int couponId)
+    {
+        try
+        {
+            Coupon coupon = _db.Coupons.First(c => c.CouponId == couponId);
+            _db.Coupons.Remove(coupon);
+            _db.SaveChanges();
+            return Ok(coupon);
+        }
+        catch (Exception e)
+        {
+            _response.IsSuccess = false;
+            _response.Message = e.Message;
+            return NotFound(_response);
+        }
+    }
+
+    [HttpPut("{couponId:int}")]
+    public IActionResult UpdateCoupon([FromBody] CouponDto couponDto, [FromRoute] int couponId)
+    {
+        try
+        {
+            couponDto.CouponId = couponId;
+            var coupon = _mapper.Map<Coupon>(couponDto);
+            _db.Coupons.Update(coupon);
+            _db.SaveChanges();
+
+            _response.Result = _mapper.Map<CouponDto>(coupon);
+            return Ok(_response);
+        }
+        catch (Exception e)
+        {
+            _response.IsSuccess = false;
+            _response.Message = e.Message;
+            return NotFound($"No coupon found with Id {couponId}");
+        }
+    }
+}

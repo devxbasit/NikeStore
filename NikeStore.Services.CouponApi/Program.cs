@@ -7,6 +7,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddControllers();
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
@@ -23,19 +25,21 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-ApplyMigrations();
+app.MapControllers();
+ApplyAutoMigrations();
+
 app.Run();
 
-void ApplyMigrations()
+void ApplyAutoMigrations()
 {
     using (var scope = app.Services.CreateScope())
     {
-        var _db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-
-        if (_db.Database.GetPendingMigrations().Count() > 0)
+     
+        var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+        if (db.Database.GetPendingMigrations().Count() > 0)
         {
             Console.WriteLine("--> Applying pending migrations...");
-            _db.Database.Migrate();
+            db.Database.Migrate();
         }
     }
 }
