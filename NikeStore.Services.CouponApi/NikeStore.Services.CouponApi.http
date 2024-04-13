@@ -1,0 +1,6 @@
+@NikeStore.Services.CouponApi_HostAddress = http://localhost:5208
+
+GET {{NikeStore.Services.CouponApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
