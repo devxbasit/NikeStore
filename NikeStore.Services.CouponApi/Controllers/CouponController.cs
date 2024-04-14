@@ -1,4 +1,3 @@
-using System.Net.Mime;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using NikeStore.Services.CouponApi.Data;
@@ -58,6 +57,25 @@ public class CouponController : ControllerBase
         return Ok(_response);
     }
 
+
+    [HttpGet("{couponCode}")]
+    public IActionResult GetCouponByCode(string couponCode)
+    {
+        try
+        {
+            var coupon = _db.Coupons.First(c => c.CouponCode.ToLower() == couponCode.ToLower());
+            _response.Result = _mapper.Map<CouponDto>(coupon);
+        }
+        catch (Exception e)
+        {
+            _response.IsSuccess = false;
+            _response.Message = e.Message;
+        }
+
+        return Ok(_response);
+    }
+
+
     [HttpPost]
     public IActionResult CreateCoupon([FromBody] CouponDto couponDto)
     {
@@ -78,6 +96,7 @@ public class CouponController : ControllerBase
         }
     }
 
+
     [HttpDelete("{couponId:int}")]
     public IActionResult DeleteCoupon(int couponId)
     {
@@ -86,7 +105,8 @@ public class CouponController : ControllerBase
             Coupon coupon = _db.Coupons.First(c => c.CouponId == couponId);
             _db.Coupons.Remove(coupon);
             _db.SaveChanges();
-            return Ok(coupon);
+            _response.Result = coupon;
+            return Ok(_response);
         }
         catch (Exception e)
         {
@@ -113,7 +133,7 @@ public class CouponController : ControllerBase
         {
             _response.IsSuccess = false;
             _response.Message = e.Message;
-            return NotFound($"No coupon found with Id {couponId}");
+            return NotFound(_response);
         }
     }
 }
