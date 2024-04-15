@@ -10,6 +10,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Gateway", "Gateway", "{6908
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NikeStore.Services.CouponApi", "NikeStore.Services.CouponApi\NikeStore.Services.CouponApi.csproj", "{EC73F77A-AB25-4771-9720-8328DD9A5EF6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NikeStore.Web", "NikeStore.Web\NikeStore.Web.csproj", "{20A70162-DAD1-4581-86CE-A440174F03F4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,11 +19,16 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{EC73F77A-AB25-4771-9720-8328DD9A5EF6} = {61B0A381-66C7-4B13-A00A-046BC48FB1EF}
+		{20A70162-DAD1-4581-86CE-A440174F03F4} = {6C529AEA-B549-4E4D-8269-BE42002FB76E}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{EC73F77A-AB25-4771-9720-8328DD9A5EF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EC73F77A-AB25-4771-9720-8328DD9A5EF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EC73F77A-AB25-4771-9720-8328DD9A5EF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EC73F77A-AB25-4771-9720-8328DD9A5EF6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{20A70162-DAD1-4581-86CE-A440174F03F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20A70162-DAD1-4581-86CE-A440174F03F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20A70162-DAD1-4581-86CE-A440174F03F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20A70162-DAD1-4581-86CE-A440174F03F4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

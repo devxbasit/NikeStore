@@ -115,13 +115,13 @@ public class CouponController : ControllerBase
             return NotFound(_response);
         }
     }
-
-    [HttpPut("{couponId:int}")]
-    public IActionResult UpdateCoupon([FromBody] CouponDto couponDto, [FromRoute] int couponId)
+    
+    
+    [HttpPut]
+    public IActionResult UpdateCoupon([FromBody] CouponDto couponDto)
     {
         try
         {
-            couponDto.CouponId = couponId;
             var coupon = _mapper.Map<Coupon>(couponDto);
             _db.Coupons.Update(coupon);
             _db.SaveChanges();
