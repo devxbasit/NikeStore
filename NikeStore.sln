@@ -12,6 +12,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NikeStore.Services.CouponAp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NikeStore.Web", "NikeStore.Web\NikeStore.Web.csproj", "{20A70162-DAD1-4581-86CE-A440174F03F4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NikeStore.Services.AuthApi", "NikeStore.Services.AuthApi\NikeStore.Services.AuthApi.csproj", "{F01AB37D-06EA-4565-92DC-9D0484900B73}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,6 +22,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{EC73F77A-AB25-4771-9720-8328DD9A5EF6} = {61B0A381-66C7-4B13-A00A-046BC48FB1EF}
 		{20A70162-DAD1-4581-86CE-A440174F03F4} = {6C529AEA-B549-4E4D-8269-BE42002FB76E}
+		{F01AB37D-06EA-4565-92DC-9D0484900B73} = {61B0A381-66C7-4B13-A00A-046BC48FB1EF}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{EC73F77A-AB25-4771-9720-8328DD9A5EF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -30,5 +33,9 @@ Global
 		{20A70162-DAD1-4581-86CE-A440174F03F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{20A70162-DAD1-4581-86CE-A440174F03F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{20A70162-DAD1-4581-86CE-A440174F03F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F01AB37D-06EA-4565-92DC-9D0484900B73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F01AB37D-06EA-4565-92DC-9D0484900B73}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F01AB37D-06EA-4565-92DC-9D0484900B73}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F01AB37D-06EA-4565-92DC-9D0484900B73}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

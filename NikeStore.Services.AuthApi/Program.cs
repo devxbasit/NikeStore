@@ -1,5 +1,8 @@
+using System.Net;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using NikeStore.Services.CouponApi.Data;
+using NikeStore.Services.AuthApi.Data;
+using NikeStore.Services.AuthApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,12 +11,17 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
-builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>()
+    .AddDefaultTokenProviders();
+
+
 
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("CouponDbConnectionString"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("AuthDbConnectionString"));
 });
+
 
 var app = builder.Build();
 
@@ -25,7 +33,10 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseAuthentication();
+app.UseAuthorization();
 app.MapControllers();
+
 ApplyPendingMigrations();
 
 app.Run();
@@ -35,7 +46,7 @@ void ApplyPendingMigrations()
     using (var scope = app.Services.CreateScope())
     {
         var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-        
+
         if (db.Database.GetPendingMigrations().Count() > 0)
         {
             Console.WriteLine("--> Applying pending migrations...");
