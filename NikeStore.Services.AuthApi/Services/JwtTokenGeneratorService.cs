@@ -8,11 +8,11 @@ using NikeStore.Services.AuthApi.Services.IService;
 
 namespace NikeStore.Services.AuthApi.Services;
 
-public class JwtTokenGenerator : IJwtTokenGenerator
+public class JwtTokenGeneratorService : IJwtTokenGeneratorService
 {
     private readonly JwtOptions _jwtOptions;
 
-    public JwtTokenGenerator(IOptions<JwtOptions> jwtOptions)
+    public JwtTokenGeneratorService(IOptions<JwtOptions> jwtOptions)
     {
         _jwtOptions = jwtOptions.Value;
     }

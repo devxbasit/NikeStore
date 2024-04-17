@@ -11,13 +11,13 @@ public class AuthService : IAuthService
     private readonly AppDbContext _db;
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly RoleManager<IdentityRole> _roleManager;
-    private readonly IJwtTokenGenerator _jwtTokenGenerator;
+    private readonly IJwtTokenGeneratorService _jwtTokenGeneratorService;
 
-    public AuthService(AppDbContext db, IJwtTokenGenerator jwtTokenGenerator,
+    public AuthService(AppDbContext db, IJwtTokenGeneratorService jwtTokenGeneratorService,
         UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
     {
         _db = db;
-        _jwtTokenGenerator = jwtTokenGenerator;
+        _jwtTokenGeneratorService = jwtTokenGeneratorService;
         _userManager = userManager;
         _roleManager = roleManager;
     }
@@ -53,7 +53,7 @@ public class AuthService : IAuthService
 
         //if user was found , Generate JWT Token
         var roles = await _userManager.GetRolesAsync(user);
-        var token = _jwtTokenGenerator.GenerateToken(user, roles);
+        var token = _jwtTokenGeneratorService.GenerateToken(user, roles);
 
         UserDto userDTO = new()
         {
