@@ -1,5 +1,4 @@
 using System.Net;
-using System.Net.Http.Headers;
 using System.Net.Mime;
 using System.Text;
 using Newtonsoft.Json;
@@ -12,22 +11,37 @@ namespace NikeStore.Web.Service;
 public class BaseService : IBaseService
 {
     private readonly IHttpClientFactory _httpClientFactory;
+    private readonly ITokenProviderService _tokenProviderService;
 
-    public BaseService(IHttpClientFactory httpClientFactory)
+    public BaseService(IHttpClientFactory httpClientFactory, ITokenProviderService tokenProviderService)
     {
         _httpClientFactory = httpClientFactory;
+        _tokenProviderService = tokenProviderService;
     }
 
-    public async Task<ResponseDto?> SendAsync(RequestDto requestDto)
+    public async Task<ResponseDto?> SendAsync(RequestDto requestDto, bool withBearer = true)
     {
         try
         {
             HttpClient httpClient = _httpClientFactory.CreateClient("NikeStoreAPI");
 
             HttpRequestMessage httpMessage = new();
-            httpMessage.Headers.Add(HttpRequestHeader.Accept.ToString(), MediaTypeNames.Application.Json);
+
+            if (requestDto.ContentType == SD.ContentType.MultipartFormData)
+            {
+                httpMessage.Headers.Add(HttpRequestHeader.Accept.ToString(), "*/*");
+            }
+            else
+            {
+                httpMessage.Headers.Add(HttpRequestHeader.Accept.ToString(), MediaTypeNames.Application.Json);
+            }
 
             // token
+            if (withBearer)
+            {
+                var token = _tokenProviderService.GetToken();
+                httpMessage.Headers.Add(HttpRequestHeader.Authorization.ToString(), $"Bearer {token}");
+            }
 
             httpMessage.RequestUri = new Uri(requestDto.Url);
 
