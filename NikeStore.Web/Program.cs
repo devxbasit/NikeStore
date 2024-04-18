@@ -1,3 +1,5 @@
+using System.Threading.RateLimiting;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using NikeStore.Web.Service;
 using NikeStore.Web.Service.IService;
 using NikeStore.Web.Utility;
@@ -10,8 +12,20 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddHttpClient();
 builder.Services.AddScoped<IBaseService, BaseService>();
 builder.Services.AddScoped<ICouponService, CouponService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
+
+builder.Services.AddScoped<ITokenProviderService, ITokenProviderService>();
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.ExpireTimeSpan = TimeSpan.FromHours(10);
+        options.LoginPath = "/Auth/Login";
+        options.LogoutPath = "/Auth/AccessDenied";
+    });
 
 SD.CouponApiBase = builder.Configuration["ServiceUrls:CouponApi"];
+SD.AuthApiBase = builder.Configuration["ServiceUrls:AuthApi"];
 
 
 var app = builder.Build();
