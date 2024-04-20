@@ -1,0 +1,6 @@
+@NikeStore.Services.ProductApi_HostAddress = http://localhost:5169
+
+GET {{NikeStore.Services.ProductApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
