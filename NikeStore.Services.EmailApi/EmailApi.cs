@@ -1,5 +1,5 @@
 ﻿namespace NikeStore.Services.EmailApi;
 
-public class Class1
+public class EmailApi
 {
 }
