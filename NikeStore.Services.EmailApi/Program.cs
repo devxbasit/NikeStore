@@ -1,8 +1,9 @@
-using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using NikeStore.Services.EmailApi.Data;
 using NikeStore.Services.EmailApi.Extensions;
+using NikeStore.Services.EmailApi.Models;
 using NikeStore.Services.EmailApi.Services;
+using NikeStore.Services.EmailApi.Services.IService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,17 +14,22 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 
-// adding all the 3 consumers here
-builder.Services.AddRabbitMqConsumers();
-
-
 string connectionString = builder.Configuration.GetConnectionString("EmailApiConnectionString");
+
 
 builder.Services.AddDbContext<AppDbContext>(options => { options.UseSqlServer(connectionString); });
 
 var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
 optionsBuilder.UseSqlServer(connectionString);
-builder.Services.AddSingleton(new EmailService(optionsBuilder.Options));
+builder.Services.AddSingleton<IEmailService>(new EmailService(optionsBuilder.Options));
+
+
+builder.Services.Configure<RabbitMQConnectionOptions>(
+    builder.Configuration.GetSection("RabbitMQSetting:RabbitMQConnectionOptions"));
+
+
+// adding all the 3 consumers as hosted service
+builder.Services.AddRabbitMqConsumersAsHostedService();
 
 
 var app = builder.Build();

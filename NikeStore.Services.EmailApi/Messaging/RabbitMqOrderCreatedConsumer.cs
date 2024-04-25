@@ -1,14 +1,16 @@
 using System.Diagnostics.Tracing;
 using System.Text;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using NikeStore.Services.EmailApi.Message;
+using NikeStore.Services.EmailApi.Models;
 using NikeStore.Services.EmailApi.Services.IService;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
 namespace NikeStore.Services.EmailApi.Messaging;
 
-public class RabbitMQOrderConsumer : BackgroundService
+public class RabbitMqOrderCreatedConsumer : BackgroundService
 {
     private readonly IConfiguration _configuration;
     private readonly IEmailService _emailService;
@@ -17,28 +19,29 @@ public class RabbitMQOrderConsumer : BackgroundService
 
     private string _exchangeName = "";
     private string _queueName = "";
-    private const string _orderCreated_EmailUpdateQueue = "EmailUpdateQueue";
-
-    public RabbitMQOrderConsumer(IConfiguration configuration, IEmailService emailService)
+    
+    public RabbitMqOrderCreatedConsumer(IConfiguration configuration, IEmailService emailService,  IOptions<RabbitMQConnectionOptions> rabbitMqConnectionOptions)
     {
         _configuration = configuration;
         _emailService = emailService;
-        _exchangeName = _configuration.GetValue<string>("TopicAndQueueNames:OrderCreatedTopic");
+        
+        _exchangeName = _configuration.GetValue<string>("RabbitMQSetting:ExchangeNames:OrderCreatedExchange");
+        _queueName = _configuration.GetValue<string>("RabbitMQSetting:QueueNames:OrderCreatedQueue");
 
-        var factory = new ConnectionFactory()
+        var connectionFactory = new ConnectionFactory()
         {
-            HostName = "localhost",
-            Password = "guest",
-            UserName = "guest",
+            HostName = rabbitMqConnectionOptions.Value.HostName,
+            UserName = rabbitMqConnectionOptions.Value.UserName,
+            Password = rabbitMqConnectionOptions.Value.Password
         };
 
-
-        _connection = factory.CreateConnection();
+        _connection = connectionFactory.CreateConnection();
         _channel = _connection.CreateModel();
 
         _channel.ExchangeDeclare(_exchangeName, ExchangeType.Direct);
-        _channel.QueueDeclare(_orderCreated_EmailUpdateQueue, false, false, false, null);
-        _channel.QueueBind(_orderCreated_EmailUpdateQueue, _exchangeName, "EmailUpdate");
+        _channel.QueueDeclare(_queueName, false, false, false, null);
+        
+        _channel.QueueBind(_queueName, _exchangeName, "EmailUpdate");
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -47,7 +50,7 @@ public class RabbitMQOrderConsumer : BackgroundService
         {
             stoppingToken.ThrowIfCancellationRequested();
 
-            var consumer = GetOrderQueueConsumer();
+            var consumer = GetOrderCreatedQueueConsumer();
             _channel.BasicConsume(_queueName, false, consumer);
         }
         catch (Exception e)
@@ -57,7 +60,7 @@ public class RabbitMQOrderConsumer : BackgroundService
         }
     }
 
-    private EventingBasicConsumer GetOrderQueueConsumer()
+    private EventingBasicConsumer GetOrderCreatedQueueConsumer()
     {
         var consumer = new EventingBasicConsumer(_channel);
 

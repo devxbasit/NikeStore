@@ -5,12 +5,10 @@ namespace NikeStore.Services.EmailApi.Extensions;
 public static class ServiceExtensions
 {
 
-    public static void AddRabbitMqConsumers(this IServiceCollection services)
+    public static void AddRabbitMqConsumersAsHostedService(this IServiceCollection services)
     {
-        services.AddHostedService<RabbitMQAuthConsumer>();
-        services.AddHostedService<RabbitMQCartConsumer>();
-        services.AddHostedService<RabbitMQOrderConsumer>();
+        services.AddHostedService<RabbitMqAuthConsumer>();
+        services.AddHostedService<RabbitMqEmailCartConsumer>();
+        services.AddHostedService<RabbitMqOrderCreatedConsumer>();
     }
-    
-    
 }
