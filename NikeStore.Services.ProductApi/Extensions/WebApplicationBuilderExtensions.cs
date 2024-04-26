@@ -6,7 +6,6 @@ namespace NikeStore.Services.ProductApi.Extensions;
 
 public static class WebApplicationBuilderExtensions
 {
-
     public static WebApplicationBuilder AddAppAuthentication(this WebApplicationBuilder builder)
     {
 

@@ -43,7 +43,6 @@ ApplyPendingMigrations();
 app.Run();
 
 
-
 void ApplyPendingMigrations()
 {
     using (var scope = app.Services.CreateScope())

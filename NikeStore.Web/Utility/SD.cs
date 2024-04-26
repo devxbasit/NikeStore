@@ -4,13 +4,16 @@ namespace NikeStore.Web.Utility;
 public class SD
 {
     public static string CouponApiBase { get; set; }
+    public static string ProducApiBase { get; set; }
     public static string AuthApiBase { get; set; }
+    public static string ShoppingCartApiBase { get; set; }
+    public static string OrderApiBase { get; set; }
 
     // constants here
     public const string RoleAdmin = "ADMIN";
     public const string RoleCustomer = "Customer";
     public const string TokenCookie = "JWTToken";
-    
+
     public enum ApiType
     {
         GET,
@@ -24,4 +27,11 @@ public class SD
         Json,
         MultipartFormData
     }
+
+    public const string Status_Pending = "Pending";
+    public const string Status_Approved = "Approved";
+    public const string Status_ReadyForPickup = "ReadyForPickup";
+    public const string Status_Completed = "Completed";
+    public const string Status_Refunded = "Refunded";
+    public const string Status_Cancelled = "Cancelled";
 }

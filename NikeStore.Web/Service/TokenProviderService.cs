@@ -2,10 +2,10 @@ using NikeStore.Web.Service.IService;
 using NikeStore.Web.Utility;
 
 namespace NikeStore.Web.Service;
-public class TokenProvider : ITokenProviderService
+public class TokenProviderService : ITokenProviderService
 {
     private readonly IHttpContextAccessor _contextAccessor;
-    public TokenProvider(IHttpContextAccessor contextAccessor)
+    public TokenProviderService(IHttpContextAccessor contextAccessor)
     {
         _contextAccessor = contextAccessor;
     }
