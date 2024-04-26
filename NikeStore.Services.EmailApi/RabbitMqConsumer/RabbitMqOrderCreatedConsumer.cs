@@ -1,4 +1,3 @@
-using System.Diagnostics.Tracing;
 using System.Text;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
@@ -8,7 +7,7 @@ using NikeStore.Services.EmailApi.Services.IService;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
-namespace NikeStore.Services.EmailApi.Messaging;
+namespace NikeStore.Services.EmailApi.RabbitMqConsumer;
 
 public class RabbitMqOrderCreatedConsumer : BackgroundService
 {

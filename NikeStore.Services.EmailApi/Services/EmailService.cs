@@ -14,7 +14,7 @@ public class EmailService : IEmailService
 
     public EmailService(DbContextOptions<AppDbContext> dbContextOptions)
     {
-        _dbContextOptions = _dbContextOptions;
+        _dbContextOptions = dbContextOptions;
     }
 
     public async Task EmailCartAndLog(CartDto cartDto)

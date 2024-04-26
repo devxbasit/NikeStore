@@ -14,7 +14,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 
-string connectionString = builder.Configuration.GetConnectionString("EmailApiConnectionString");
+string connectionString = builder.Configuration.GetConnectionString("EmailApiDbConnectionString");
 
 
 builder.Services.AddDbContext<AppDbContext>(options => { options.UseSqlServer(connectionString); });

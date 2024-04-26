@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using NikeStore.Services.AuthApi.Models.Dto;
+using NikeStore.Services.AuthApi.RabbitMqProducer;
 using NikeStore.Services.AuthApi.Services.IService;
 
 namespace NikeStore.Services.AuthApi.Controllers;
@@ -10,12 +11,15 @@ public class AuthAPIController : ControllerBase
 {
     private readonly IAuthService _authService;
     private readonly IConfiguration _configuration;
+    private readonly IRabbitMqAuthMessageProducer _rabbitMqAuthMessageProducer;
     protected ResponseDto _response;
+    
 
-    public AuthAPIController(IAuthService authService, IConfiguration configuration)
+    public AuthAPIController(IAuthService authService, IConfiguration configuration, IRabbitMqAuthMessageProducer rabbitMqAuthMessageProducer)
     {
         _authService = authService;
         _configuration = configuration;
+        _rabbitMqAuthMessageProducer = rabbitMqAuthMessageProducer;
         _response = new();
     }
 
@@ -30,7 +34,9 @@ public class AuthAPIController : ControllerBase
             _response.Message = errorMessage;
             return BadRequest(_response);
         }
-
+        
+        
+        _rabbitMqAuthMessageProducer.SendMessage(model.Email);
         return Ok(_response);
     }
 

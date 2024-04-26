@@ -1,4 +1,4 @@
-using NikeStore.Services.EmailApi.Messaging;
+using NikeStore.Services.EmailApi.RabbitMqConsumer;
 
 namespace NikeStore.Services.EmailApi.Extensions;
 

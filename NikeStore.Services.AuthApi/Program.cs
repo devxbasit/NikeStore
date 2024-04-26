@@ -1,10 +1,11 @@
-using System.Net;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using NikeStore.Services.AuthApi.Data;
 using NikeStore.Services.AuthApi.Models;
+using NikeStore.Services.AuthApi.RabbitMqProducer;
 using NikeStore.Services.AuthApi.Services;
 using NikeStore.Services.AuthApi.Services.IService;
+using NikeStore.Services.EmailApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,7 +16,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("AuthDbConnectionString"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("AuthApiDbConnectionString"));
 });
 
 builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("ApiSettings:JwtOptions"));
@@ -25,6 +26,9 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFramework
 builder.Services.AddControllers();
 builder.Services.AddScoped<IJwtTokenGeneratorService, JwtTokenGeneratorService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IRabbitMqAuthMessageProducer, RabbitMqAuthMessageProducer>();
+builder.Services.Configure<RabbitMQConnectionOptions>(
+    builder.Configuration.GetSection("RabbitMQSetting:RabbitMQConnectionOptions"));
 
 // for swagger 
 // builder.Services.AddEndpointsApiExplorer();

@@ -12,7 +12,7 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("CouponDbConnectionString"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("CouponApiDbConnectionString"));
 });
 
 var app = builder.Build();
