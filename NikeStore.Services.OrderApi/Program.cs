@@ -23,7 +23,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 ApplyPendingMigrations();
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 app.Run();
 
 

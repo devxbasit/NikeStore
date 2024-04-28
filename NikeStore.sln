@@ -6,8 +6,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Integrations", "Integration
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{61B0A381-66C7-4B13-A00A-046BC48FB1EF}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Gateway", "Gateway", "{6908F821-2957-4A21-B693-EE2D761C5C21}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NikeStore.Services.CouponApi", "NikeStore.Services.CouponApi\NikeStore.Services.CouponApi.csproj", "{EC73F77A-AB25-4771-9720-8328DD9A5EF6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NikeStore.Web", "NikeStore.Web\NikeStore.Web.csproj", "{20A70162-DAD1-4581-86CE-A440174F03F4}"
@@ -22,9 +20,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NikeStore.Services.OrderApi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NikeStore.Services.ShoppingCartApi", "NikeStore.Services.ShoppingCartApi\NikeStore.Services.ShoppingCartApi.csproj", "{9A77221E-7A2D-422C-B61E-C970ED1D8476}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NikeStore.GatewaySolution", "NikeStore.GatewaySolution\NikeStore.GatewaySolution.csproj", "{1B01001F-0038-432B-8F93-E4EF97A32947}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NikeStore.Services.EmailApi", "NikeStore.Services.EmailApi\NikeStore.Services.EmailApi.csproj", "{6C672BD7-6DE2-4448-A641-3DC31F290B57}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Gateway", "Gateway", "{0689094C-3DAC-4788-ACC9-11B793E4DAEB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NikeStore.GatewaySolution", "NikeStore.GatewaySolution\NikeStore.GatewaySolution.csproj", "{6CE18F2A-E633-4D61-B5D9-585FDCF93B5A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,8 +39,8 @@ Global
 		{E5A5D877-83BA-4B6B-A96F-3D91D0F4E395} = {61B0A381-66C7-4B13-A00A-046BC48FB1EF}
 		{CC83F606-38C5-40A3-9C69-DF274DA0529A} = {61B0A381-66C7-4B13-A00A-046BC48FB1EF}
 		{9A77221E-7A2D-422C-B61E-C970ED1D8476} = {61B0A381-66C7-4B13-A00A-046BC48FB1EF}
-		{1B01001F-0038-432B-8F93-E4EF97A32947} = {6C529AEA-B549-4E4D-8269-BE42002FB76E}
 		{6C672BD7-6DE2-4448-A641-3DC31F290B57} = {61B0A381-66C7-4B13-A00A-046BC48FB1EF}
+		{6CE18F2A-E633-4D61-B5D9-585FDCF93B5A} = {0689094C-3DAC-4788-ACC9-11B793E4DAEB}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{EC73F77A-AB25-4771-9720-8328DD9A5EF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -71,13 +71,13 @@ Global
 		{9A77221E-7A2D-422C-B61E-C970ED1D8476}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9A77221E-7A2D-422C-B61E-C970ED1D8476}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9A77221E-7A2D-422C-B61E-C970ED1D8476}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1B01001F-0038-432B-8F93-E4EF97A32947}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1B01001F-0038-432B-8F93-E4EF97A32947}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1B01001F-0038-432B-8F93-E4EF97A32947}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1B01001F-0038-432B-8F93-E4EF97A32947}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6C672BD7-6DE2-4448-A641-3DC31F290B57}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6C672BD7-6DE2-4448-A641-3DC31F290B57}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6C672BD7-6DE2-4448-A641-3DC31F290B57}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6C672BD7-6DE2-4448-A641-3DC31F290B57}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6CE18F2A-E633-4D61-B5D9-585FDCF93B5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6CE18F2A-E633-4D61-B5D9-585FDCF93B5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6CE18F2A-E633-4D61-B5D9-585FDCF93B5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6CE18F2A-E633-4D61-B5D9-585FDCF93B5A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

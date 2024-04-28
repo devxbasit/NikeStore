@@ -32,7 +32,9 @@ public class JwtTokenGeneratorService : IJwtTokenGeneratorService
             Audience = _jwtOptions.Audience,
             Expires = DateTime.UtcNow.AddHours(7),
             
+            // here we add payload
             Subject = new ClaimsIdentity(claimsList),
+            
             SigningCredentials =
                 new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
         };
@@ -47,7 +49,7 @@ public class JwtTokenGeneratorService : IJwtTokenGeneratorService
         {
             new Claim(JwtRegisteredClaimNames.Email, applicationUser.Email),
             new Claim(JwtRegisteredClaimNames.Sub, applicationUser.Id),
-            new Claim(JwtRegisteredClaimNames.Name, applicationUser.Name)
+            new Claim(JwtRegisteredClaimNames.Name, applicationUser.Name),
         };
 
         claimList.AddRange(roles.Select(r => new Claim(ClaimTypes.Role, r)));

@@ -1,14 +1,14 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using System.Text;
 
-namespace Mango.GatewaySolution.Extensions
+namespace NikeStore.GatewaySolution.Extensions
 {
     public static class WebApplicationBuilderExtensions
     {
         public static WebApplicationBuilder AddAppAuthetication(this WebApplicationBuilder builder)
         {
-            var settingsSection = builder.Configuration.GetSection("ApiSettings");
+            var settingsSection = builder.Configuration.GetSection("ApiSettings:JwtOptions");
 
             var secret = settingsSection.GetValue<string>("Secret");
             var issuer = settingsSection.GetValue<string>("Issuer");

@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using NikeStore.Services.CouponApi.Data;
+using NikeStore.Services.CouponApi.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,6 +8,10 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+
+builder.AddAppAuthentication();
+
 builder.Services.AddControllers();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
@@ -24,10 +29,14 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
-app.MapControllers();
-ApplyPendingMigrations();
+// app.UseHttpsRedirection();
 
+app.MapControllers();
+
+app.UseAuthentication();
+app.UseAuthorization();
+    
+ApplyPendingMigrations();
 app.Run();
 
 void ApplyPendingMigrations()

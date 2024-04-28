@@ -1,4 +1,5 @@
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NikeStore.Services.CouponApi.Data;
 using NikeStore.Services.CouponApi.Models;
@@ -8,6 +9,7 @@ namespace NikeStore.Services.CouponApi.Controllers;
 
 [ApiController]
 [Route("api/coupon")]
+[Authorize(Roles = "ADMIN")]
 public class CouponController : ControllerBase
 {
     private readonly AppDbContext _db;
@@ -77,6 +79,7 @@ public class CouponController : ControllerBase
 
 
     [HttpPost]
+    [Authorize(Roles = "ADMIN")]
     public IActionResult CreateCoupon([FromBody] CouponDto couponDto)
     {
         try
@@ -98,6 +101,7 @@ public class CouponController : ControllerBase
 
 
     [HttpDelete("{couponId:int}")]
+    [Authorize(Roles = "ADMIN")]
     public IActionResult DeleteCoupon(int couponId)
     {
         try
@@ -118,6 +122,7 @@ public class CouponController : ControllerBase
     
     
     [HttpPut]
+    [Authorize(Roles = "ADMIN")]
     public IActionResult UpdateCoupon([FromBody] CouponDto couponDto)
     {
         try
