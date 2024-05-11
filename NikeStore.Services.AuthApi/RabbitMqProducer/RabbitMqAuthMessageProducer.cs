@@ -10,36 +10,42 @@ public class RabbitMqAuthMessageProducer : IRabbitMqAuthMessageProducer
 {
     private readonly IConfiguration _configuration;
     private IConnection _connection;
-    private readonly IModel _channel;
-    private string _queueName;
-
+    private readonly RabbitMQConnectionOptions _rabbitMqConnectionOptions;
 
     public RabbitMqAuthMessageProducer(IConfiguration configuration,
         IOptions<RabbitMQConnectionOptions> rabbitMqConnectionOptions)
     {
         _configuration = configuration;
-
-        _queueName = _configuration.GetValue<string>("RabbitMQSetting:QueueNames:RegisterUserQueue");
-
-        var connectionFactory = new ConnectionFactory()
-        {
-            HostName = rabbitMqConnectionOptions.Value.HostName,
-            UserName = rabbitMqConnectionOptions.Value.UserName,
-            Password = rabbitMqConnectionOptions.Value.Password
-        };
-
-        _connection = connectionFactory.CreateConnection();
-        _channel = _connection.CreateModel();
-        _channel.QueueDeclare(_queueName, true, false, false);
+        _rabbitMqConnectionOptions = rabbitMqConnectionOptions.Value;
     }
 
-
-    public void SendMessage(object message)
+    public void SendMessage(object message, string queueName)
     {
         string jsonMessage = JsonConvert.SerializeObject(message);
         byte[] body = Encoding.UTF8.GetBytes(jsonMessage);
 
+        if (!ConnectionExists()) CreateConnection();
+        var channel = _connection.CreateModel();
+        channel.QueueDeclare(queueName, true, false, false);
+        channel.BasicPublish(exchange: "", routingKey: queueName, basicProperties: null, body: body);
+    }
 
-        _channel.BasicPublish(exchange: "", routingKey: _queueName, basicProperties: null, body: body);
+    private bool ConnectionExists()
+    {
+        if (_connection is null) return false;
+
+        return true;
+    }
+
+    private void CreateConnection()
+    {
+        var connectionFactory = new ConnectionFactory()
+        {
+            HostName = _rabbitMqConnectionOptions.HostName,
+            UserName = _rabbitMqConnectionOptions.UserName,
+            Password = _rabbitMqConnectionOptions.Password
+        };
+
+        _connection = connectionFactory.CreateConnection();
     }
 }

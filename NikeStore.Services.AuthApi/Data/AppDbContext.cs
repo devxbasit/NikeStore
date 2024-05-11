@@ -13,7 +13,6 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
     // will not create any table with name "ApplicationUsers", will just add extra columns to AspNetUsers table
     public DbSet<ApplicationUser> ApplicationUsers { get; set; }
     
-    
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);

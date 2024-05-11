@@ -31,10 +31,10 @@ public class RabbitMqAuthConsumer : BackgroundService
             Password = rabbitMqConnectionOptions.Value.Password
         };
 
-        _queueName = _configuration.GetValue<string>("RabbitMQSetting:QueueNames:RegisterUserQueue");
-        
         _connection = connectionFactory.CreateConnection();
         _channel = _connection.CreateModel();
+
+        _queueName = _configuration.GetValue<string>("RabbitMQSetting:QueueNames:UserRegisteredQueue");
         _channel.QueueDeclare(_queueName, true, false, false);
     }
 
@@ -62,9 +62,17 @@ public class RabbitMqAuthConsumer : BackgroundService
 
         consumer.Received += (channel, eventArgs) =>
         {
-            var jsonContent = Encoding.UTF8.GetString(eventArgs.Body.ToArray());
-            var message = JsonConvert.DeserializeObject<string>(jsonContent);
-            HandleMessage(message);
+            try
+            {
+                var jsonContent = Encoding.UTF8.GetString(eventArgs.Body.ToArray());
+                var message = JsonConvert.DeserializeObject<string>(jsonContent);
+                HandleMessage(message);
+                _channel.BasicAck(eventArgs.DeliveryTag, false);
+            }
+            catch (Exception e)
+            {
+                _channel.BasicReject(eventArgs.DeliveryTag, false);
+            }
         };
 
         return consumer;

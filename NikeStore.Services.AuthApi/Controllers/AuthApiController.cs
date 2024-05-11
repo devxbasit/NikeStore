@@ -13,16 +13,15 @@ public class AuthAPIController : ControllerBase
     private readonly IConfiguration _configuration;
     private readonly IRabbitMqAuthMessageProducer _rabbitMqAuthMessageProducer;
     protected ResponseDto _response;
-    
 
-    public AuthAPIController(IAuthService authService, IConfiguration configuration, IRabbitMqAuthMessageProducer rabbitMqAuthMessageProducer)
+    public AuthAPIController(IAuthService authService, IConfiguration configuration,
+        IRabbitMqAuthMessageProducer rabbitMqAuthMessageProducer)
     {
         _authService = authService;
         _configuration = configuration;
         _rabbitMqAuthMessageProducer = rabbitMqAuthMessageProducer;
         _response = new();
     }
-
 
     [HttpPost("register")]
     public async Task<IActionResult> Register([FromBody] RegistrationRequestDto model)
@@ -34,9 +33,9 @@ public class AuthAPIController : ControllerBase
             _response.Message = errorMessage;
             return BadRequest(_response);
         }
-        
-        
-        _rabbitMqAuthMessageProducer.SendMessage(model.Email);
+
+        var queueName = _configuration.GetValue<string>("RabbitMQSetting:QueueNames:UserRegisteredQueue");
+        _rabbitMqAuthMessageProducer.SendMessage(model.Email, queueName);
         return Ok(_response);
     }
 
@@ -55,7 +54,7 @@ public class AuthAPIController : ControllerBase
         return Ok(_response);
     }
 
-    
+
     [HttpPost("AssignRole")]
     public async Task<IActionResult> AssignRole([FromBody] AssignRoleDto model)
     {
