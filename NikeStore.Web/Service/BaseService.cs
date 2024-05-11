@@ -24,7 +24,6 @@ public class BaseService : IBaseService
         try
         {
             HttpClient httpClient = _httpClientFactory.CreateClient("NikeStoreAPI");
-
             HttpRequestMessage httpMessage = new();
 
             if (requestDto.ContentType == SD.ContentType.MultipartFormData)
@@ -45,10 +44,36 @@ public class BaseService : IBaseService
 
             httpMessage.RequestUri = new Uri(requestDto.Url);
 
-            if (requestDto.Data is not null)
+            if (requestDto.ContentType == SD.ContentType.MultipartFormData)
             {
-                httpMessage.Content = new StringContent(JsonConvert.SerializeObject(requestDto.Data), Encoding.UTF8,
-                    MediaTypeNames.Application.Json);
+                var content = new MultipartFormDataContent();
+
+                foreach (var prop in requestDto.Data.GetType().GetProperties())
+                {
+                    var value = prop.GetValue(requestDto.Data);
+                    if (value is FormFile)
+                    {
+                        var file = (FormFile)value;
+                        if (file != null)
+                        {
+                            content.Add(new StreamContent(file.OpenReadStream()), prop.Name, file.FileName);
+                        }
+                    }
+                    else
+                    {
+                        content.Add(new StringContent(value == null ? "" : value.ToString()), prop.Name);
+                    }
+                }
+
+                httpMessage.Content = content;
+            }
+            else
+            {
+                if (requestDto.Data is not null)
+                {
+                    httpMessage.Content = new StringContent(JsonConvert.SerializeObject(requestDto.Data), Encoding.UTF8,
+                        MediaTypeNames.Application.Json);
+                }
             }
 
             httpMessage.Method = requestDto.ApiType switch

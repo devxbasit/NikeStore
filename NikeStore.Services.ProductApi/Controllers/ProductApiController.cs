@@ -8,7 +8,7 @@ using NikeStore.Services.ProductApi.Models.Dto;
 namespace NikeStore.Services.ProductApi.Controllers;
 
 [Route("api/product")]
-[ApiController]
+//[ApiController]
 public class ProductApiController : ControllerBase
 {
     private readonly AppDbContext _db;
@@ -56,7 +56,7 @@ public class ProductApiController : ControllerBase
         
         return _response;
     }
-
+    
     [HttpPost]
     [Authorize(Roles = "ADMIN")]
     public ResponseDto Post(ProductDto ProductDto)
@@ -70,7 +70,7 @@ public class ProductApiController : ControllerBase
             if (ProductDto.Image != null)
             {
                 string fileName = product.ProductId + Path.GetExtension(ProductDto.Image.FileName);
-                string filePath = @"wwwroot\ProductImages\" + fileName;
+                string filePath = @"wwwroot/ProductImages/" + fileName;
 
                 var directoryLocation = Path.Combine(Directory.GetCurrentDirectory(), filePath);
                 FileInfo file = new FileInfo(directoryLocation);
@@ -78,8 +78,9 @@ public class ProductApiController : ControllerBase
                 {
                     file.Delete();
                 }
-
+                
                 var filePathDirectory = Path.Combine(Directory.GetCurrentDirectory(), filePath);
+                
                 using (var fileStream = new FileStream(filePathDirectory, FileMode.Create))
                 {
                     ProductDto.Image.CopyTo(fileStream);
@@ -157,8 +158,7 @@ public class ProductApiController : ControllerBase
         return _response;
     }
 
-    [HttpDelete]
-    [Route("{id:int}")]
+    [HttpDelete("{id:int}")]
     [Authorize(Roles = "ADMIN")]
     public ResponseDto Delete(int id)
     {
