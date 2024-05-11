@@ -9,7 +9,7 @@ namespace NikeStore.Services.CouponApi.Controllers;
 
 [ApiController]
 [Route("api/coupon")]
-[Authorize(Roles = "ADMIN")]
+[Authorize]
 public class CouponController : ControllerBase
 {
     private readonly AppDbContext _db;
