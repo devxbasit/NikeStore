@@ -60,7 +60,7 @@ public class CouponController : ControllerBase
     }
 
 
-    [HttpGet("{couponCode}")]
+    [HttpGet("GetByCode/{couponCode}")]
     public IActionResult GetCouponByCode(string couponCode)
     {
         try
