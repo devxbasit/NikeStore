@@ -1,6 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using NikeStore.Services.ProductApi.Data;
 using NikeStore.Services.ProductApi.Extensions;
+using NikeStore.Services.ProductApi.Services;
+using NikeStore.Services.ProductApi.Services.IService;
+using NikeStore.Services.ProductApi.Utility;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +26,13 @@ builder.AddAppAuthentication();
 builder.Services.AddAuthorization();
 
 
+builder.Services.AddScoped<IShoppingCartService, ShoppingCartService>();
+
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<BackendApiAuthenticationHttpClientHandler>();
+builder.Services.AddHttpClient("ShoppingCartClient",
+        u => { u.BaseAddress = new Uri(builder.Configuration["ServiceUrls:ShoppingCartApi"]); })
+    .AddHttpMessageHandler<BackendApiAuthenticationHttpClientHandler>();
 
 var app = builder.Build();
 

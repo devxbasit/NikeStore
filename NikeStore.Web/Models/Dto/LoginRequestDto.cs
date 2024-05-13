@@ -1,9 +1,12 @@
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace NikeStore.Web.Models.Dto;
-
-public class LoginRequestDto
+namespace NikeStore.Web.Models.Dto
 {
-    [Required] public string UserName { get; set; }
-    [Required] public string Password { get; set; }
+    public class LoginRequestDto
+    {
+        [Required]
+        public string UserName { get; set; }
+        [Required]
+        public string Password { get; set; }
+    }
 }

@@ -4,22 +4,25 @@ using Microsoft.AspNetCore.Mvc;
 using NikeStore.Services.ProductApi.Data;
 using NikeStore.Services.ProductApi.Models;
 using NikeStore.Services.ProductApi.Models.Dto;
+using NikeStore.Services.ProductApi.Services.IService;
 
 namespace NikeStore.Services.ProductApi.Controllers;
 
 [Route("api/product")]
-//[ApiController]
+[ApiController]
 public class ProductApiController : ControllerBase
 {
     private readonly AppDbContext _db;
     private ResponseDto _response;
     private IMapper _mapper;
+    private readonly IShoppingCartService _shoppingCartService;
 
-    public ProductApiController(AppDbContext db, IMapper mapper)
+    public ProductApiController(AppDbContext db, IShoppingCartService shoppingCartService,  IMapper mapper)
     {
         _db = db;
         _mapper = mapper;
         _response = new ResponseDto();
+        _shoppingCartService = shoppingCartService;
     }
 
     [HttpGet]
@@ -130,7 +133,7 @@ public class ProductApiController : ControllerBase
                 }
 
                 string fileName = product.ProductId + Path.GetExtension(ProductDto.Image.FileName);
-                string filePath = @"wwwroot\ProductImages\" + fileName;
+                string filePath = @"wwwroot/ProductImages/" + fileName;
                 var filePathDirectory = Path.Combine(Directory.GetCurrentDirectory(), filePath);
                 using (var fileStream = new FileStream(filePathDirectory, FileMode.Create))
                 {
@@ -160,7 +163,7 @@ public class ProductApiController : ControllerBase
 
     [HttpDelete("{id:int}")]
     [Authorize(Roles = "ADMIN")]
-    public ResponseDto Delete(int id)
+    public async Task<ResponseDto> Delete(int id)
     {
         try
         {
@@ -174,8 +177,9 @@ public class ProductApiController : ControllerBase
                     file.Delete();
                 }
             }
-
+            
             _db.Products.Remove(obj);
+            await _shoppingCartService.RemoveProductFromAllCart(id);
             _db.SaveChanges();
         }
         catch (Exception ex)

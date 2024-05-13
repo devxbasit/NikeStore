@@ -32,7 +32,7 @@ public class JwtTokenGeneratorService : IJwtTokenGeneratorService
             Audience = _jwtOptions.Audience,
             
             // Todo: fix later
-            Expires = DateTime.UtcNow.AddMonths(7),
+            Expires = DateTime.UtcNow.AddMonths(12),
             
             // here we add payload
             Subject = new ClaimsIdentity(claimsList),

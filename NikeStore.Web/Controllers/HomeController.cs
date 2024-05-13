@@ -1,26 +1,98 @@
 using System.Diagnostics;
+using IdentityModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using NikeStore.Web.Models;
+using Newtonsoft.Json;
+using NikeStore.Web.Models.Dto;
+using NikeStore.Web.Service.IService;
+using ErrorViewModel = NikeStore.Web.Models.ErrorViewModel;
 
 namespace NikeStore.Web.Controllers;
 
 public class HomeController : Controller
 {
-    private readonly ILogger<HomeController> _logger;
-
-    public HomeController(ILogger<HomeController> logger)
+    private readonly IProductService _productService;
+    private readonly ICartService _cartService;
+    
+    public HomeController(IProductService productService, ICartService cartService)
     {
-        _logger = logger;
+        _productService = productService;
+        _cartService = cartService;
     }
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
-        return View();
+        List<ProductDto>? list = new();
+
+        ResponseDto? response = await _productService.GetAllProductsAsync();
+
+        if (response != null && response.IsSuccess)
+        {
+            list = JsonConvert.DeserializeObject<List<ProductDto>>(Convert.ToString(response.Result));
+        }
+        else
+        {
+            TempData["error"] = response?.Message;
+        }
+
+        return View(list);
     }
 
-    public IActionResult Privacy()
+    [Authorize]
+    public async Task<IActionResult> ProductDetails(int productId)
     {
-        return View();
+        ProductDto? model = new();
+
+        ResponseDto? response = await _productService.GetProductByIdAsync(productId);
+
+        if (response != null && response.IsSuccess)
+        {
+            model = JsonConvert.DeserializeObject<ProductDto>(Convert.ToString(response.Result));
+        }
+        else
+        {
+            TempData["error"] = response?.Message;
+        }
+
+        return View(model);
+    }
+
+
+    [Authorize]
+    [HttpPost]
+    [ActionName("ProductDetails")]
+    public async Task<IActionResult> ProductDetails(ProductDto productDto)
+    {
+        CartDto cartDto = new CartDto()
+        {
+            CartHeader = new CartHeaderDto
+            {
+                UserId = User.Claims.Where(u => u.Type == JwtClaimTypes.Subject)?.FirstOrDefault()?.Value
+            }
+        };
+
+        CartDetailsDto cartDetails = new CartDetailsDto()
+        {
+            Count = productDto.Count,
+            ProductId = productDto.ProductId,
+        };
+
+        List<CartDetailsDto> cartDetailsDtos = new() { cartDetails };
+        cartDto.CartDetails = cartDetailsDtos;
+
+        ResponseDto? response = await _cartService.UpsertCartAsync(cartDto);
+
+        if (response != null && response.IsSuccess)
+        {
+            TempData["success"] = "Item has been added to the Shopping Cart";
+            return RedirectToAction(nameof(Index));
+        }
+        else
+        {
+            TempData["error"] = response?.Message;
+        }
+
+        return View(productDto);
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

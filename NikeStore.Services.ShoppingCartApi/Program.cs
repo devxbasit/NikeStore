@@ -17,7 +17,6 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddControllers();
-builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddDbContext<AppDbContext>(option =>
 {
@@ -27,9 +26,11 @@ builder.Services.AddDbContext<AppDbContext>(option =>
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICouponService, CouponService>();
 builder.Services.AddScoped<IRabbitMqCartMessageProducer, RabbitMqCartMessageProducer>();
-builder.Services.AddScoped<BackendApiAuthenticationHttpClientHandler>();
 builder.Services.Configure<RabbitMQConnectionOptions>(builder.Configuration.GetSection("RabbitMQSetting:RabbitMQConnectionOptions"));
 
+
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<BackendApiAuthenticationHttpClientHandler>();
 builder.Services.AddHttpClient("Product",
         u => { u.BaseAddress = new Uri(builder.Configuration["ServiceUrls:ProductAPI"]); })
     .AddHttpMessageHandler<BackendApiAuthenticationHttpClientHandler>();

@@ -12,6 +12,7 @@ namespace NikeStore.Services.ShoppingCartApi.Service
         {
             _httpClientFactory = clientFactory;
         }
+
         public async Task<IEnumerable<ProductDto>> GetProducts()
         {
             var client = _httpClientFactory.CreateClient("Product");
@@ -22,6 +23,7 @@ namespace NikeStore.Services.ShoppingCartApi.Service
             {
                 return JsonConvert.DeserializeObject<IEnumerable<ProductDto>>(Convert.ToString(resp.Result));
             }
+
             return new List<ProductDto>();
         }
     }

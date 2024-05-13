@@ -32,6 +32,7 @@ public class AuthController : Controller
     [HttpPost]
     public async Task<IActionResult> Login(LoginRequestDto obj)
     {
+        
         ResponseDto responseDto = await _authService.LoginAsync(obj);
 
         if (responseDto != null && responseDto.IsSuccess)

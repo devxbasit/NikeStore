@@ -39,9 +39,20 @@ public class CartApiController
     {
         try
         {
+            var cartHeader = _db.CartHeaders.FirstOrDefault(u => u.UserId == userId);
+
+            if (cartHeader is null)
+            {
+                return new ResponseDto()
+                {
+                    Result = new CartDto(),
+                    IsSuccess = true
+                };
+            }
+
             CartDto cart = new()
             {
-                CartHeader = _mapper.Map<CartHeaderDto>(_db.CartHeaders.First(u => u.UserId == userId))
+                CartHeader = _mapper.Map<CartHeaderDto>(cartHeader)
             };
 
             cart.CartDetails = _mapper.Map<IEnumerable<CartDetailsDto>>(_db.CartDetails
@@ -76,7 +87,6 @@ public class CartApiController
 
         return _response;
     }
-
 
     [HttpPost("ApplyCoupon")]
     public async Task<object> ApplyCoupon([FromBody] CartDto cartDto)
@@ -144,7 +154,7 @@ public class CartApiController
                 var cartDetailsFromDb = await _db.CartDetails.AsNoTracking().FirstOrDefaultAsync(
                     u => u.ProductId == cartDto.CartDetails.First().ProductId &&
                          u.CartHeaderId == cartHeaderFromDb.CartHeaderId);
-                
+
                 if (cartDetailsFromDb == null)
                 {
                     // create cart details
@@ -180,8 +190,7 @@ public class CartApiController
     {
         try
         {
-            CartDetails cartDetails = _db.CartDetails
-                .First(u => u.CartDetailsId == cartDetailsId);
+            CartDetails cartDetails = _db.CartDetails.First(u => u.CartDetailsId == cartDetailsId);
 
             int totalCountofCartItem = _db.CartDetails.Where(u => u.CartHeaderId == cartDetails.CartHeaderId).Count();
             _db.CartDetails.Remove(cartDetails);
@@ -192,6 +201,40 @@ public class CartApiController
 
                 _db.CartHeaders.Remove(cartHeaderToRemove);
             }
+
+            await _db.SaveChangesAsync();
+
+            _response.Result = true;
+        }
+        catch (Exception ex)
+        {
+            _response.Message = ex.Message.ToString();
+            _response.IsSuccess = false;
+        }
+
+        return _response;
+    }
+
+    [HttpPost("RemoveAllCart/{productId:int}")]
+    public async Task<ResponseDto> RemoveAllCart(int productId)
+    {
+        try
+        {
+            var cartDetailsList = _db.CartDetails.Where(c => c.ProductId == productId).ToList();
+            foreach (var cartItem in cartDetailsList)
+            {
+                int totalCountofCartItem = _db.CartDetails.Where(u => u.CartHeaderId == cartItem.CartHeaderId).Count();
+
+                if (totalCountofCartItem == 1)
+                {
+                    var cartHeaderToRemove = await _db.CartHeaders
+                        .FirstOrDefaultAsync(u => u.CartHeaderId == cartItem.CartHeaderId);
+
+                    _db.CartHeaders.Remove(cartHeaderToRemove);
+                }
+            }
+
+            _db.CartDetails.RemoveRange(cartDetailsList);
 
             await _db.SaveChangesAsync();
 

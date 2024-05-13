@@ -40,7 +40,6 @@ public class CouponController : ControllerBase
         return Ok(_response);
     }
 
-
     [HttpGet("{couponId:int}", Name = nameof(GetCouponById))]
     public IActionResult GetCouponById(int couponId)
     {
@@ -80,7 +79,7 @@ public class CouponController : ControllerBase
 
     [HttpPost]
     [Authorize(Roles = "ADMIN")]
-    public IActionResult CreateCoupon([FromBody] CouponDto couponDto)
+    public IActionResult CreateCoupon(CouponDto couponDto)
     {
         try
         {
