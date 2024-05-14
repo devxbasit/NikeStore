@@ -1,5 +1,9 @@
+using NikeStore.Services.OrderAPI.RabbmitMQSender;
 using Microsoft.EntityFrameworkCore;
 using NikeStore.Services.CouponApi.Data;
+using NikeStore.Services.OrderApi.Extensions;
+using NikeStore.Services.OrderApi.Models;
+using NikeStore.Services.OrderApi.Utility;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,24 +12,41 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddDbContext<AppDbContext>(option => { option.UseSqlServer(builder.Configuration.GetConnectionString("OrderApiDbConnectionString")); });
 
-builder.Services.AddDbContext<AppDbContext>(option =>
-{
-    option.UseSqlServer(builder.Configuration.GetConnectionString("OrderApiDbConnectionString"));
-});
+builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("ApiSettings:JwtOptions"));
+builder.Services.Configure<RabbitMQConnectionOptions>(builder.Configuration.GetSection("RabbitMQSetting:RabbitMQConnectionOptions"));
+
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddScoped<IRabbitMqOrderMessageProducer, RabbitMqOrderMessageProducer>();
+
+builder.Services.AddControllers();
+builder.AddAppAuthentication();
+
+builder.Services.AddAuthorization();
+
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-ApplyPendingMigrations();
-//app.UseHttpsRedirection();
-app.Run();
 
+Stripe.StripeConfiguration.ApiKey = builder.Configuration.GetSection("Stripe:SecretKey").Get<string>();
+
+//app.UseHttpsRedirection();
+
+app.UseAuthentication();
+app.UseAuthorization();
+
+app.MapControllers();
+
+ApplyPendingMigrations();
+app.Run();
 
 
 void ApplyPendingMigrations()

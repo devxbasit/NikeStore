@@ -1,7 +1,7 @@
-﻿namespace Mango.Services.OrderAPI.RabbmitMQSender
+﻿namespace NikeStore.Services.OrderAPI.RabbmitMQSender
 {
     public interface IRabbitMqOrderMessageProducer
     {
-        void SendMessage(Object message, string exchangeName);
+        void SendMessage(object message, string exchangeName);
     }
 }

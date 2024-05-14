@@ -44,7 +44,7 @@ public class EmailService : IEmailService
     public async Task RegisterUserEmailAndLog(string email)
     {
         string message = "User Registeration Successful. <br/> Email : " + email;
-        await LogAndEmail(message, "dotnetmastery@gmail.com");
+        await LogAndEmail(message,"basitshafi.dev@gmail.com");
     }
 
     public async Task LogOrderPlaced(RewardsMessage rewardsMessage)

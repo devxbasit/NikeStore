@@ -40,7 +40,7 @@ public class RabbitMqOrderCreatedConsumer : BackgroundService
         _channel.ExchangeDeclare(_exchangeName, ExchangeType.Direct);
         _channel.QueueDeclare(_queueName, false, false, false, null);
         
-        _channel.QueueBind(_queueName, _exchangeName, "EmailUpdate");
+        _channel.QueueBind(_queueName, _exchangeName, _configuration.GetValue<string>("RabbitMQSetting:RoutingKeys:EmailUpdateRoutingKey"));
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)

@@ -1,74 +1,66 @@
 ﻿using Newtonsoft.Json;
 using RabbitMQ.Client;
 using System.Text;
+using Microsoft.Extensions.Options;
+using NikeStore.Services.OrderApi.Models;
 
-namespace Mango.Services.OrderAPI.RabbmitMQSender
+namespace NikeStore.Services.OrderAPI.RabbmitMQSender
 {
     public class RabbitMqOrderMessageProducer : IRabbitMqOrderMessageProducer
     {
-
-        private readonly string _hostName;
-        private readonly string _username;
-        private readonly string _password;
         private IConnection _connection;
-        private const string OrderCreated_RewardsUpdateQueue = "RewardsUpdateQueue";
-        private const string OrderCreated_EmailUpdateQueue = "EmailUpdateQueue";
+        private readonly IConfiguration _configuration;
+        private readonly RabbitMQConnectionOptions _rabbitMqConnectionOptions;
 
-        public RabbitMqOrderMessageProducer()
+        public RabbitMqOrderMessageProducer(IConfiguration configuration, IOptions<RabbitMQConnectionOptions> rabbitMqConnectionOptions)
         {
-            _hostName = "localhost";
-            _password = "guest";
-            _username = "guest";
+            _configuration = configuration;
+            _rabbitMqConnectionOptions = rabbitMqConnectionOptions.Value;
         }
 
         public void SendMessage(object message, string exchangeName)
         {
-            if (ConnectionExists())
-            {
+            if (!ConnectionExists()) CreateConnection();
 
-                using var channel = _connection.CreateModel();
-                channel.ExchangeDeclare(exchangeName,ExchangeType.Direct,durable:false);
-                channel.QueueDeclare(OrderCreated_EmailUpdateQueue, false, false, false, null);
-                channel.QueueDeclare(OrderCreated_RewardsUpdateQueue, false, false, false, null);
+            var emailUpdateQueueName = _configuration.GetValue<string>("RabbitMQSetting:QueueNames:EmailUpdatedQueue");
+            var rewardUpdateQueueName = _configuration.GetValue<string>("RabbitMQSetting:QueueNames:RewardsUpdateQueue");
+            var emailUpdateRoutingKey = _configuration.GetValue<string>("RabbitMQSetting:RoutingKeys:EmailUpdateRoutingKey");
+            var rewardUpdateRoutingKey = _configuration.GetValue<string>("RabbitMQSetting:RoutingKeys:RewardsUpdateRoutingKey");
 
-                channel.QueueBind(OrderCreated_EmailUpdateQueue, exchangeName, "EmailUpdate");
-                channel.QueueBind(OrderCreated_RewardsUpdateQueue, exchangeName, "RewardsUpdate");
+            using var channel = _connection.CreateModel();
+            channel.ExchangeDeclare(exchangeName, ExchangeType.Direct, durable: false);
 
-                var json = JsonConvert.SerializeObject(message);
-                var body = Encoding.UTF8.GetBytes(json);
-                channel.BasicPublish(exchange: exchangeName, "EmailUpdate", null, body: body);
-                channel.BasicPublish(exchange: exchangeName, "RewardsUpdate", null, body: body);
-            }
 
-        }
+            channel.QueueDeclare(emailUpdateQueueName, false, false, false, null);
+            channel.QueueDeclare(rewardUpdateQueueName, false, false, false, null);
 
-        private void CreateConnection()
-        {
-            try
-            {
-                var factory = new ConnectionFactory
-                {
-                    HostName = _hostName,
-                    Password = _password,
-                    UserName = _username
-                };
+            channel.QueueBind(emailUpdateQueueName, exchangeName, emailUpdateRoutingKey);
+            channel.QueueBind(rewardUpdateQueueName, exchangeName, rewardUpdateRoutingKey);
 
-                _connection = factory.CreateConnection();
-            }
-            catch (Exception ex)
-            {
+            var json = JsonConvert.SerializeObject(message);
+            var body = Encoding.UTF8.GetBytes(json);
 
-            }
+            channel.BasicPublish(exchange: exchangeName, emailUpdateRoutingKey, null, body: body);
+            channel.BasicPublish(exchange: exchangeName, rewardUpdateRoutingKey, null, body: body);
         }
 
         private bool ConnectionExists()
         {
-            if (_connection != null)
-            {
-                return true;
-            }
-            CreateConnection();
+            if (_connection is null) return false;
+
             return true;
+        }
+
+        private void CreateConnection()
+        {
+            var connectionFactory = new ConnectionFactory()
+            {
+                HostName = _rabbitMqConnectionOptions.HostName,
+                UserName = _rabbitMqConnectionOptions.UserName,
+                Password = _rabbitMqConnectionOptions.Password
+            };
+
+            _connection = connectionFactory.CreateConnection();
         }
     }
 }

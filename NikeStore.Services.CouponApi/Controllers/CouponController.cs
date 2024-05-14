@@ -64,7 +64,10 @@ public class CouponController : ControllerBase
     {
         try
         {
-            var coupon = _db.Coupons.First(c => c.CouponCode.ToLower() == couponCode.ToLower());
+            var coupon = _db.Coupons.FirstOrDefault(c => c.CouponCode.ToLower() == couponCode.ToLower());
+
+            if (coupon is null) throw new Exception("Invalid CouponCode!");
+            
             _response.Result = _mapper.Map<CouponDto>(coupon);
         }
         catch (Exception e)

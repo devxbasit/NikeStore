@@ -16,10 +16,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddControllers();
 
-builder.Services.AddDbContext<AppDbContext>(options =>
-{
-    options.UseSqlServer(builder.Configuration.GetConnectionString("AuthApiDbConnectionString"));
-});
+builder.Services.AddDbContext<AppDbContext>(options => { options.UseSqlServer(builder.Configuration.GetConnectionString("AuthApiDbConnectionString")); });
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>()
     .AddDefaultTokenProviders();
 
@@ -29,8 +26,7 @@ builder.Services.AddScoped<IRabbitMqAuthMessageProducer, RabbitMqAuthMessageProd
 
 
 builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("ApiSettings:JwtOptions"));
-builder.Services.Configure<RabbitMQConnectionOptions>(
-    builder.Configuration.GetSection("RabbitMQSetting:RabbitMQConnectionOptions"));
+builder.Services.Configure<RabbitMQConnectionOptions>(builder.Configuration.GetSection("RabbitMQSetting:RabbitMQConnectionOptions"));
 
 
 // for swagger 

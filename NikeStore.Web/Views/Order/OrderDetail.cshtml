@@ -1,5 +1,8 @@
-﻿@model OrderHeaderDto
-@using Mango.Web.Utility
+﻿
+@model NikeStore.Web.Models.Dto.OrderHeaderDto
+@using NikeStore.Web.Utility
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using NikeStore.Web.Utility
 <form method="post">
     <br />
     <input asp-for="OrderHeaderId" hidden />
@@ -46,7 +49,7 @@
                                 </div>
                             </div>
 
-                            @if (User.IsInRole(SD.RoleAdmin))
+                            @if (User.IsInRole(SD.Roles.Admin))
                             {
                                 <div class="row my-1">
                                     <div class="col-3">Session ID</div>
@@ -103,18 +106,18 @@
                                 </li>
                             </ul>
 
-                            @if (User.IsInRole(SD.RoleAdmin))
+                            @if (User.IsInRole(SD.Roles.Admin))
                             {
-                                @if (Model.Status == SD.Status_Approved)
+                                @if (Model.Status == SD.OrderStatus.Approved)
                                 {
                                     <button asp-action="OrderReadyForPickup" asp-route-orderId="@Model.OrderHeaderId" type="submit" class="btn btn-success form-control my-1">Ready for Pickup</button>
                                 }
-                                @if (Model.Status == SD.Status_ReadyForPickup)
+                                @if (Model.Status == SD.OrderStatus.ReadyForPickup)
                                 {
                                     <button asp-action="CompleteOrder" asp-route-orderId="@Model.OrderHeaderId" type="submit" class="btn btn-success form-control my-1">Complete Order</button>
                                 }
 
-                                if (Model.Status == SD.Status_Approved || Model.Status == SD.Status_ReadyForPickup)
+                                if (Model.Status == SD.OrderStatus.Approved || Model.Status == SD.OrderStatus.ReadyForPickup)
                                 {
                                     <button asp-action="CancelOrder" asp-route-orderId="@Model.OrderHeaderId" type="submit" class="btn btn-danger form-control my-1">Cancel Order</button>
                                 }
