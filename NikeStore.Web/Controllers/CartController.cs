@@ -89,8 +89,8 @@ public class CartController : Controller
 
         return View("/CartIndex");
     }
-    
-    
+
+
     [HttpPost]
     [ActionName("Checkout")]
     public async Task<IActionResult> Checkout(CartDto cartDto)
@@ -106,7 +106,7 @@ public class CartController : Controller
         if (response != null && response.IsSuccess)
         {
             //get stripe session and redirect to stripe to place order
-            
+
             var domain = Request.Scheme + "://" + Request.Host.Value + "/";
 
             StripeRequestDto stripeRequestDto = new()
@@ -132,16 +132,20 @@ public class CartController : Controller
         if (response != null & response.IsSuccess)
         {
             OrderHeaderDto orderHeader = JsonConvert.DeserializeObject<OrderHeaderDto>(Convert.ToString(response.Result));
+
+
             if (orderHeader.Status == SD.OrderStatus.Approved)
             {
                 return View(orderId);
             }
         }
 
+        // Todo handler other views based on status
         //redirect to some error page based on status
+
         return View(orderId);
     }
-    
+
 
     private async Task<CartDto> LoadCartDtoBasedOnLoggedInUser()
     {

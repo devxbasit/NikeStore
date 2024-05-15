@@ -12,8 +12,8 @@ using NikeStore.Services.CouponApi.Data;
 namespace NikeStore.Services.RewardsApi.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240426090947_FixedNammingConventions")]
-    partial class FixedNammingConventions
+    [Migration("20240515072550_initialCreate")]
+    partial class initialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

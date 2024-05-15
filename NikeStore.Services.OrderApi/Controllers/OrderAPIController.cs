@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using NikeStore.Services.CouponApi.Data;
 using NikeStore.Services.OrderApi.Models;
 using NikeStore.Services.OrderApi.Models.Dto;
+using NikeStore.Services.OrderApi.Services.IService;
 using NikeStore.Services.OrderApi.Utility;
 
 namespace NikeStore.Services.OrderApi.Controllers
@@ -22,11 +23,13 @@ namespace NikeStore.Services.OrderApi.Controllers
         private readonly AppDbContext _db;
         private readonly IRabbitMqOrderMessageProducer _rabbitMqOrderMessageProducer;
         private readonly IConfiguration _configuration;
+        private readonly IShoppingCartService _shoppingCartService;
 
-        public OrderAPIController(AppDbContext db, IMapper mapper, IConfiguration configuration, IRabbitMqOrderMessageProducer rabbitMqOrderMessageProducer)
+        public OrderAPIController(AppDbContext db, IMapper mapper, IConfiguration configuration, IRabbitMqOrderMessageProducer rabbitMqOrderMessageProducer, IShoppingCartService shoppingCartService)
         {
             _db = db;
             _rabbitMqOrderMessageProducer = rabbitMqOrderMessageProducer;
+            _shoppingCartService = shoppingCartService;
             this._response = new ResponseDto();
             _mapper = mapper;
             _configuration = configuration;
@@ -56,8 +59,8 @@ namespace NikeStore.Services.OrderApi.Controllers
 
             return _response;
         }
-        
-        
+
+
         [HttpGet("GetOrders")]
         public ResponseDto? Get(string? userId = "")
         {
@@ -102,7 +105,6 @@ namespace NikeStore.Services.OrderApi.Controllers
         }
 
 
-
         [HttpPost("CreateStripeSession")]
         public async Task<ResponseDto> CreateStripeSession([FromBody] StripeRequestDto stripeRequestDto)
         {
@@ -123,8 +125,7 @@ namespace NikeStore.Services.OrderApi.Controllers
                         Coupon = stripeRequestDto.OrderHeader.CouponCode
                     }
                 };
-                
-              
+
 
                 foreach (var item in stripeRequestDto.OrderHeader.OrderDetails)
                 {
@@ -132,11 +133,12 @@ namespace NikeStore.Services.OrderApi.Controllers
                     {
                         PriceData = new SessionLineItemPriceDataOptions
                         {
-                            UnitAmount = (long)item.Price,
+                            UnitAmount = (long)item.Price * 100,
                             Currency = "inr",
                             ProductData = new SessionLineItemPriceDataProductDataOptions
                             {
-                                Name = item.Product.Name
+                                Name = item.Product.Name,
+                                Description = "Comfortable cotton t-shirt",
                             }
                         },
                         Quantity = item.Count
@@ -166,8 +168,7 @@ namespace NikeStore.Services.OrderApi.Controllers
             return _response;
         }
 
-        
-        
+
         [HttpPost("ValidateStripeSession")]
         public async Task<ResponseDto> ValidateStripeSession([FromBody] int orderHeaderId)
         {
@@ -187,6 +188,7 @@ namespace NikeStore.Services.OrderApi.Controllers
                     orderHeader.PaymentIntentId = paymentIntent.Id;
                     orderHeader.Status = SD.OrderStatus.Approved;
                     _db.SaveChanges();
+
                     RewardsDto rewardsDto = new()
                     {
                         OrderId = orderHeader.OrderHeaderId,
@@ -196,7 +198,10 @@ namespace NikeStore.Services.OrderApi.Controllers
 
                     string exchangeName = _configuration.GetValue<string>("RabbitMQSetting:ExchangeNames:OrderCreatedExchange");
                     _rabbitMqOrderMessageProducer.SendMessage(rewardsDto, exchangeName);
+
                     _response.Result = _mapper.Map<OrderHeaderDto>(orderHeader);
+
+                    _shoppingCartService.ClearCart(orderHeader.UserId);
                 }
             }
             catch (Exception ex)

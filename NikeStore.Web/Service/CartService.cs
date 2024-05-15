@@ -41,18 +41,18 @@ namespace NikeStore.Web.Service
             });
         }
 
-        
+
         public async Task<ResponseDto?> RemoveFromCartAsync(int cartDetailsId)
         {
             return await _baseService.SendAsync(new RequestDto()
             {
                 ApiType = SD.ApiType.POST,
                 Data = cartDetailsId,
-                Url = SD.ShoppingCartApiBase + "/api/cart/RemoveCart"
+                Url = SD.ShoppingCartApiBase + "/api/cart/RemoveProduct"
             });
         }
 
-      
+
         public async Task<ResponseDto?> UpsertCartAsync(CartDto cartDto)
         {
             return await _baseService.SendAsync(new RequestDto()

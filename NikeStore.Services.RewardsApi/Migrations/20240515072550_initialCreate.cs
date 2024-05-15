@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace NikeStore.Services.RewardsApi.Migrations
 {
     /// <inheritdoc />
-    public partial class FixedNammingConventions : Migration
+    public partial class initialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

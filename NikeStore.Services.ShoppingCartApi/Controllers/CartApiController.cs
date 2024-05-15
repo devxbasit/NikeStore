@@ -185,8 +185,8 @@ public class CartApiController
     }
 
 
-    [HttpPost("RemoveCart")]
-    public async Task<ResponseDto> RemoveCart([FromBody] int cartDetailsId)
+    [HttpPost("RemoveProduct")]
+    public async Task<ResponseDto> RemoveProduct([FromBody] int cartDetailsId)
     {
         try
         {
@@ -215,8 +215,8 @@ public class CartApiController
         return _response;
     }
 
-    [HttpPost("RemoveAllCart/{productId:int}")]
-    public async Task<ResponseDto> RemoveAllCart(int productId)
+    [HttpPost("RemoveProductFromAllCart/{productId:int}")]
+    public async Task<ResponseDto> RemoveProductFromAllCart(int productId)
     {
         try
         {
@@ -235,6 +235,34 @@ public class CartApiController
             }
 
             _db.CartDetails.RemoveRange(cartDetailsList);
+
+            await _db.SaveChangesAsync();
+
+            _response.Result = true;
+        }
+        catch (Exception ex)
+        {
+            _response.Message = ex.Message.ToString();
+            _response.IsSuccess = false;
+        }
+
+        return _response;
+    }
+
+
+    [HttpPost("ClearCart/{userId}")]
+    public async Task<ResponseDto> RemoveProduct(string userId)
+    {
+        try
+        {
+            var cartHeader = _db.CartHeaders.FirstOrDefault(ch => ch.UserId == userId);
+
+            if (cartHeader is null) throw new Exception("No item in user cart!");
+
+            var cartDetails = _db.CartDetails.FirstOrDefault(cd => cd.CartHeaderId == cartHeader.CartHeaderId);
+
+            _db.CartHeaders.Remove(cartHeader);
+            _db.CartDetails.Remove(cartDetails);
 
             await _db.SaveChangesAsync();
 

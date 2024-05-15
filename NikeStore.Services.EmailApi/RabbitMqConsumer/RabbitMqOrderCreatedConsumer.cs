@@ -18,12 +18,12 @@ public class RabbitMqOrderCreatedConsumer : BackgroundService
 
     private string _exchangeName = "";
     private string _queueName = "";
-    
-    public RabbitMqOrderCreatedConsumer(IConfiguration configuration, IEmailService emailService,  IOptions<RabbitMQConnectionOptions> rabbitMqConnectionOptions)
+
+    public RabbitMqOrderCreatedConsumer(IConfiguration configuration, IEmailService emailService, IOptions<RabbitMQConnectionOptions> rabbitMqConnectionOptions)
     {
         _configuration = configuration;
         _emailService = emailService;
-        
+
         _exchangeName = _configuration.GetValue<string>("RabbitMQSetting:ExchangeNames:OrderCreatedExchange");
         _queueName = _configuration.GetValue<string>("RabbitMQSetting:QueueNames:OrderCreatedQueue");
 
@@ -39,7 +39,7 @@ public class RabbitMqOrderCreatedConsumer : BackgroundService
 
         _channel.ExchangeDeclare(_exchangeName, ExchangeType.Direct);
         _channel.QueueDeclare(_queueName, false, false, false, null);
-        
+
         _channel.QueueBind(_queueName, _exchangeName, _configuration.GetValue<string>("RabbitMQSetting:RoutingKeys:EmailUpdateRoutingKey"));
     }
 
@@ -67,8 +67,8 @@ public class RabbitMqOrderCreatedConsumer : BackgroundService
         {
             var content = Encoding.UTF8.GetString(eventArgs.Body.ToArray());
             RewardsMessage rewardsMessage = JsonConvert.DeserializeObject<RewardsMessage>(content);
-            HandleMessage(rewardsMessage).GetAwaiter().GetResult();
-        };
+             HandleMessage(rewardsMessage).GetAwaiter().GetResult();
+                                                            };
 
         return consumer;
     }

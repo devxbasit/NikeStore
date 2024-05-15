@@ -57,8 +57,8 @@
         "AuthenticationProviderKey": "Bearer"
       }
     },
-    
-    
+
+
     //"ProductAPI": "http://localhost:7000"
     {
       "DownstreamPathTemplate": "/api/product",
@@ -103,7 +103,7 @@
       }
     },
 
-    
+
 
     //"ShoppingCartAPI": "http://localhost:7003"
     {
@@ -122,7 +122,7 @@
       }
     },
     {
-      "DownstreamPathTemplate": "/api/cart/RemoveCart",
+      "DownstreamPathTemplate": "/api/cart/RemoveProduct",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -130,14 +130,14 @@
           "Port": 7003
         }
       ],
-      "UpstreamPathTemplate": "/api/cart/RemoveCart",
+      "UpstreamPathTemplate": "/api/cart/RemoveProduct",
       "UpstreamHttpMethod": [ "POST" ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer"
       }
     },
     {
-      "DownstreamPathTemplate": "/api/cart/RemoveAllCart/{productId}",
+      "DownstreamPathTemplate": "/api/cart/RemoveProductFromAllCart/{productId}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -145,12 +145,27 @@
           "Port": 7003
         }
       ],
-      "UpstreamPathTemplate": "/api/cart/RemoveAllCart/{productId}",
+      "UpstreamPathTemplate": "/api/cart/RemoveProductFromAllCart/{productId}",
       "UpstreamHttpMethod": [ "POST" ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer"
       }
-      
+
+    },
+    {
+      "DownstreamPathTemplate": "/api/cart/ClearCart/{userId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7003
+        }
+      ],
+      "UpstreamPathTemplate": "/api/cart/ClearCart/{userId}",
+      "UpstreamHttpMethod": [ "POST" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      }
     },
     {
       "DownstreamPathTemplate": "/api/cart/CartUpsert",
