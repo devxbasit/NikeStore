@@ -5,27 +5,27 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using NikeStore.Services.CouponApi.Data;
+using NikeStore.Services.EmailApi.Data;
 
 #nullable disable
 
-namespace NikeStore.Services.RewardsApi.Migrations
+namespace NikeStore.Services.EmailApi.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240515072550_initialCreate")]
-    partial class initialCreate
+    [Migration("20240515144813_UpdatedDbTablesForMailKitLib")]
+    partial class UpdatedDbTablesForMailKitLib
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.4")
+                .HasAnnotation("ProductVersion", "8.0.0-preview.3.23174.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("NikeStore.Services.RewardsApi.Models.Rewards", b =>
+            modelBuilder.Entity("NikeStore.Services.EmailApi.Models.MailMessage", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -33,22 +33,27 @@ namespace NikeStore.Services.RewardsApi.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("OrderId")
-                        .HasColumnType("int");
+                    b.Property<string>("Body")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("RewardsActivity")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("RewardsDate")
+                    b.Property<DateTime?>("CreatedDateTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("UserId")
+                    b.Property<bool>("IsProcessed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Subject")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("To")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Rewards");
+                    b.ToTable("MailMessages");
                 });
 #pragma warning restore 612, 618
         }

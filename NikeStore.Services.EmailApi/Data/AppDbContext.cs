@@ -10,6 +10,6 @@ public class AppDbContext : DbContext
     {
     }
 
-    public DbSet<EmailLogger> EmailLoggers { get; set; }
-    
+    public DbSet<MailMessage> MailMessages { get; set; }
+
 }

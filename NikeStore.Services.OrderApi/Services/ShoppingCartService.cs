@@ -17,8 +17,8 @@ public class ShoppingCartService : IShoppingCartService
     {
         var client = _httpClientFactory.CreateClient("ShoppingCartClient");
         var response = await client.PostAsync($"/api/cart/ClearCart/{userId}", null);
-        var apiContet = await response.Content.ReadAsStringAsync();
-        var resp = JsonConvert.DeserializeObject<ResponseDto>(apiContet);
+        var apiContent = await response.Content.ReadAsStringAsync();
+        var resp = JsonConvert.DeserializeObject<ResponseDto>(apiContent);
         return resp.IsSuccess;
     }
 }

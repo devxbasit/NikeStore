@@ -66,15 +66,15 @@ public class RabbitMqOrderCreatedConsumer : BackgroundService
         consumer.Received += (ch, eventArgs) =>
         {
             var content = Encoding.UTF8.GetString(eventArgs.Body.ToArray());
-            RewardsMessage rewardsMessage = JsonConvert.DeserializeObject<RewardsMessage>(content);
-             HandleMessage(rewardsMessage).GetAwaiter().GetResult();
+            OrderCreatedMessage orderCreatedMessage = JsonConvert.DeserializeObject<OrderCreatedMessage>(content);
+             HandleMessage(orderCreatedMessage).GetAwaiter().GetResult();
                                                             };
 
         return consumer;
     }
 
-    private async Task HandleMessage(RewardsMessage rewardsMessage)
+    private async Task HandleMessage(OrderCreatedMessage orderCreatedMessage)
     {
-        await _emailService.LogOrderPlaced(rewardsMessage);
+        await _emailService.LogOrderPlaced(orderCreatedMessage);
     }
 }

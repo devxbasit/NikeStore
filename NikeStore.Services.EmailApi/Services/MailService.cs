@@ -2,17 +2,16 @@ using System.Text;
 using Microsoft.EntityFrameworkCore;
 using NikeStore.Services.EmailApi.Data;
 using NikeStore.Services.EmailApi.Message;
-using NikeStore.Services.EmailApi.Models;
 using NikeStore.Services.EmailApi.Models.Dto;
 using NikeStore.Services.EmailApi.Services.IService;
 
 namespace NikeStore.Services.EmailApi.Services;
 
-public class EmailService : IEmailService
+public class MailService : IEmailService
 {
     private DbContextOptions<AppDbContext> _dbContextOptions;
 
-    public EmailService(DbContextOptions<AppDbContext> dbContextOptions)
+    public MailService(DbContextOptions<AppDbContext> dbContextOptions)
     {
         _dbContextOptions = dbContextOptions;
     }
@@ -44,12 +43,12 @@ public class EmailService : IEmailService
     public async Task RegisterUserEmailAndLog(string email)
     {
         string message = "User Registeration Successful. <br/> Email : " + email;
-        await LogAndEmail(message,"basitshafi.dev@gmail.com");
+        await LogAndEmail(message, "basitshafi.dev@gmail.com");
     }
 
-    public async Task LogOrderPlaced(RewardsMessage rewardsMessage)
+    public async Task LogOrderPlaced(OrderCreatedMessage orderCreatedMessage)
     {
-        string message = "New Order Placed. <br/> Order ID : " + rewardsMessage.OrderId;
+        string message = "New Order Placed. <br/> Order ID : " + orderCreatedMessage.OrderHeaderId;
         await LogAndEmail(message, "basitshafi.dev@gmail.com");
     }
 
@@ -58,15 +57,7 @@ public class EmailService : IEmailService
         try
         {
             await using var db = new AppDbContext(_dbContextOptions);
-
-            EmailLogger emailLog = new()
-            {
-                Email = email,
-                Message = message,
-                EmailSentDateTime = DateTime.UtcNow
-            };
-
-            await db.EmailLoggers.AddAsync(emailLog);
+            //await db.MailMessages.AddAsync(mailMessage);
             await db.SaveChangesAsync();
             return true;
         }

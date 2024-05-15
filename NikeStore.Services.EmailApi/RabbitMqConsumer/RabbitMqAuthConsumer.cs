@@ -17,12 +17,14 @@ public class RabbitMqAuthConsumer : BackgroundService
     private readonly IConnection _connection;
     private readonly IModel _channel;
     private readonly string _queueName;
+    private readonly ISmtpMailService _smtpMailService;
 
     public RabbitMqAuthConsumer(IConfiguration configuration, IEmailService emailService,
-        IOptions<RabbitMQConnectionOptions> rabbitMqConnectionOptions)
+        IOptions<RabbitMQConnectionOptions> rabbitMqConnectionOptions, ISmtpMailService smtpMailService)
     {
         _configuration = configuration;
         _emailService = emailService;
+        _smtpMailService = smtpMailService;
 
         var connectionFactory = new ConnectionFactory()
         {
@@ -81,5 +83,16 @@ public class RabbitMqAuthConsumer : BackgroundService
     private void HandleMessage(string email)
     {
         _emailService.RegisterUserEmailAndLog(email);
+
+        var message = new MailMessage()
+        {
+            To = "devxbasit@gmail.com",
+            Subject = "this is subject",
+            Body = "Hello <b>Basit</b>",
+            CreatedDateTime = DateTime.Now,
+            IsProcessed = false
+        };
+
+        _smtpMailService.SendMail(message);
     }
 }

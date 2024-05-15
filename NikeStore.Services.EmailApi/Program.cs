@@ -21,12 +21,12 @@ builder.Services.AddDbContext<AppDbContext>(options => { options.UseSqlServer(co
 
 var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
 optionsBuilder.UseSqlServer(connectionString);
-builder.Services.AddSingleton<IEmailService>(new EmailService(optionsBuilder.Options));
+builder.Services.AddSingleton<IEmailService>(new MailService(optionsBuilder.Options));
 
 
-builder.Services.Configure<RabbitMQConnectionOptions>(
-    builder.Configuration.GetSection("RabbitMQSetting:RabbitMQConnectionOptions"));
-
+builder.Services.Configure<RabbitMQConnectionOptions>(builder.Configuration.GetSection("RabbitMQSetting:RabbitMQConnectionOptions"));
+builder.Services.Configure<MailKitConnectionOptions>(builder.Configuration.GetSection("MailKitConnectionOptions"));
+builder.Services.AddSingleton<ISmtpMailService, SmtpMailService>();
 
 // adding all the 3 consumers as hosted service
 builder.Services.AddRabbitMqConsumersAsHostedService();
@@ -44,6 +44,8 @@ if (app.Environment.IsDevelopment())
 // app.UseHttpsRedirection();
 
 ApplyPendingMigrations();
+
+app.DoAction();
 app.Run();
 
 

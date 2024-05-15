@@ -6,6 +6,7 @@ using Stripe;
 using NikeStore.Services.OrderAPI.RabbmitMQSender;
 using Microsoft.EntityFrameworkCore;
 using NikeStore.Services.CouponApi.Data;
+using NikeStore.Services.EmailApi.Message;
 using NikeStore.Services.OrderApi.Models;
 using NikeStore.Services.OrderApi.Models.Dto;
 using NikeStore.Services.OrderApi.Services.IService;
@@ -189,15 +190,14 @@ namespace NikeStore.Services.OrderApi.Controllers
                     orderHeader.Status = SD.OrderStatus.Approved;
                     _db.SaveChanges();
 
-                    RewardsDto rewardsDto = new()
+                    string exchangeName = _configuration.GetValue<string>("RabbitMQSetting:ExchangeNames:OrderCreatedExchange");
+                    var message = new OrderCreatedMessage()
                     {
-                        OrderId = orderHeader.OrderHeaderId,
-                        RewardsActivity = Convert.ToInt32(orderHeader.OrderTotal),
-                        UserId = orderHeader.UserId
+                        OrderHeaderId = orderHeaderId,
+                        OrderCreatedDateTime = DateTime.Now
                     };
 
-                    string exchangeName = _configuration.GetValue<string>("RabbitMQSetting:ExchangeNames:OrderCreatedExchange");
-                    _rabbitMqOrderMessageProducer.SendMessage(rewardsDto, exchangeName);
+                    _rabbitMqOrderMessageProducer.SendMessage(message, exchangeName);
 
                     _response.Result = _mapper.Map<OrderHeaderDto>(orderHeader);
 
