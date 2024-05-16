@@ -3,6 +3,8 @@
 @using NikeStore.Web.Utility
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @using NikeStore.Web.Utility
+@using System.IdentityModel.Tokens.Jwt
+@using IdentityModel
 <form method="post">
     <br />
     <input asp-for="OrderHeaderId" hidden />
@@ -28,18 +30,18 @@
                                     <input asp-for="Name" readonly class="form-control" />
                                 </div>
                             </div>
-                           
+
                             <div class="row my-1">
-                                <div class="col-3">Phone</div>
+                                <div class="col-3">Address</div>
                                 <div class="col-9">
-                                    <input asp-for="Phone" readonly class="form-control" />
+                                    <input asp-for="Address" readonly class="form-control" />
                                 </div>
                             </div>
 
                             <div class="row my-1">
                                 <div class="col-3">Email</div>
                                 <div class="col-9">
-                                    <input asp-for="Email" readonly class="form-control" />
+                                    <input asp-for="Email" readonly class="form-control"/>
                                 </div>
                             </div>
                             <div class="row my-1">

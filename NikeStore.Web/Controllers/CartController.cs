@@ -98,7 +98,7 @@ public class CartController : Controller
     public async Task<IActionResult> Checkout(CartDto cartDto)
     {
         CartDto cart = await LoadCartDtoBasedOnLoggedInUser();
-        cart.CartHeader.Phone = cartDto.CartHeader.Phone;
+        cart.CartHeader.Address = cartDto.CartHeader.Address;
         cart.CartHeader.Email = cartDto.CartHeader.Email;
         cart.CartHeader.Name = cartDto.CartHeader.Name;
 

@@ -190,14 +190,18 @@ namespace NikeStore.Services.OrderApi.Controllers
                     orderHeader.Status = SD.OrderStatus.Approved;
                     _db.SaveChanges();
 
-                    string exchangeName = _configuration.GetValue<string>("RabbitMQSetting:ExchangeNames:OrderCreatedExchange");
+                    string routingKey = _configuration.GetValue<string>("RabbitMQSetting:RoutingKeys:NewOrderRoutingKey");
+
                     var message = new OrderCreatedMessage()
                     {
                         OrderHeaderId = orderHeaderId,
-                        OrderCreatedDateTime = DateTime.Now
+                        Name = orderHeader.Name,
+                        Email = orderHeader.Email,
+                        OrderCreatedDateTime = DateTime.Now,
+                        OrderTotal = orderHeader.OrderTotal
                     };
 
-                    _rabbitMqOrderMessageProducer.SendMessage(message, exchangeName);
+                    _rabbitMqOrderMessageProducer.SendMessage(message, routingKey);
 
                     _response.Result = _mapper.Map<OrderHeaderDto>(orderHeader);
 

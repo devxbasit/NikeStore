@@ -19,24 +19,24 @@ public class JwtTokenGeneratorService : IJwtTokenGeneratorService
 
     public string GenerateToken(ApplicationUser applicationUser, IEnumerable<string> roles)
     {
-        
+
         // used for creating and validating tokens
-        var tokenHandler = new JwtSecurityTokenHandler(); 
-        
+        var tokenHandler = new JwtSecurityTokenHandler();
+
         var claimsList = GetClaimsList(applicationUser, roles);
         var key = Encoding.ASCII.GetBytes(_jwtOptions.Secret);
-        
+
         var tokenDescriptor = new SecurityTokenDescriptor()
         {
             Issuer = _jwtOptions.Issuer,
             Audience = _jwtOptions.Audience,
-            
+
             // Todo: fix later
             Expires = DateTime.UtcNow.AddMonths(12),
-            
+
             // here we add payload
             Subject = new ClaimsIdentity(claimsList),
-            
+
             SigningCredentials =
                 new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
         };

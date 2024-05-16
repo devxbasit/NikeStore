@@ -41,9 +41,6 @@ DELETE FROM Coupons
 --------------------------------------------------------------------
 USE [NikeStore.ProductApiDb]
 SELECT * FROM Products
-
-
-
 DELETE FROM Products
 
 

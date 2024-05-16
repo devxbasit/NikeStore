@@ -2,6 +2,6 @@
 {
     public interface IRabbitMqOrderMessageProducer
     {
-        void SendMessage(object message, string exchangeName);
+        void SendMessage(object message, string routingKey);
     }
 }

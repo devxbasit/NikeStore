@@ -71,7 +71,7 @@ public class RabbitMqAuthConsumer : BackgroundService
     {
         var consumer = new EventingBasicConsumer(_channel);
 
-        consumer.Received += async (channel, eventArgs) =>
+        consumer.Received += (channel, eventArgs) =>
         {
             try
             {
