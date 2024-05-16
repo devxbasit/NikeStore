@@ -1,9 +1,10 @@
-using MailKit.Net.Smtp;
+using System.Net.Mail;
 using MailKit.Security;
 using Microsoft.Extensions.Options;
 using MimeKit;
 using MimeKit.Text;
 using NikeStore.Services.EmailApi.Models;
+using SmtpClient = MailKit.Net.Smtp.SmtpClient;
 
 namespace NikeStore.Services.EmailApi.Services.IService;
 
@@ -21,24 +22,24 @@ public class SmtpMailService : ISmtpMailService
         _smtpClient.Authenticate(_mailKitConnectionOptions.SenderMailAddress, _mailKitConnectionOptions.SenderMailAddressPassword);
     }
 
-    public async Task<bool> SendMail(MailMessage mailMessage)
+    public async Task<bool> SendMail(DbMailLogs message)
     {
         try
         {
             var email = new MimeMessage()
             {
                 From = { MailboxAddress.Parse(_mailKitConnectionOptions.SenderMailAddress) },
-                To = { MailboxAddress.Parse(mailMessage.To) },
-                Subject = mailMessage.Subject,
+                To = { MailboxAddress.Parse(message.To) },
+                Subject = message.Subject,
                 Body = new TextPart(TextFormat.Html)
                 {
-                    Text = mailMessage.Body
+                    Text = message.Body
                 },
             };
 
             var response = await _smtpClient.SendAsync(email);
 
-            var x = response;
+
         }
         catch (Exception e)
         {

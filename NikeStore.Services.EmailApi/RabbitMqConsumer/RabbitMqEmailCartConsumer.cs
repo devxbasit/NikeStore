@@ -12,17 +12,17 @@ namespace NikeStore.Services.EmailApi.RabbitMqConsumer;
 public class RabbitMqEmailCartConsumer : BackgroundService
 {
     private readonly IConfiguration _configuration;
-    private readonly IEmailService _emailService;
+    private readonly IDbLogService _dbLogService;
     private readonly IConnection _connection;
     private readonly IModel _channel;
     private readonly string _queueName;
 
 
-    public RabbitMqEmailCartConsumer(IConfiguration configuration, IEmailService emailService,
+    public RabbitMqEmailCartConsumer(IConfiguration configuration, IDbLogService dbLogService,
         IOptions<RabbitMQConnectionOptions> rabbitMqConnectionOptions)
     {
         _configuration = configuration;
-        _emailService = emailService;
+        _dbLogService = dbLogService;
 
         _queueName = _configuration.GetValue<string>("RabbitMQSetting:QueueNames:EmailShoppingCartQueue");
 
@@ -52,11 +52,11 @@ public class RabbitMqEmailCartConsumer : BackgroundService
         catch (Exception e)
         {
             _connection.Close();
-            
+
             Console.WriteLine(e);
             throw;
         }
-        
+
     }
 
     private EventingBasicConsumer GetEmailCartQueueConsumer()
@@ -78,6 +78,14 @@ public class RabbitMqEmailCartConsumer : BackgroundService
     private async Task HandleMessage(CartDto cartDto)
     {
         Console.WriteLine("Handling message...");
-        await _emailService.EmailCartAndLog(cartDto);
+
+       // await _dbLogService.EmailCartAndLog(cartDto);
+    }
+    public override Task StopAsync(CancellationToken cancellationToken)
+    {
+        _channel.Close();
+        _connection.Close();
+        base.Dispose();
+        return base.StopAsync(cancellationToken);
     }
 }

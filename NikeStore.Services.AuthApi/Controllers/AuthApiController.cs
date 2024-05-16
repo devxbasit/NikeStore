@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using NikeStore.Services.AuthApi.Messages;
 using NikeStore.Services.AuthApi.Models.Dto;
 using NikeStore.Services.AuthApi.RabbitMqProducer;
 using NikeStore.Services.AuthApi.Services.IService;
@@ -35,7 +36,13 @@ public class AuthAPIController : ControllerBase
         }
 
         var queueName = _configuration.GetValue<string>("RabbitMQSetting:QueueNames:UserRegisteredQueue");
-        _rabbitMqAuthMessageProducer.SendMessage(model.Email, queueName);
+        var message = new UserRegisteredMessage()
+        {
+            Name = model.Name,
+            Email = model.Email,
+        };
+
+        _rabbitMqAuthMessageProducer.SendMessage(message, queueName);
         return Ok(_response);
     }
 

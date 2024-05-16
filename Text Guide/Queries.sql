@@ -83,7 +83,10 @@ DELETE FROM OrderDetails
 -- Email Api
 --------------------------------------------------------------------
 USE [NikeStore.EmailApiDb]
-SELECT * FROM EmailLoggers
+SELECT * FROM DbMailLogs
+
+
+DELETE FROM DbMailLogs
 
 
 

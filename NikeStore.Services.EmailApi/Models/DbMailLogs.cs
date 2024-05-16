@@ -1,6 +1,6 @@
 namespace NikeStore.Services.EmailApi.Models;
 
-public class MailMessage
+public class DbMailLogs
 {
     public int Id { get; set; }
     public string To { get; set; } = null!;

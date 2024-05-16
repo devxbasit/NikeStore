@@ -12,17 +12,17 @@ namespace NikeStore.Services.EmailApi.RabbitMqConsumer;
 public class RabbitMqOrderCreatedConsumer : BackgroundService
 {
     private readonly IConfiguration _configuration;
-    private readonly IEmailService _emailService;
+    private readonly IDbLogService _dbLogService;
     private readonly IConnection _connection;
     private IModel _channel;
 
     private string _exchangeName = "";
     private string _queueName = "";
 
-    public RabbitMqOrderCreatedConsumer(IConfiguration configuration, IEmailService emailService, IOptions<RabbitMQConnectionOptions> rabbitMqConnectionOptions)
+    public RabbitMqOrderCreatedConsumer(IConfiguration configuration, IDbLogService dbLogService, IOptions<RabbitMQConnectionOptions> rabbitMqConnectionOptions)
     {
         _configuration = configuration;
-        _emailService = emailService;
+        _dbLogService = dbLogService;
 
         _exchangeName = _configuration.GetValue<string>("RabbitMQSetting:ExchangeNames:OrderCreatedExchange");
         _queueName = _configuration.GetValue<string>("RabbitMQSetting:QueueNames:OrderCreatedQueue");
@@ -67,14 +67,22 @@ public class RabbitMqOrderCreatedConsumer : BackgroundService
         {
             var content = Encoding.UTF8.GetString(eventArgs.Body.ToArray());
             OrderCreatedMessage orderCreatedMessage = JsonConvert.DeserializeObject<OrderCreatedMessage>(content);
-             HandleMessage(orderCreatedMessage).GetAwaiter().GetResult();
-                                                            };
+            HandleMessage(orderCreatedMessage).GetAwaiter().GetResult();
+        };
 
         return consumer;
     }
 
     private async Task HandleMessage(OrderCreatedMessage orderCreatedMessage)
     {
-        await _emailService.LogOrderPlaced(orderCreatedMessage);
+        //await _dbLogService.LogOrderPlaced(orderCreatedMessage);
+    }
+
+    public override Task StopAsync(CancellationToken cancellationToken)
+    {
+        _channel.Close();
+        _connection.Close();
+        base.Dispose();
+        return base.StopAsync(cancellationToken);
     }
 }

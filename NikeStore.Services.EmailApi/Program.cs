@@ -1,3 +1,5 @@
+using Hangfire;
+using HangfireBasicAuthenticationFilter;
 using Microsoft.EntityFrameworkCore;
 using NikeStore.Services.EmailApi.Data;
 using NikeStore.Services.EmailApi.Extensions;
@@ -21,7 +23,7 @@ builder.Services.AddDbContext<AppDbContext>(options => { options.UseSqlServer(co
 
 var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
 optionsBuilder.UseSqlServer(connectionString);
-builder.Services.AddSingleton<IEmailService>(new MailService(optionsBuilder.Options));
+builder.Services.AddSingleton<IDbLogService>(new DbLogService(optionsBuilder.Options));
 
 
 builder.Services.Configure<RabbitMQConnectionOptions>(builder.Configuration.GetSection("RabbitMQSetting:RabbitMQConnectionOptions"));
@@ -30,6 +32,18 @@ builder.Services.AddSingleton<ISmtpMailService, SmtpMailService>();
 
 // adding all the 3 consumers as hosted service
 builder.Services.AddRabbitMqConsumersAsHostedService();
+
+
+// Add Hangfire services.
+builder.Services.AddHangfire(configuration => configuration
+    .SetDataCompatibilityLevel(CompatibilityLevel.Version_180)
+    .UseSimpleAssemblyNameTypeSerializer()
+    .UseRecommendedSerializerSettings()
+    .UseSqlServerStorage(builder.Configuration.GetConnectionString("EmailApiHangfireDbConnectionString")));
+
+// Add Hangfire Server
+builder.Services.AddHangfireServer();
+
 
 
 var app = builder.Build();
@@ -44,6 +58,23 @@ if (app.Environment.IsDevelopment())
 // app.UseHttpsRedirection();
 
 ApplyPendingMigrations();
+
+app.UseHangfireDashboard("/hangfire", new DashboardOptions()
+{
+    Authorization = new[]
+    {
+        new HangfireCustomBasicAuthenticationFilter
+        {
+            // set username and password
+            User = builder.Configuration.GetValue<string>(
+                "HangFireOptions:BasicAuthenticationFilterValues:User:UserName"),
+            Pass = builder.Configuration.GetValue<string>(
+                "HangFireOptions:BasicAuthenticationFilterValues:User:Password"),
+        }
+    }
+});
+
+app.UseHangfireServer();
 
 app.DoAction();
 app.Run();
