@@ -106,14 +106,13 @@ public class RabbitMqAuthConsumer : BackgroundService
             IsProcessed = false
         };
 
-
         return log;
     }
 
     private string GetMailBody(UserRegisteredMessage message)
     {
         var webPanelAddress = _configuration.GetValue<string>($"ServiceUrls:NikeStoreWebPanelUrl") ?? throw new ArgumentNullException();
-        message.LoginUrl += $"{webPanelAddress}/Auth/Login";
+        var loginUrl = $"{webPanelAddress}/Auth/Login";
 
         return $@"
             <!DOCTYPE html>
@@ -140,7 +139,7 @@ public class RabbitMqAuthConsumer : BackgroundService
                     </tr>
                     <tr>
                         <td style='text-align: center;'>
-                            <a href='{message.LoginUrl}' style='display: inline-block; padding: 10px 20px; background-color: #007bff; color: #fff; text-decoration: none; border-radius: 5px;'>Login Now</a>
+                            <a href='{loginUrl}' style='display: inline-block; padding: 10px 20px; background-color: #007bff; color: #fff; text-decoration: none; border-radius: 5px;'>Login Now</a>
                         </td>
                     </tr>
                     <tr>

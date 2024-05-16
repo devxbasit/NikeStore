@@ -67,7 +67,9 @@ public class CartController : Controller
     {
         CartDto cart = await LoadCartDtoBasedOnLoggedInUser();
         cart.CartHeader.Email = User.Claims.Where(u => u.Type == JwtRegisteredClaimNames.Email)?.FirstOrDefault()?.Value;
+        cart.CartHeader.Name = User.Claims.Where(u => u.Type == JwtRegisteredClaimNames.Name)?.FirstOrDefault()?.Value;
         ResponseDto? response = await _cartService.EmailCart(cart);
+
         if (response != null & response.IsSuccess)
         {
             TempData["success"] = "Email will be processed and sent shortly.";
