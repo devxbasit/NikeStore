@@ -3,9 +3,9 @@
 --------------------------------------------------------------------
 USE [NikeStore.AuthApiDb]
 SELECT * FROM AspNetUsers
+SELECT * FROM AspNetRoles
 SELECT * FROM AspNetUserRoles
 SELECT * FROM AspNetUserLogins
-SELECT * FROM AspNetRoles
 SELECT * FROM AspNetUserClaims
 SELECT * FROM AspNetRoleClaims
 SELECT * FROM AspNetUserTokens
@@ -19,7 +19,6 @@ DELETE FROM AspNetRoles
 DELETE FROM AspNetUserClaims
 DELETE FROM AspNetRoleClaims
 DELETE FROM AspNetUserTokens
-
 
 
 

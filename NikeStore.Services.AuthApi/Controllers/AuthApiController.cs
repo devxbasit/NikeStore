@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NikeStore.Services.AuthApi.Messages;
 using NikeStore.Services.AuthApi.Models.Dto;
@@ -32,7 +33,7 @@ public class AuthAPIController : ControllerBase
         {
             _response.IsSuccess = false;
             _response.Message = errorMessage;
-            return BadRequest(_response);
+            return Ok(_response);
         }
 
         var queueName = _configuration.GetValue<string>("RabbitMQSetting:QueueNames:UserRegisteredQueue");

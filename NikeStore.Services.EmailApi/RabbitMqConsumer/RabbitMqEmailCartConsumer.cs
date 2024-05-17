@@ -169,7 +169,7 @@ public class RabbitMqEmailCartConsumer : BackgroundService
                                   </tr>
                                   <tr>
                                      <td bgcolor='#ffffff' style='padding: 20px 40px;'>
-                                        <p style='color: #666666; font-size: 14px; margin-bottom: 0;'>&copy; 2024 NikeStore. All rights reserved. If you have any questions or need assistance, feel free to contact us at 1800-5555-7777.</p>
+                                        <p style='color: #666666; font-size: 14px; margin-bottom: 0;'>&copy; {DateTime.Now.ToString("yyyy")} NikeStore. All rights reserved. If you have any questions or need assistance, feel free to contact us at 1800-5555-7777.</p>
                                      </td>
                                   </tr>
                                </table>

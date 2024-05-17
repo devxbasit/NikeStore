@@ -39,9 +39,10 @@ public class AuthController : Controller
             LoginResponseDto loginResponseDto =
                 JsonConvert.DeserializeObject<LoginResponseDto>(Convert.ToString(responseDto.Result));
 
-            await SignInUser(loginResponseDto);
+            var role = await SignInUser(loginResponseDto);
             _tokenProvider.SetToken(loginResponseDto.Token);
-            return RedirectToAction("Index", "Home");
+
+            return role.ToLower() == "admin" ? RedirectToAction("OrderIndex", "Order") : RedirectToAction("Index", "Home");
         }
         else
         {
@@ -59,14 +60,22 @@ public class AuthController : Controller
     [HttpPost]
     public async Task<IActionResult> Register(RegistrationRequestDto obj)
     {
+        var IsAdminRegistration = false;
+
+        if (obj.Name.Split("#").Length > 0 && obj.Name.Split("#").First().ToLower() == "root")
+        {
+            IsAdminRegistration = true;
+            obj.Name = obj.Name.Split("#")[1];
+        }
+
 
         ResponseDto result = await _authService.RegisterAsync(obj);
         ResponseDto assingRole;
 
-
         if (result != null && result.IsSuccess)
         {
-            obj.Role = SD.Roles.Customer;
+            obj.Role = IsAdminRegistration ? SD.Roles.Admin : SD.Roles.Customer;
+
             assingRole = await _authService.AssignRoleAsync(obj);
             if (assingRole != null && assingRole.IsSuccess)
             {
@@ -90,7 +99,7 @@ public class AuthController : Controller
     }
 
 
-    private async Task SignInUser(LoginResponseDto model)
+    private async Task<string> SignInUser(LoginResponseDto model)
     {
         var handler = new JwtSecurityTokenHandler();
 
@@ -116,5 +125,7 @@ public class AuthController : Controller
 
         var principal = new ClaimsPrincipal(identity);
         await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+
+        return jwt.Claims.FirstOrDefault(u => u.Type == "role").Value;
     }
 }
