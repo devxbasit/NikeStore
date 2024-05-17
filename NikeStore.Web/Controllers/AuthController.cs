@@ -53,29 +53,20 @@ public class AuthController : Controller
     [HttpGet]
     public IActionResult Register()
     {
-        var roleList = new List<SelectListItem>()
-        {
-            new SelectListItem { Text = SD.Roles.Admin, Value = SD.Roles.Admin },
-            new SelectListItem { Text = SD.Roles.Customer, Value = SD.Roles.Customer },
-        };
-
-        ViewBag.RoleList = roleList;
         return View();
     }
 
     [HttpPost]
     public async Task<IActionResult> Register(RegistrationRequestDto obj)
     {
+
         ResponseDto result = await _authService.RegisterAsync(obj);
         ResponseDto assingRole;
 
+
         if (result != null && result.IsSuccess)
         {
-            if (string.IsNullOrEmpty(obj.Role))
-            {
-                obj.Role = SD.Roles.Customer;
-            }
-
+            obj.Role = SD.Roles.Customer;
             assingRole = await _authService.AssignRoleAsync(obj);
             if (assingRole != null && assingRole.IsSuccess)
             {
@@ -88,16 +79,8 @@ public class AuthController : Controller
             TempData["error"] = result.Message;
         }
 
-        var roleList = new List<SelectListItem>()
-        {
-            new SelectListItem { Text = SD.Roles.Admin, Value = SD.Roles.Admin },
-            new SelectListItem { Text = SD.Roles.Customer, Value = SD.Roles.Customer },
-        };
-
-        ViewBag.RoleList = roleList;
         return View(obj);
     }
-
 
     public async Task<IActionResult> Logout()
     {

@@ -1,41 +1,142 @@
 ﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
 @model NikeStore.Web.Models.Dto.RegistrationRequestDto
 
-<form method="post">
-    <div class="container border p-4">
-        <div class="row text-center p-3">
-            <h1>Register</h1>
-        </div>
-        <div class="row">
-            <div class="col-12 col-md-6 offset-md-3 pb-2">
-                <input asp-for="Email" class="form-control" placeholder="Email..." />
-                <span asp-validation-for="Email" class="text-danger" />
-            </div>
-            <div class="col-12 col-md-6 offset-md-3 pb-2">
-                <input asp-for="Name" class="form-control" placeholder="Name..." />
-                <span asp-validation-for="Name" class="text-danger" />
-            </div>
-            <div class="col-12 col-md-6 offset-md-3 pb-2">
-                <input asp-for="PhoneNumber" class="form-control" placeholder="Phone Number..." />
-                <span asp-validation-for="PhoneNumber" class="text-danger" />
-            </div>
-            <div class="col-12 col-md-6 offset-md-3 pb-2">
-                <input asp-for="Password" class="form-control" placeholder="Password..." />
-                <span asp-validation-for="Password" class="text-danger" />
-            </div>
-            <div class="col-12 col-md-6 offset-md-3 pb-2">
-                <select asp-for="Role" class="form-select" asp-items="@ViewBag.RoleList">
-                    <option disabled selected>--Select Role--</option>
-                </select>
-            </div>
+@{
+    Layout = null;
+}
 
-            <div class="col-12 col-md-6 offset-md-3 pb-2">
-                <button type="submit" class="form-control btn btn-success" value="Submit">Register</button>
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.11.0/dist/sweetalert2.min.css" integrity="sha256-h2Gkn+H33lnKlQTNntQyLXMWq7/9XI2rlPCsLsVcUBs=" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="~/fonts/icomoon/style.css">
+    <link rel="stylesheet" href="~/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="~/css/register.css">
+
+    <title>NikeStore - Sign Up</title>
+</head>
+<body>
+
+<div class="d-lg-flex half">
+    <div class="bg order-1 order-md-2" style="background-image: url('/img/login-page-banner.jpg');"></div>
+    <div class="contents order-2 order-md-1">
+
+        <div class="container">
+            <div class="row align-items-center justify-content-center">
+                <div class="col-md-7">
+                    <div class="mb-4">
+                        <h3>Register</h3>
+                        <p class="mb-4">Discover your style, one click away.</p>
+                    </div>
+
+                    <form method="post" autocomplete="new-password">
+                        <div class="form-group first">
+                            <label for="name">Name</label>
+                            <input asp-for="Name" required="required" autocomplete="false" type="text" class="form-control" id="name">
+                        </div>
+                        <div class="form-group first">
+                            <label for="email">Email</label>
+                            <input asp-for="Email" required="required" autocomplete="new-password" type="email" class="form-control" id="email">
+                        </div>
+                        <div class="form-group first">
+                            <label for="contact">Phone Number</label>
+                            <input asp-for="PhoneNumber" required="required" autocomplete="false" type="text" class="form-control" id="contact">
+                        </div>
+
+                        <div class="form-group first">
+                            <label for="password">Password</label>
+                            <input asp-for="Password" required="required" autocomplete="false" type="password" class="form-control" id="password">
+                        </div>
+                        <br/>
+                        <br/>
+                        <div class="d-flex mb-5 align-items-center">
+                            <label class="control control--checkbox mb-3 mb-sm-0">
+                                <span class="caption">Agree our <a href="#">Terms and Conditions</a></span>
+                                <input type="checkbox" checked="checked"/>
+                                <div class="control__indicator"></div>
+                            </label>
+                        </div>
+
+                        <input type="submit" value="Register" class="btn btn-block btn-primary">
+
+                        <br/>
+                        <br/>
+
+                        <label>Already registered? <a href="/Auth/Login" class="text-primary">Login Here</a></label>
+
+                        <span class="d-block text-center my-4 text-muted">&mdash; or &mdash;</span>
+
+                        <div class="social-login">
+                            <a href="#" class="facebook btn d-flex justify-content-center align-items-center">
+                                <span class="icon-facebook mr-3"></span>&nbsp; &nbsp; Register with Facebook
+                            </a>
+                            <a href="#" class="twitter btn d-flex justify-content-center align-items-center">
+                                <span class="icon-twitter mr-3"></span>&nbsp; &nbsp; Register with X (formerly twitter)
+                            </a>
+                            <a href="#" class="google btn d-flex justify-content-center align-items-center">
+                                <span class="icon-google mr-3"></span>&nbsp; &nbsp; Register with Google
+                            </a>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</form>
+</div>
 
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-}
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js" integrity="sha512-2rNj2KJ+D8s1ceNasTIex6z4HWyOnEYLVC3FigGOmyQCZc2eBXKgOxQmo3oKLHyfcj53uz4QMsRCWNbLd32Q1g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="~/js/signup.js"></script>
+<partial name="_ValidationScriptsPartial"/>
+<partial name="_Notifications"/>
+</body>
+</html>
+
+
+@* *@
+@* *@
+@* <form method="post"> *@
+@*     <div class="container border p-4"> *@
+@*         <div class="row text-center p-3"> *@
+@*             <h1>Register</h1> *@
+@*         </div> *@
+@*         <div class="row"> *@
+@*             <div class="col-12 col-md-6 offset-md-3 pb-2"> *@
+@*                 <input asp-for="" class="form-control" placeholder="Email..." /> *@
+@*                 <span asp-validation-for="Email" class="text-danger" /> *@
+@*             </div> *@
+@*             <div class="col-12 col-md-6 offset-md-3 pb-2"> *@
+@*                 <input  class="form-control" placeholder="Name..." /> *@
+@*                 <span  class="text-danger" /> *@
+@*             </div> *@
+@*             <div class="col-12 col-md-6 offset-md-3 pb-2"> *@
+@*                 <input asp-for="" class="form-control" placeholder="Phone Number..." /> *@
+@*                 <span asp-validation-for="PhoneNumber" class="text-danger" /> *@
+@*             </div> *@
+@*             <div class="col-12 col-md-6 offset-md-3 pb-2"> *@
+@*                 <input asp-for="" class="form-control" placeholder="Password..." /> *@
+@*                 <span asp-validation-for="Password" class="text-danger" /> *@
+@*             </div> *@
+@* *@
+@* *@
+@* *@
+@*             <div class="col-12 col-md-6 offset-md-3 pb-2"> *@
+@*                 <select asp-for="Role" class="form-select" asp-items="@ViewBag.RoleList"> *@
+@*                     <option disabled selected>--Select Role--</option> *@
+@*                 </select> *@
+@*             </div> *@
+@* *@
+@*             <div class="col-12 col-md-6 offset-md-3 pb-2"> *@
+@*                 <button type="submit" class="form-control btn btn-success" value="Submit">Register</button> *@
+@*             </div> *@
+@*         </div> *@
+@*     </div> *@
+@* </form> *@

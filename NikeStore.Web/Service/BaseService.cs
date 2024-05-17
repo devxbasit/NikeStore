@@ -87,7 +87,6 @@ public class BaseService : IBaseService
             HttpResponseMessage? apiResponse = null;
             apiResponse = await httpClient.SendAsync(httpMessage);
 
-
             switch (apiResponse.StatusCode)
             {
                 case HttpStatusCode.NotFound:

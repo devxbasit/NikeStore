@@ -23,7 +23,7 @@
 
 
 <div class="d-lg-flex half">
-    <div class="bg order-1 order-md-2" style="background-image: url('/img/login-page-products.jpg');"></div>
+    <div class="bg order-1 order-md-2" style="background-image: url('/img/login-page-banner.jpg');"></div>
     <div class="contents order-2 order-md-1">
 
         <div class="container">
@@ -75,29 +75,6 @@
 <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="~/js/login.js"></script>
 <partial name="_ValidationScriptsPartial"/>
-
+<partial name="_Notifications"/>
 </body>
 </html>
-
-
-@* *@
-@* <form method="post"> *@
-@*     <div class="container border p-4"> *@
-@*         <div class="row text-center"> *@
-@*             <h1>Login</h1> *@
-@*         </div> *@
-@*         <div class="row"> *@
-@*             <div class="col-12 col-md-6 offset-md-3 pb-2"> *@
-@*                 <input asp-for="UserName" class="form-control" placeholder="Username..."/> *@
-@*                 <span asp-validation-for="UserName" class="text-danger" /> *@
-@*             </div> *@
-@*             <div class="col-12 col-md-6 offset-md-3 pb-2"> *@
-@*                 <input asp-for="Password" class="form-control" placeholder="Password..." /> *@
-@*                 <span asp-validation-for="Password" class="text-danger" /> *@
-@*             </div> *@
-@*             <div class="col-12 col-md-6 offset-md-3 pb-2"> *@
-@*                 <button type="submit" class="form-control btn btn-success" value="Submit">Login</button> *@
-@*             </div> *@
-@*         </div> *@
-@*     </div> *@
-@* </form> *@
