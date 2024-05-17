@@ -19,4 +19,8 @@
       <_ContentIncludedByDefault Remove="Views\Order\OrderIndex.cshtml" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Content Include="wwwroot\fonts\.DS_Store" />
+    </ItemGroup>
+
 </Project>
