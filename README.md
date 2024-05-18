@@ -45,13 +45,13 @@
 
 # Microservices Architecture Screenshot - 1
 <p>
-  <img style="width: 400px; height: auto;" src="https://github.com/devxbasit/NikeStore/blob/master/ss/rider-rabbit-mq.png" hspace="10" >
-  <img style="width: 400px; height: auto;" src="https://github.com/devxbasit/NikeStore/blob/master/ss/rider-frontend.png" hspace="10" >
+  <img style="width: 350px; height: auto;" src="https://github.com/devxbasit/NikeStore/blob/master/ss/rider-rabbit-mq.png" hspace="10" >
+  <img style="width: 350px; height: auto;" src="https://github.com/devxbasit/NikeStore/blob/master/ss/rider-frontend.png" hspace="10" >
 </p>
 
 <p>
-  <img style="width: 400px; height: auto;"  src="https://github.com/devxbasit/NikeStore/blob/master/ss/sql.png" hspace="10" >
-  <img style="width: 400px; height: auto;"  src="https://github.com/devxbasit/NikeStore/blob/master/ss/rider-overview.png" hspace="10" >
+  <img style="width: 350px; height: auto;"  src="https://github.com/devxbasit/NikeStore/blob/master/ss/sql.png" hspace="10" >
+  <img style="width: 350px; height: auto;"  src="https://github.com/devxbasit/NikeStore/blob/master/ss/rider-overview.png" hspace="10" >
 </p>
 
 
