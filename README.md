@@ -1,49 +1,69 @@
-# NikeStore - App Flow
+
+#### NikeStore 
+
+NikeStore is an **enterprise-grade microservice-based** web application built using clean architecture, Ocelot API gateway, RabbitMQ, Hangfire,
+JWT tokens, .NET Identity, MailKit & Entity Framework Core
+
+
+#### Overview view of the project: 
+Designed & implemented **6 microservices** responsible for authentication, order & email processing and shopping cart, product &
+coupon management.
+* **Integrated stripe payment gateway** with OrderAPI to handle customer order **payments & refunds**.
+* **Set up RabbitMQ** as the messaging broker for asynchronous communication between microservices.
+* Implemented ShoppingCartApi to manage customer **cart items, coupons & discounts**.
+* Implemented EmailAPI to process & **send emails in the background** using Hangfire, MailKit & RabbitMQ.
+* Implemented AuthAPI to hand **user registration, login & token generation** using JWT tokens & .NET Identity.
+* Implemented Ocelot API gateway to provide a unified entry point.
+* Configured **middleware pipeline** for functionalities like authentication, logging & global exceptional handling & CORS.
+* **Synchronised** all the coupon codes & discount amounts **with the stripe payment** gateway & the database.
+* Utilized EF Core for object-relational mapping & efficient database access.
+
+#### NikeStore - App Flow
 
 ![nike-store microservice app flow](https://github.com/devxbasit/NikeStore/blob/master/ss/nikestore-app-flow.png)
 
-# Registration
+#### Registration
 
 ![nike-store microservice app flow](https://github.com/devxbasit/NikeStore/blob/master/ss/register.png)
 
-# Login
+#### Login
 
 ![nike-store microservice app flow](https://github.com/devxbasit/NikeStore/blob/master/ss/login.png)
 
-# Payment Integration with Stripe
+#### Payment Integration with Stripe
 
 ![nike-store microservice app flow](https://github.com/devxbasit/NikeStore/blob/master/ss/stripe.png)
 
-# Hangfire Dashboard
+#### Hangfire Dashboard
 
 ![nike-store microservice app flow](https://github.com/devxbasit/NikeStore/blob/master/ss/hangfire-dashboard.png)
 
-# Hangfire Succeeded Jobs
+#### Hangfire Succeeded Jobs
 
 ![nike-store microservice app flow](https://github.com/devxbasit/NikeStore/blob/master/ss/hangfire-succeeded-jobs.png)
 
-# Hangfire Servers
+#### Hangfire Servers
 
 ![nike-store microservice app flow](https://github.com/devxbasit/NikeStore/blob/master/ss/hangfire-servers.png)
 
-# RabbitMQ Queues
+#### RabbitMQ Queues
 
 ![nike-store microservice app flow](https://github.com/devxbasit/NikeStore/blob/master/ss/rabbit-mq-queues.png)
 
-# Customer Registration Mail
+#### Customer Registration Mail
 
 ![nike-store microservice app flow](https://github.com/devxbasit/NikeStore/blob/master/ss/registration-mail.png)
 
-# Order Confirmation Mail
+#### Order Confirmation Mail
 
 ![nike-store microservice app flow](https://github.com/devxbasit/NikeStore/blob/master/ss/order-confirmation-mail.png)
 
-# Email Cart Mail
+#### Email Cart Mail
 
 ![nike-store microservice app flow](https://github.com/devxbasit/NikeStore/blob/master/ss/email-cart-mail.png)
 
 
-# Microservices Architecture Screenshot - 1
+#### Microservices Architecture Screenshot - 1
 <p>
   <img style="width: 350px; height: auto;" src="https://github.com/devxbasit/NikeStore/blob/master/ss/rider-rabbit-mq.png" hspace="10" >
   <img style="width: 350px; height: auto;" src="https://github.com/devxbasit/NikeStore/blob/master/ss/rider-frontend.png" hspace="10" >
@@ -55,7 +75,7 @@
 </p>
 
 
-# Commands
+#### Commands
 
 Run in OrderApi
 
