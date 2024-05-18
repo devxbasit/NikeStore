@@ -1,6 +1,6 @@
 # NikeStore - App Flow
 
-![nike-store microservice app flow](https://github.com/devxbasit/NikeStore/blob/master/ss/app-flow.png)
+![nike-store microservice app flow](https://github.com/devxbasit/NikeStore/blob/master/ss/nikestore-app-flow.png)
 
 # Registration
 
@@ -42,24 +42,24 @@
 
 ![nike-store microservice app flow](https://github.com/devxbasit/NikeStore/blob/master/ss/email-cart-mail.png)
 
+
 # Microservices Architecture Screenshot - 1
+<p>
+  <img src="https://github.com/devxbasit/NikeStore/blob/master/ss/rider-rabbit-mq.png" hspace="10" >
+  <img src="https://github.com/devxbasit/NikeStore/blob/master/ss/rider-frontend.png" hspace="10" >
+</p>
 
-![nike-store microservice app flow](https://github.com/devxbasit/NikeStore/blob/master/ss/rider-overview.png)
+<p>
+  <img src="https://github.com/devxbasit/NikeStore/blob/master/ss/sql.png" hspace="10" >
+  <img src="https://github.com/devxbasit/NikeStore/blob/master/ss/rider-overview.png" hspace="10" >
+</p>
 
-# Microservices Architecture Screenshot - 2
 
-![nike-store microservice app flow](https://github.com/devxbasit/NikeStore/blob/master/ss/rider-rabbit-mq.png)
+# Commands
 
-# Microservices Architecture Screenshot - 3
+Run in OrderApi
 
-![nike-store microservice app flow](https://github.com/devxbasit/NikeStore/blob/master/ss/rider-frontend.png)
-
-# Microservices Architecture Screenshot - 3
-
-![nike-store microservice app flow](https://github.com/devxbasit/NikeStore/blob/master/ss/sql.png)
-
-# command
-
-to run in OrderApi
+```
 dotnet user-secrets init
 dotnet user-secrets set "Stripe:SecretKey" "stripe secret key here"
+```
