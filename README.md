@@ -1,8 +1,6 @@
 # NikeStore - App Flow
 
-# App Flow
-
-![nike-store microservice app flow](https://github.com/devxbasit/NikeStore/blob/master/ss/nikestore-app-flow.png)
+![nike-store microservice app flow](https://github.com/devxbasit/NikeStore/blob/master/ss/app-flow.png)
 
 # Registration
 
@@ -46,19 +44,19 @@
 
 # Microservices Architecture Screenshot - 1
 
-![nike-store microservice app flow](https://github.com/devxbasit/NikeStore/blob/master/ss/rider-ss-1.png)
+![nike-store microservice app flow](https://github.com/devxbasit/NikeStore/blob/master/ss/rider-overview.png)
 
 # Microservices Architecture Screenshot - 2
 
-![nike-store microservice app flow](https://github.com/devxbasit/NikeStore/blob/master/ss/rider-ss-2.png)
+![nike-store microservice app flow](https://github.com/devxbasit/NikeStore/blob/master/ss/rider-rabbit-mq.png)
 
 # Microservices Architecture Screenshot - 3
 
-![nike-store microservice app flow](https://github.com/devxbasit/NikeStore/blob/master/ss/rider-ss-3.png)
+![nike-store microservice app flow](https://github.com/devxbasit/NikeStore/blob/master/ss/rider-frontend.png)
 
-# Footer
+# Microservices Architecture Screenshot - 3
 
-![nike-store microservice app flow](https://github.com/devxbasit/NikeStore/blob/master/ss/footer.png)
+![nike-store microservice app flow](https://github.com/devxbasit/NikeStore/blob/master/ss/sql.png)
 
 # command
 
