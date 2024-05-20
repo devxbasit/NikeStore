@@ -1,146 +1,158 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using NikeStore.Services.CouponApi.Data;
 using NikeStore.Services.CouponApi.Models;
 using NikeStore.Services.CouponApi.Models.Dto;
 
 namespace NikeStore.Services.CouponApi.Controllers;
 
-[ApiController]
 [Route("api/coupon")]
+[ApiController]
 [Authorize]
-public class CouponController : ControllerBase
+public class CouponAPIController : ControllerBase
 {
     private readonly AppDbContext _db;
-    private readonly IMapper _mapper;
-    private readonly ResponseDto _response;
+    private ResponseDto _response;
+    private IMapper _mapper;
 
-    public CouponController(AppDbContext db, IMapper mapper)
+    public CouponAPIController(AppDbContext db, IMapper mapper)
     {
         _db = db;
         _mapper = mapper;
         _response = new ResponseDto();
     }
 
-    [HttpGet]
-    public ActionResult GetCoupons()
-    {
-        try
-        {
-            var couponList = _db.Coupons.ToList();
-            _response.Result = _mapper.Map<IEnumerable<CouponDto>>(couponList);
-        }
-        catch (Exception e)
-        {
-            _response.IsSuccess = false;
-            _response.Message = e.Message;
-        }
-
-        return Ok(_response);
-    }
-
-    [HttpGet("{couponId:int}", Name = nameof(GetCouponById))]
-    public IActionResult GetCouponById(int couponId)
-    {
-        try
-        {
-            // or we can use FirstOrDefault, .First() will throw error if not found.
-            var coupon = _db.Coupons.First(c => c.CouponId == couponId);
-            _response.Result = _mapper.Map<CouponDto>(coupon);
-        }
-        catch (Exception e)
-        {
-            _response.IsSuccess = false;
-            _response.Message = e.Message;
-        }
-
-        return Ok(_response);
-    }
-
-
-    [HttpGet("GetByCode/{couponCode}")]
-    public IActionResult GetCouponByCode(string couponCode)
-    {
-        try
-        {
-            var coupon = _db.Coupons.FirstOrDefault(c => c.CouponCode.ToLower() == couponCode.ToLower());
-
-            if (coupon is null) throw new Exception("Invalid CouponCode!");
-            
-            _response.Result = _mapper.Map<CouponDto>(coupon);
-        }
-        catch (Exception e)
-        {
-            _response.IsSuccess = false;
-            _response.Message = e.Message;
-        }
-
-        return Ok(_response);
-    }
-
-
     [HttpPost]
     [Authorize(Roles = "ADMIN")]
-    public IActionResult CreateCoupon(CouponDto couponDto)
+    public async Task<ResponseDto> Post()
+    {
+        using StreamReader reader = new StreamReader(Request.Body, leaveOpen: false);
+        var stringContent = await reader.ReadToEndAsync();
+        CouponDto couponDto = JsonConvert.DeserializeObject<CouponDto>(stringContent);
+
+        try
+        {
+            Coupon obj = _mapper.Map<Coupon>(couponDto);
+            _db.Coupons.Add(obj);
+            _db.SaveChanges();
+
+            var options = new Stripe.CouponCreateOptions
+            {
+                AmountOff = (long)(couponDto.DiscountAmount * 100),
+                Name = couponDto.CouponCode,
+                Currency = "inr",
+                Id = couponDto.CouponCode,
+            };
+            var service = new Stripe.CouponService();
+            //service.Create(options);
+
+            _response.Result = _mapper.Map<CouponDto>(obj);
+        }
+        catch (Exception ex)
+        {
+            _response.IsSuccess = false;
+            _response.Message = ex.Message;
+        }
+
+        return _response;
+    }
+
+    [HttpGet]
+    public ResponseDto Get()
     {
         try
         {
-            var coupon = _mapper.Map<Coupon>(couponDto);
-            _db.Coupons.Add(coupon);
-            _db.SaveChanges();
-
-            _response.Result = _mapper.Map<CouponDto>(coupon);
-            return CreatedAtRoute(nameof(GetCouponById), new { couponId = coupon.CouponId }, _response);
+            IEnumerable<Coupon> objList = _db.Coupons.ToList();
+            _response.Result = _mapper.Map<IEnumerable<CouponDto>>(objList);
         }
-        catch (Exception e)
+        catch (Exception ex)
         {
             _response.IsSuccess = false;
-            _response.Message = e.Message;
-            return BadRequest(_response);
+            _response.Message = ex.Message;
         }
+
+        return _response;
     }
 
-
-    [HttpDelete("{couponId:int}")]
-    [Authorize(Roles = "ADMIN")]
-    public IActionResult DeleteCoupon(int couponId)
+    [HttpGet]
+    [Route("{id:int}")]
+    public ResponseDto Get(int id)
     {
         try
         {
-            Coupon coupon = _db.Coupons.First(c => c.CouponId == couponId);
-            _db.Coupons.Remove(coupon);
-            _db.SaveChanges();
-            _response.Result = coupon;
-            return Ok(_response);
+            Coupon obj = _db.Coupons.First(u => u.CouponId == id);
+            _response.Result = _mapper.Map<CouponDto>(obj);
         }
-        catch (Exception e)
+        catch (Exception ex)
         {
             _response.IsSuccess = false;
-            _response.Message = e.Message;
-            return NotFound(_response);
+            _response.Message = ex.Message;
         }
+
+        return _response;
     }
-    
-    
+
+    [HttpGet]
+    [Route("GetByCode/{code}")]
+    public ResponseDto GetByCode(string code)
+    {
+        try
+        {
+            Coupon obj = _db.Coupons.First(u => u.CouponCode.ToLower() == code.ToLower());
+            _response.Result = _mapper.Map<CouponDto>(obj);
+        }
+        catch (Exception ex)
+        {
+            _response.IsSuccess = false;
+            _response.Message = ex.Message;
+        }
+
+        return _response;
+    }
+
     [HttpPut]
     [Authorize(Roles = "ADMIN")]
-    public IActionResult UpdateCoupon([FromBody] CouponDto couponDto)
+    public ResponseDto Put([FromBody] CouponDto couponDto)
     {
         try
         {
-            var coupon = _mapper.Map<Coupon>(couponDto);
-            _db.Coupons.Update(coupon);
+            Coupon obj = _mapper.Map<Coupon>(couponDto);
+            _db.Coupons.Update(obj);
             _db.SaveChanges();
 
-            _response.Result = _mapper.Map<CouponDto>(coupon);
-            return Ok(_response);
+            _response.Result = _mapper.Map<CouponDto>(obj);
         }
-        catch (Exception e)
+        catch (Exception ex)
         {
             _response.IsSuccess = false;
-            _response.Message = e.Message;
-            return NotFound(_response);
+            _response.Message = ex.Message;
         }
+
+        return _response;
+    }
+
+    [HttpDelete]
+    [Route("{id:int}")]
+    [Authorize(Roles = "ADMIN")]
+    public ResponseDto Delete(int id)
+    {
+        try
+        {
+            Coupon obj = _db.Coupons.First(u => u.CouponId == id);
+            _db.Coupons.Remove(obj);
+            _db.SaveChanges();
+
+            var service = new Stripe.CouponService();
+           // service.Delete(obj.CouponCode);
+        }
+        catch (Exception ex)
+        {
+            _response.IsSuccess = false;
+            _response.Message = ex.Message;
+        }
+
+        return _response;
     }
 }

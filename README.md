@@ -77,8 +77,7 @@ coupon management.
 
 #### Commands
 
-Run in OrderApi
-
+Run in OrderApi & CouponApi
 ```
 dotnet user-secrets init
 dotnet user-secrets set "Stripe:SecretKey" "stripe secret key here"

@@ -29,10 +29,12 @@ public class BaseService : IBaseService
             if (requestDto.ContentType == SD.ContentType.MultipartFormData)
             {
                 httpMessage.Headers.Add(HttpRequestHeader.Accept.ToString(), "*/*");
+                //httpMessage.Headers.Add(HttpRequestHeader.ContentType.ToString(), MediaTypeNames.Multipart.FormData);
             }
             else
             {
                 httpMessage.Headers.Add(HttpRequestHeader.Accept.ToString(), MediaTypeNames.Application.Json);
+                //httpMessage.Headers.Add(HttpRequestHeader.ContentType.ToString(), MediaTypeNames.Application.Json);
             }
 
             // token
@@ -71,8 +73,7 @@ public class BaseService : IBaseService
             {
                 if (requestDto.Data is not null)
                 {
-                    httpMessage.Content = new StringContent(JsonConvert.SerializeObject(requestDto.Data), Encoding.UTF8,
-                        MediaTypeNames.Application.Json);
+                    httpMessage.Content = new StringContent(JsonConvert.SerializeObject(requestDto.Data), Encoding.UTF8, MediaTypeNames.Application.Json);
                 }
             }
 
