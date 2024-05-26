@@ -81,7 +81,7 @@
       ]
     },
     {
-      "DownstreamPathTemplate": "/api/product/{id}",
+      "DownstreamPathTemplate": "/api/product/{productId}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -89,7 +89,7 @@
           "Port": 7000
         }
       ],
-      "UpstreamPathTemplate": "/api/product/{id}",
+      "UpstreamPathTemplate": "/api/product/{productId}",
       "UpstreamHttpMethod": [
         "Get",
         "DELETE"

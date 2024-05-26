@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using NikeStore.Web.Models;
 using NikeStore.Web.Models.Dto;
@@ -17,20 +18,19 @@ namespace NikeStore.Web.Controllers
 
         public async Task<IActionResult> ProductIndex()
         {
-            List<ProductDto>? list = new();
+            return View();
+        }
 
+        public async Task<ResponseDto> GetAllProducts()
+        {
             ResponseDto? response = await _productService.GetAllProductsAsync();
 
             if (response != null && response.IsSuccess)
             {
-                list = JsonConvert.DeserializeObject<List<ProductDto>>(Convert.ToString(response.Result));
-            }
-            else
-            {
-                TempData["error"] = response?.Message;
+                response.Result = JsonConvert.DeserializeObject<List<ProductDto>>(Convert.ToString(response.Result));
             }
 
-            return View(list);
+            return response;
         }
 
         public async Task<IActionResult> ProductCreate()
@@ -59,39 +59,22 @@ namespace NikeStore.Web.Controllers
             return View(model);
         }
 
-        public async Task<IActionResult> ProductDelete(int productId)
+        [HttpDelete]
+        [Authorize(Roles = "ADMIN")]
+        public async Task<ResponseDto> ProductDelete(int productId)
         {
-            ResponseDto? response = await _productService.GetProductByIdAsync(productId);
+            ResponseDto? response = await _productService.DeleteProductsAsync(productId);
 
             if (response != null && response.IsSuccess)
             {
-                ProductDto? model = JsonConvert.DeserializeObject<ProductDto>(Convert.ToString(response.Result));
-                return View(model);
+                response.IsSuccess = true;
             }
             else
             {
-                TempData["error"] = response?.Message;
+                response.IsSuccess = false;
             }
 
-            return NotFound();
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> ProductDelete(ProductDto productDto)
-        {
-            ResponseDto? response = await _productService.DeleteProductsAsync(productDto.ProductId);
-
-            if (response != null && response.IsSuccess)
-            {
-                TempData["success"] = "Product deleted successfully";
-                return RedirectToAction(nameof(ProductIndex));
-            }
-            else
-            {
-                TempData["error"] = response?.Message;
-            }
-
-            return View(productDto);
+            return response;
         }
 
         public async Task<IActionResult> ProductEdit(int productId)

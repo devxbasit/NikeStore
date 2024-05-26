@@ -43,12 +43,12 @@ public class ProductApiController : ControllerBase
     }
 
     [HttpGet]
-    [Route("{id:int}")]
-    public ResponseDto Get(int id)
+    [Route("{productId:int}")]
+    public ResponseDto Get(int productId)
     {
         try
         {
-            Product obj = _db.Products.First(u => u.ProductId == id);
+            Product obj = _db.Products.First(u => u.ProductId == productId);
             _response.Result = _mapper.Map<ProductDto>(obj);
         }
         catch (Exception ex)
@@ -56,10 +56,10 @@ public class ProductApiController : ControllerBase
             _response.IsSuccess = false;
             _response.Message = ex.Message;
         }
-        
+
         return _response;
     }
-    
+
     [HttpPost]
     [Authorize(Roles = "ADMIN")]
     public ResponseDto Post(ProductDto ProductDto)
@@ -81,9 +81,9 @@ public class ProductApiController : ControllerBase
                 {
                     file.Delete();
                 }
-                
+
                 var filePathDirectory = Path.Combine(Directory.GetCurrentDirectory(), filePath);
-                
+
                 using (var fileStream = new FileStream(filePathDirectory, FileMode.Create))
                 {
                     ProductDto.Image.CopyTo(fileStream);
@@ -161,13 +161,13 @@ public class ProductApiController : ControllerBase
         return _response;
     }
 
-    [HttpDelete("{id:int}")]
+    [HttpDelete("{productId:int}")]
     [Authorize(Roles = "ADMIN")]
-    public async Task<ResponseDto> Delete(int id)
+    public async Task<ResponseDto> Delete(int productId)
     {
         try
         {
-            Product obj = _db.Products.First(u => u.ProductId == id);
+            Product obj = _db.Products.First(u => u.ProductId == productId);
             if (!string.IsNullOrEmpty(obj.ImageLocalPath))
             {
                 var oldFilePathDirectory = Path.Combine(Directory.GetCurrentDirectory(), obj.ImageLocalPath);
@@ -177,9 +177,9 @@ public class ProductApiController : ControllerBase
                     file.Delete();
                 }
             }
-            
+
             _db.Products.Remove(obj);
-            await _shoppingCartService.RemoveProductFromAllCart(id);
+            await _shoppingCartService.RemoveProductFromAllCart(productId);
             _db.SaveChanges();
         }
         catch (Exception ex)

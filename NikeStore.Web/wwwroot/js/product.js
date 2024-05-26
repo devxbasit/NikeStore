@@ -14,22 +14,24 @@ function InitGrid() {
         onGridReady: (event) => {
             autoSizeAll(event.api, false);
         },
-        overlayNoRowsTemplate: '<div class="my-no-rows-overlay">No coupon found!</div>',
+        overlayNoRowsTemplate: '<div class="my-no-rows-overlay">No product found!</div>',
         rowData: [],
         columnDefs: [
             {
-                headerName: "ID", field: "couponId", filter: "agNumberColumnFilter", headerCheckboxSelection: true,
+                headerName: "ID", field: "productId", filter: "agNumberColumnFilter", headerCheckboxSelection: true,
                 checkboxSelection: true,
                 showDisabledCheckboxes: true,
             },
-            {headerName: "Coupon Code", field: "couponCode"},
-            {headerName: "Discount Amount", field: "discountAmount", filter: "agNumberColumnFilter"},
-            {headerName: "Minimum Amount", field: "minAmount", filter: "agNumberColumnFilter"},
+            {headerName: "Product Name", field: "name"},
+            {headerName: "Price", field: "price", filter: "agNumberColumnFilter"},
+            {headerName: "Category", field: "categoryName"},
+            {headerName: "Image path", field: "imageLocalPath"},
+            {headerName: "Image URL", field: "imageUrl"},
             {
-                headerName: "Actions", field: "couponId", filter: false,
+                headerName: "Actions", field: "productId", filter: false,
                 cellRenderer: (params) => {
-                    return `<button onclick="editCoupon(${params.node.data.couponId})" class="btn btn-sm btn-success"><i class="fa-solid fa-pen-to-square"></i> Edit</button>
-                            <button onclick="deleteCoupon(${params.node.data.couponId})" class="btn btn-sm btn-danger"><i class="fa-solid fa-trash-can"></i> Delete</button>`;
+                    return `<button onclick="editProduct(${params.node.data.productId})" class="btn btn-sm btn-success"><i class="fa-solid fa-pen-to-square"></i> Edit</button>
+                            <button onclick="deleteProduct(${params.node.data.productId})" class="btn btn-sm btn-danger"><i class="fa-solid fa-trash-can"></i> Delete</button>`;
                 }
             }
         ],
@@ -44,14 +46,14 @@ function InitGrid() {
         paginationPageSizeSelector: [10, 25, 50],
     };
 
-    const gridDiv = document.querySelector("#couponsGrid");
+    const gridDiv = document.querySelector("#productsGrid");
     window.gridApi = agGrid.createGrid(gridDiv, gridOptions);
     RefreshGridData();
 }
 
 function RefreshGridData() {
     $.ajax({
-        url: '/Coupon/GetAllCoupons',
+        url: '/Product/GetAllProducts',
         method: 'GET',
         success: function (response) {
 
@@ -65,14 +67,14 @@ function RefreshGridData() {
 }
 
 
-function editCoupon(couponId) {
-    window.location = `/Coupon/CouponUpdate?couponId=${couponId}`;
+function editProduct(productId) {
+    window.location = `/Product/ProductEdit?productId=${productId}`;
 }
 
-function deleteCoupon(couponId) {
+function deleteProduct(productId) {
     Swal.fire({
         icon: "info",
-        title: "Are you sure you want to delete the coupon?",
+        title: "Are you sure you want to delete the product?",
         showCancelButton: true,
         confirmButtonText: "Yes",
     }).then((result) => {
@@ -82,21 +84,17 @@ function deleteCoupon(couponId) {
                 headers: {
                     'Accept': 'application/json',
                 },
-                url: `/Coupon/CouponDelete?couponId=${couponId}`,
                 method: 'DELETE',
+                url: `/Product/ProductDelete?productId=${productId}`,
                 success: function (response) {
                     RefreshGridData();
                     if (response.isSuccess) {
-                        Swal.fire("Success!", "Coupon Deleted Successfully!", "success");
+                        Swal.fire("Success!", "Product Deleted Successfully!", "success");
                     } else {
                         Swal.fire("Error!", `${response.message}`, "error");
                     }
                 }
             });
-
-
         }
     });
 }
-
-

@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using NikeStore.Web.Models.Dto;
@@ -89,10 +90,11 @@ public class CouponController : Controller
     }
 
 
-    [HttpPost]
-    public async Task<ResponseDto> CouponDelete([FromBody]CouponDto couponDto)
+    [HttpDelete]
+    [Authorize(Roles = "ADMIN")]
+    public async Task<ResponseDto> CouponDelete(int couponId)
     {
-        ResponseDto? response = await _couponService.DeleteCouponAsync(couponDto.CouponId);
+        ResponseDto? response = await _couponService.DeleteCouponAsync(couponId);
 
         if (response != null && response.IsSuccess)
         {
