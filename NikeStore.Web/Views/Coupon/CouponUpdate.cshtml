@@ -1,31 +1,31 @@
 ﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
 @model NikeStore.Web.Models.Dto.CouponDto
 
-
 <div class="row">
     <div class="col"></div>
     <div class="col">
-        <form asp-action="CouponCreate">
-            <h1 class="display-6 my-5">Add Coupon</h1>
+        <form asp-action="CouponUpdate">
+            <input type="hidden" asp-for="CouponId" value="@Model.CouponId" />
+            <h1 class="display-6 my-5">Update Coupon</h1>
             <div class="mb-4">
                 <label class="form-label">Coupon Code</label>
-                <input asp-for="CouponCode" type="text" class="form-control" placeholder="Enter Coupon Code" />
+                <input asp-for="CouponCode" type="text" class="form-control" placeholder="Enter Coupon Code"  value="@Model.CouponCode" />
                 <span asp-validation-for="CouponCode" class="form-text text-danger"></span>
             </div>
             <div class="mb-4">
                 <label class="form-label">Discount Amount</label>
-                <input asp-for="DiscountAmount" type="text" class="form-control" placeholder="Enter Discount Amount" />
+                <input asp-for="DiscountAmount" type="text" class="form-control" placeholder="Enter Discount Amount"  value="@Model.DiscountAmount" />
                 <span asp-validation-for="DiscountAmount" class="form-text text-danger"></span>
             </div>
             <div class="mb-4">
                 <label class="form-label">Minimum Amount</label>
-                <input asp-for="MinAmount" type="text" class="form-control" placeholder="Enter Minimum Amount" />
+                <input asp-for="MinAmount" type="text" class="form-control" placeholder="Enter Minimum Amount" value="@Model.MinAmount" />
                 <span asp-validation-for="MinAmount" class="form-text text-danger"></span>
             </div>
 
             <div class="my-5">
-            <button type="submit" class="btn btn-sm btn-success">Submit</button>
-            <a asp-action="CouponIndex" type="button" class="btn btn-sm btn-danger">Back</a>
+                <button type="submit" class="btn btn-sm btn-success">Submit</button>
+                <a asp-action="CouponIndex" type="button" class="btn btn-sm btn-danger">Back</a>
             </div>
         </form>
     </div>

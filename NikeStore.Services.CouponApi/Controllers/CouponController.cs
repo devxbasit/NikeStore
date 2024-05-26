@@ -1,6 +1,7 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using NikeStore.Services.CouponApi.Data;
 using NikeStore.Services.CouponApi.Models;
@@ -34,21 +35,74 @@ public class CouponAPIController : ControllerBase
 
         try
         {
-            Coupon obj = _mapper.Map<Coupon>(couponDto);
-            _db.Coupons.Add(obj);
-            _db.SaveChanges();
+            Coupon coupon = _mapper.Map<Coupon>(couponDto);
 
-            var options = new Stripe.CouponCreateOptions
+            if (_db.Coupons.FirstOrDefault(x => x.CouponCode.ToLower() == coupon.CouponCode.ToLower()) is null)
             {
-                AmountOff = (long)(couponDto.DiscountAmount * 100),
-                Name = couponDto.CouponCode,
-                Currency = "inr",
-                Id = couponDto.CouponCode,
-            };
-            var service = new Stripe.CouponService();
-            //service.Create(options);
+                _db.Coupons.Add(coupon);
+                _db.SaveChanges();
 
-            _response.Result = _mapper.Map<CouponDto>(obj);
+                var options = new Stripe.CouponCreateOptions
+                {
+                    AmountOff = (long)(couponDto.DiscountAmount * 100),
+                    Name = couponDto.CouponCode,
+                    Currency = "inr",
+                    Id = couponDto.CouponCode,
+                };
+                var service = new Stripe.CouponService();
+                //service.Create(options);
+
+                _response.Result = _mapper.Map<CouponDto>(coupon);
+            }
+            else
+            {
+                _response.IsSuccess = false;
+                _response.Message = "Coupon code already exists!";
+            }
+        }
+        catch (Exception ex)
+        {
+            _response.IsSuccess = false;
+            _response.Message = ex.Message;
+        }
+
+        return _response;
+    }
+
+    [HttpPut]
+    [Authorize(Roles = "ADMIN")]
+    public async Task<ResponseDto> Update()
+    {
+        using StreamReader reader = new StreamReader(Request.Body, leaveOpen: false);
+        var stringContent = await reader.ReadToEndAsync();
+        CouponDto couponDto = JsonConvert.DeserializeObject<CouponDto>(stringContent);
+
+        try
+        {
+            Coupon coupon = _mapper.Map<Coupon>(couponDto);
+
+            if (_db.Coupons.AsNoTracking().FirstOrDefault(x => x.CouponId == coupon.CouponId) is not null)
+            {
+                _db.Coupons.Update(coupon);
+                _db.SaveChanges();
+
+                var options = new Stripe.CouponCreateOptions
+                {
+                    AmountOff = (long)(couponDto.DiscountAmount * 100),
+                    Name = couponDto.CouponCode,
+                    Currency = "inr",
+                    Id = couponDto.CouponCode,
+                };
+                var service = new Stripe.CouponService();
+                //service.Create(options);
+
+                _response.Result = _mapper.Map<CouponDto>(coupon);
+            }
+            else
+            {
+                _response.IsSuccess = false;
+                _response.Message = "Invalid Coupon Id!";
+            }
         }
         catch (Exception ex)
         {
@@ -112,26 +166,28 @@ public class CouponAPIController : ControllerBase
         return _response;
     }
 
-    [HttpPut]
-    [Authorize(Roles = "ADMIN")]
-    public ResponseDto Put([FromBody] CouponDto couponDto)
-    {
-        try
-        {
-            Coupon obj = _mapper.Map<Coupon>(couponDto);
-            _db.Coupons.Update(obj);
-            _db.SaveChanges();
+    // [HttpPut]
+    // [Authorize(Roles = "ADMIN")]
+    // public ResponseDto Put([FromBody] CouponDto couponDto)
+    // {
+    //     try
+    //     {
+    //         Coupon obj = _mapper.Map<Coupon>(couponDto);
+    //         _db.Coupons.Update(obj);
+    //         _db.SaveChanges();
+    //
+    //         _response.Result = _mapper.Map<CouponDto>(obj);
+    //     }
+    //     catch (Exception ex)
+    //     {
+    //         _response.IsSuccess = false;
+    //         _response.Message = ex.Message;
+    //     }
+    //
+    //     return _response;
+    // }
+    //
 
-            _response.Result = _mapper.Map<CouponDto>(obj);
-        }
-        catch (Exception ex)
-        {
-            _response.IsSuccess = false;
-            _response.Message = ex.Message;
-        }
-
-        return _response;
-    }
 
     [HttpDelete]
     [Route("{id:int}")]
@@ -145,7 +201,7 @@ public class CouponAPIController : ControllerBase
             _db.SaveChanges();
 
             var service = new Stripe.CouponService();
-           // service.Delete(obj.CouponCode);
+            // service.Delete(obj.CouponCode);
         }
         catch (Exception ex)
         {

@@ -92,7 +92,7 @@
 </nav>
 
 
-<div class="container">
+<div class="container-fluid">
     <main role="main" class="pb-3">
         @RenderBody()
     </main>
@@ -204,7 +204,7 @@
         </div>
     </div>
     <div class="container text-center py-4">
-        <p>&copy; @DateTime.Now.ToString("yyyy") copyright. Made with <i style="color: tomato" class="fa-solid fa-heart"></i> &amp; passion by - <a class="text-primary" target="_blank" href="https://github.com/devxbasit">devxbasit</a></p>
+        <p>&copy; @DateTime.Now.ToString("yyyy") copyright. Made with <i style="color: tomato" class="fa-solid fa-heart"></i> &amp; passion by - <a class="text-info" target="_blank" href="https://github.com/devxbasit">devxbasit</a></p>
     </div>
 </footer>
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
@@ -215,8 +215,10 @@
 <script src="~/js/nav.js" asp-append-version="true"></script>
 <script src="https://cdn.jsdelivr.net/npm/ag-grid-community/dist/ag-grid-community.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="~/js/shared.js"></script>
 
-<partial name="_Notifications"/>
+
+<partial name  ="_Notifications"/>
 
 @await RenderSectionAsync("Scripts", required: false)
 </body>

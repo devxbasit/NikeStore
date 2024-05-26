@@ -8,17 +8,28 @@ function InitGrid() {
     let gridApi;
 
     const gridOptions = {
-        overlayNoRowsTemplate: '<div class="my-no-rows-overlay">No data to display</div>',
+        autoSizeStrategy: {
+            type: "fitCellContents",
+        },
+        onGridReady: (event) => {
+            autoSizeAll(event.api,false);
+        } ,
+        overlayNoRowsTemplate: '<div class="my-no-rows-overlay">No coupon found!</div>',
         rowData: [],
         columnDefs: [
-            {headerName: "Coupon Id", field: "couponId", filter: "agNumberColumnFilter"},
+            {
+                headerName: "ID", field: "couponId", filter: "agNumberColumnFilter", headerCheckboxSelection: true,
+                checkboxSelection: true,
+                showDisabledCheckboxes: true,
+            },
             {headerName: "Coupon Code", field: "couponCode"},
             {headerName: "Discount Amount", field: "discountAmount", filter: "agNumberColumnFilter"},
             {headerName: "Minimum Amount", field: "minAmount", filter: "agNumberColumnFilter"},
             {
                 headerName: "Actions", field: "couponId", filter: false,
                 cellRenderer: (params) => {
-                    return `<button onclick="deleteCoupon(${params.node.data.couponId})" class="btn btn-danger">Delete</button>`;
+                    return `<button onclick="editCoupon(${params.node.data.couponId})" class="btn btn-sm btn-success"><i class="fa-solid fa-pen-to-square"></i> Edit</button>
+                            <button onclick="deleteCoupon(${params.node.data.couponId})" class="btn btn-sm btn-danger"><i class="fa-solid fa-trash-can"></i> Delete</button>`;
                 }
             }
         ],
@@ -48,6 +59,10 @@ function RefreshGridData() {
     });
 }
 
+
+function editCoupon(couponId){
+    window.location = `/Coupon/CouponUpdate?couponId=${couponId}`;
+}
 function deleteCoupon(couponId) {
     Swal.fire({
         icon: "info",

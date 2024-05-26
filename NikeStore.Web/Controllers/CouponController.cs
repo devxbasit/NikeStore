@@ -60,6 +60,34 @@ public class CouponController : Controller
         return View(model);
     }
 
+    public async Task<IActionResult> CouponUpdate(int couponId)
+    {
+        var response = await _couponService.GetCouponByIdAsync(couponId);
+        var couponDto = JsonConvert.DeserializeObject<CouponDto>(Convert.ToString(response.Result));
+        return View(couponDto);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> CouponUpdate(CouponDto model)
+    {
+        if (ModelState.IsValid)
+        {
+            ResponseDto? response = await _couponService.UpdateCouponAsync(model);
+
+            if (response != null && response.IsSuccess)
+            {
+                TempData["success"] = "Coupon updated successfully";
+                return RedirectToAction(nameof(CouponIndex));
+            }
+            else
+            {
+                TempData["error"] = response?.Message;
+            }
+        }
+
+        return View(model);
+    }
+
 
     [HttpPost]
     public async Task<ResponseDto> CouponDelete([FromBody]CouponDto couponDto)
