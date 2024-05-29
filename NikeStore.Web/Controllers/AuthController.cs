@@ -51,6 +51,22 @@ public class AuthController : Controller
         }
     }
 
+    public IActionResult Otp()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    public async Task<ResponseDto> Otp(int otp)
+    {
+        await Task.CompletedTask;
+
+        return new ResponseDto()
+        {
+            IsSuccess = true
+        };
+    }
+
     [HttpGet]
     public IActionResult Register()
     {
@@ -68,7 +84,6 @@ public class AuthController : Controller
             obj.Name = obj.Name.Split("#")[1];
         }
 
-
         ResponseDto result = await _authService.RegisterAsync(obj);
         ResponseDto assingRole;
 
@@ -80,7 +95,7 @@ public class AuthController : Controller
             if (assingRole != null && assingRole.IsSuccess)
             {
                 TempData["success"] = "Registration Successful";
-                return RedirectToAction(nameof(Login));
+                return RedirectToAction(nameof(Otp));
             }
         }
         else

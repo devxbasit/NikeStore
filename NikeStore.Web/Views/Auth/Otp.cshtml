@@ -1,0 +1,57 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@Model
+
+@{
+    Layout = null;
+}
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/fonts/icomoon/style.css">
+    <link rel="stylesheet" href="~/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="~/css/login.css">
+
+    <title>NikeStore - Login</title>
+</head>
+<body>
+
+
+<div class="d-lg-flex half">
+    <div class="bg order-1 order-md-2" style="background-image: url('/img/login-page-banner.jpg');"></div>
+    <div class="contents order-2 order-md-1">
+
+        <div class="container">
+            <div class="row align-items-center justify-content-center">
+                <div class="col-md-7">
+                    <h3>Login to <strong>NikeStore</strong></h3>
+                    <p class="mb-4">Shop the world's trends, delivered to your door</p>
+
+                    <form method="post" id="formOtp">
+                        <div class="form-group first">
+                            <label for="otp">OTP</label>
+                            <input type="text" required class="form-control" placeholder="Enter OTP" id="otp" name="otp">
+                            </div>
+                        <input type="submit" value="Log In" class="btn btn-block btn-primary my-3">
+                        <br/>
+                        <br/>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js" integrity="sha512-2rNj2KJ+D8s1ceNasTIex6z4HWyOnEYLVC3FigGOmyQCZc2eBXKgOxQmo3oKLHyfcj53uz4QMsRCWNbLd32Q1g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="~/js/otp.js"></script>
+<partial name="_ValidationScriptsPartial"/>
+</body>
+</html>
