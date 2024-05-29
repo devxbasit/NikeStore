@@ -1,53 +1,409 @@
 ﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Microsoft.IdentityModel.Abstractions
 @model NikeStore.Web.Models.Dto.ProductDto
 
-<form method="post">
-    <input asp-for="ProductId" hidden />
-    <div class=" pt-4">
-        <div class="card container" style="border:1px solid #808080;">
-            <div class="card-header text-light row" style="border-radius: 0px;">
-                <div class="col-12 col-md-6">
-                    <h1 class="">@Model.Name</h1>
-                </div>
-                <div class="col-12 col-md-6 text-end">
-                    <h1 class="text-warning"> @string.Format("{0:c}", Model.Price)</h1>
+<style type="text/css">
+    	body{
+    margin-top:20px;
+    background:#eee;
+}
+
+
+.custom-product-details-container .product-content {
+    border: 1px solid #dfe5e9;
+    margin-bottom: 20px;
+    margin-top: 12px;
+    background: #fff
+}
+
+.custom-product-details-container .product-content .carousel-control.left {
+    margin-left: 0
+}
+
+.custom-product-details-container .product-content .product-image {
+    background-color: #fff;
+    display: block;
+    min-height: 238px;
+    overflow: hidden;
+    position: relative
+}
+
+.custom-product-details-container .product-content .product-deatil {
+    border-bottom: 1px solid #dfe5e9;
+    padding-bottom: 17px;
+    padding-left: 16px;
+    padding-top: 16px;
+    position: relative;
+    background: #fff
+}
+
+.custom-product-details-container .product-content .product-deatil h5 a {
+    color: #2f383d;
+    font-size: 15px;
+    line-height: 19px;
+    text-decoration: none;
+    padding-left: 0;
+    margin-left: 0
+}
+
+.custom-product-details-container .product-content .product-deatil h5 a span {
+    color: #9aa7af;
+    display: block;
+    font-size: 13px
+}
+
+.custom-product-details-container .product-content .product-deatil span.tag1 {
+    border-radius: 50%;
+    color: #fff;
+    font-size: 15px;
+    height: 50px;
+    padding: 13px 0;
+    position: absolute;
+    right: 10px;
+    text-align: center;
+    top: 10px;
+    width: 50px
+}
+
+.custom-product-details-container .product-content .product-deatil span.sale {
+    background-color: #21c2f8
+}
+
+.custom-product-details-container .product-content .product-deatil span.discount {
+    background-color: #71e134
+}
+
+.custom-product-details-container .product-content .product-deatil span.hot {
+    background-color: #fa9442
+}
+
+.custom-product-details-container .product-content .description {
+    font-size: 12.5px;
+    line-height: 20px;
+    padding: 10px 14px 16px 19px;
+    background: #fff
+}
+
+.custom-product-details-container .product-content .product-info {
+    padding: 11px 19px 10px 20px
+}
+
+.custom-product-details-container .product-content .product-info a.add-to-cart {
+    color: #2f383d;
+    font-size: 13px;
+    padding-left: 16px
+}
+
+.custom-product-details-container .product-content name.a {
+    padding: 5px 10px;
+    margin-left: 16px
+}
+
+.custom-product-details-container .product-info.smart-form .btn {
+    padding: 6px 12px;
+    margin-left: 12px;
+    margin-top: -10px
+}
+
+.custom-product-details-container .product-entry .product-deatil {
+    border-bottom: 1px solid #dfe5e9;
+    padding-bottom: 17px;
+    padding-left: 16px;
+    padding-top: 16px;
+    position: relative
+}
+
+.custom-product-details-container .product-entry .product-deatil h5 a {
+    color: #2f383d;
+    font-size: 15px;
+    line-height: 19px;
+    text-decoration: none
+}
+
+.custom-product-details-container .product-entry .product-deatil h5 a span {
+    color: #9aa7af;
+    display: block;
+    font-size: 13px
+}
+
+.custom-product-details-container .load-more-btn {
+    background-color: #21c2f8;
+    border-bottom: 2px solid #037ca5;
+    border-radius: 2px;
+    border-top: 2px solid #0cf;
+    margin-top: 20px;
+    padding: 9px 0;
+    width: 100%
+}
+
+.custom-product-details-container .product-block .product-deatil p.price-container span,
+.custom-product-details-container .product-content .product-deatil p.price-container span,
+.custom-product-details-container .product-entry .product-deatil p.price-container span,
+.custom-product-details-container .shipping table tbody tr td p.price-container span,
+.custom-product-details-container .shopping-items table tbody tr td p.price-container span {
+    color: #21c2f8;
+    /*font-family: Lato, sans-serif;*/
+    font-size: 24px;
+    line-height: 20px
+}
+
+.custom-product-details-container .product-info.smart-form .rating label {
+    margin-top: 0
+}
+
+.custom-product-details-container .product-wrap .product-image span.tag2 {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    padding: 10px 0;
+    color: #fff;
+    font-size: 11px;
+    text-align: center
+}
+
+.custom-product-details-container .product-wrap .product-image span.sale {
+    background-color: #57889c
+}
+
+.custom-product-details-container .product-wrap .product-image span.hot {
+    background-color: #a90329
+}
+
+.custom-product-details-container .shop-btn {
+    position: relative
+}
+
+.custom-product-details-container .shop-btn>span {
+    background: #a90329;
+    display: inline-block;
+    font-size: 10px;
+    box-shadow: inset 1px 1px 0 rgba(0, 0, 0, .1), inset 0 -1px 0 rgba(0, 0, 0, .07);
+    font-weight: 700;
+    border-radius: 50%;
+    padding: 2px 4px 3px!important;
+    text-align: center;
+    line-height: normal;
+    width: 19px;
+    top: -7px;
+    left: -7px
+}
+
+.custom-product-details-container .description-tabs {
+    padding: 30px 0 5px!important
+}
+
+.custom-product-details-container .description-tabs .tab-content {
+    padding: 10px 0
+}
+
+.custom-product-details-container .product-deatil {
+    padding: 30px 30px 50px
+}
+
+.custom-product-details-container .product-deatil hr+.description-tabs {
+    padding: 0 0 5px!important
+}
+
+.custom-product-details-container .product-deatil .carousel-control.left,
+.custom-product-details-container .product-deatil .carousel-control.right {
+    background: none!important
+}
+
+.custom-product-details-container .product-deatil .glyphicon {
+    color: #3276b1
+}
+
+.custom-product-details-container .product-deatil .product-image {
+    border-right: none!important
+}
+
+.custom-product-details-container .product-deatil .name {
+    margin-top: 0;
+    margin-bottom: 0
+}
+
+.custom-product-details-container .product-deatil .name small {
+    display: block
+}
+
+.custom-product-details-container .product-deatil .name a {
+    margin-left: 0
+}
+
+.custom-product-details-container .product-deatil .price-container {
+    font-size: 24px;
+    margin: 0;
+    font-weight: 300
+}
+
+.custom-product-details-container .product-deatil .price-container small {
+    font-size: 12px
+}
+
+.custom-product-details-container .product-deatil .fa-2x {
+    font-size: 16px!important
+}
+
+.custom-product-details-container .product-deatil .fa-2x>h5 {
+    font-size: 12px;
+    margin: 0
+}
+
+.custom-product-details-container .product-deatil .fa-2x+a,
+.custom-product-details-container .product-deatil .fa-2x+a+a {
+    font-size: 13px
+}
+
+.custom-product-details-container .profile-message ul {
+  list-style: none ;
+}
+
+.custom-product-details-container .product-deatil .certified {
+    margin-top: 10px
+}
+
+.custom-product-details-container .product-deatil .certified ul {
+    padding-left: 0
+}
+
+.custom-product-details-container .product-deatil .certified ul li:not(first-child) {
+    margin-left: -3px
+}
+
+.custom-product-details-container .product-deatil .certified ul li {
+    display: inline-block;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    padding: 13px 19px
+}
+
+.custom-product-details-container .product-deatil .certified ul li:first-child {
+    border-right: none
+}
+
+.custom-product-details-container .product-deatil .certified ul li a {
+    text-align: left;
+    font-size: 12px;
+    color: #6d7a83;
+    line-height: 16px;
+    text-decoration: none
+}
+
+.custom-product-details-container .product-deatil .certified ul li a span {
+    display: block;
+    color: #21c2f8;
+    font-size: 13px;
+    font-weight: 700;
+    text-align: center
+}
+
+.custom-product-details-container .product-deatil .message-text {
+    width: calc(100% - 70px)
+}
+
+@@media only screen and (min-width:1024px) {
+    .custom-product-details-container .product-content div[class*=col-md-4] {
+        padding-right: 0
+    }
+    .custom-product-details-container .product-content div[class*=col-md-8] {
+        padding: 0 13px 0 0
+    }
+    .custom-product-details-container .product-wrap div[class*=col-md-5] {
+        padding-right: 0
+    }
+    .custom-product-details-container .product-wrap div[class*=col-md-7] {
+        padding: 0 13px 0 0
+    }
+    .custom-product-details-container .product-content .product-image {
+        border-right: 1px solid #dfe5e9
+    }
+    .custom-product-details-container .product-content .product-info {
+        position: relative
+    }
+}
+
+.custom-product-details-container .message img.online {
+    width:40px;
+    height:40px;
+}
+    </style>
+
+<div class="container custom-product-details-container">
+    <a asp-action="Index" type="button" class="btn btn-sm btn-danger mt-3"><i class="fa-solid fa-arrow-left"></i> Back</a>
+    <div class="product-content product-wrap clearfix product-deatil">
+        <div class="row">
+            <div class="col-md-5 col-sm-12 col-xs-12">
+                <div class="product-image">
+                    <div id="myCarousel-2" class="carousel slide">
+                        <div class="carousel-inner">
+
+                            <div class="item active">
+                                <img style="width: 100%; height: auto;" src="@Model.ImageUrl" class="img-responsive" alt/>
+                            </div>
+
+                        </div>
+                        <a class="left carousel-control" href="#myCarousel-2" data-slide="prev">
+                            <span class="glyphicon glyphicon-chevron-left"></span>
+                        </a>
+                        <a class="right carousel-control" href="#myCarousel-2" data-slide="next">
+                            <span class="glyphicon glyphicon-chevron-right"></span>
+                        </a>
+                    </div>
                 </div>
             </div>
-            <div class="card-body">
-                <div class="container rounded p-2">
-                    <div class="row">
-                        <div class="col-12 col-lg-4 p-1 text-center">
-                            <img src="@Model.ImageUrl" style="border-radius:35px;" width="100%" class="rounded" />
-                        </div>
-                        <div class="col-12 col-lg-8">
-                            <div class="row pl-3">
-
-                                <div class="col-12">
-                                    <span class="badge bg-primary text-success p-3 border">@Model.CategoryName</span>
-                                    <p class="text-secondary pt-3">@Html.Raw(Model.Description)</p>
-                                </div>
-                            </div>
-                            <div class="row mx-0">
-                                <input asp-for="Count" class="form-control" />
-                                <span asp-validation-for="Count" class="text-danger"></span>
-                            </div>
+            <div class="col-md-6 col-md-offset-1 col-sm-12 col-xs-12">
+                <h2 class="name">
+                    @Model.Name
+                    <p class="lead">@Html.Raw(Model.Description)</p>
+                    <small>Product by <a href="javascript:void(0);">NikeStore</a></small>
+                    <i class="fa fa-star fa-2x text-primary"></i>
+                    <i class="fa fa-star fa-2x text-primary"></i>
+                    <i class="fa fa-star fa-2x text-primary"></i>
+                    <i class="fa fa-star fa-2x text-primary"></i>
+                    <i class="fa fa-star fa-2x text-muted"></i>
+                    <span class="fa fa-2x">
+                        <h5>(109) Rating</h5>
+                    </span>
+                    <a href="javascript:void(0);">109 customer reviews</a>
+                </h2>
+                <hr/>
+                <h3 class="price-container">
+                    @string.Format("{0:c}", Model.Price)
+                    <small>*includes tax</small>
+                </h3>
+                <div class="certified">
+                    <ul>
+                        <li>
+                            <a href="javascript:void(0);">Delivery time<span>7 Working Days</span></a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0);">Certified<span>Quality Assured</span></a>
+                        </li>
+                    </ul>
+                </div>
+                <hr/>
+                <div class="row">
+                    <div class="col-sm-12 col-md-6 col-lg-6">
+                        <form method="post">
+                            <input asp-for="ProductId" hidden/>
+                            <button type="submit" class="btn btn-success btn-sm">Add to cart (@string.Format("{0:c}", Model.Price))</button>
+                        </form>
+                    </div>
+                    <div class="col-sm-12 col-md-6 col-lg-6">
+                        <div class="btn-group pull-right">
+                            <button class="btn btn-sm btn-white btn-default"><i class="fa fa-star"></i> Add to wishlist</button>
+                            <button class="btn btn-sm btn-white btn-default"><i class="fa fa-envelope"></i> Contact Seller</button>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="card-footer row ">
-                <div class="col-12 col-md-6 pb-1 ">
-                    <a asp-action="Index" class="btn btn-success btn-square form-control btn-lg" style="height:50px;">Back to List</a>
-                </div>
-                <div class="col-12 col-md-6 ">
-                    <button type="submit" class="btn btn-primary form-control btn-lg" style="height:50px;">Add to Cart</button>
-                </div>
-            </div>
         </div>
     </div>
-</form>
+</div>
 
 @section Scripts{
-    <partial name="_ValidationScriptsPartial" />
+    <partial name="_ValidationScriptsPartial"/>
 }
-

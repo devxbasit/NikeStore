@@ -1,45 +1,94 @@
-﻿var dataTable;
+﻿var gridApi;
 
 $(document).ready(function () {
-    var url = window.location.search;
-    if (url.includes("approved")) {
-        loadDataTable("approved");
-    }
-    else {
-        if (url.includes("readyforpickup")) {
-            loadDataTable("readyforpickup");
-        }
-        else {
-            if (url.includes("cancelled")) {
-                loadDataTable("cancelled");
-            }
-            else {
-                loadDataTable("all");
-            }
-        }
-    }
+    InitGrid();
 });
 
-function loadDataTable(status) {
-    dataTable = $('#tblData').DataTable({
-        order: [[0, 'desc']],
-        "ajax": { url: "/order/getall?status=" + status },
-        "columns": [
-            { data: 'orderHeaderId', "width": "5%"},
-            { data: 'email', "width": "25%" },
-            { data: 'name', "width": "20%" },
-            { data: 'phone', "width": "10%" },
-            { data: 'status', "width": "10%" },
-            { data: 'orderTotal', "width": "10%" },
+function InitGrid() {
+    let gridApi;
+
+    const gridOptions = {
+        autoSizeStrategy: {
+            type: "fitCellContents",
+        },
+        onGridReady: (event) => {
+            autoSizeAll(event.api, false);
+        },
+        overlayNoRowsTemplate: '<div class="my-no-rows-overlay">No orders found!</div>',
+        rowData: [],
+        columnDefs: [
             {
-                data: 'orderHeaderId',
-                "render": function (data) {
-                    return `<div class="w-75 btn-group" role="group">
-                    <a href="/order/orderDetail?orderId=${data}" class="btn btn-primary mx-2"><i class="bi bi-pencil-square"></i></a>
-                    </div>`
-                },
-                "width": "10%"
+                headerName: "Order ID", field: "orderHeaderId", filter: "agNumberColumnFilter", headerCheckboxSelection: true,
+                checkboxSelection: true,
+                showDisabledCheckboxes: true,
+            },
+            {headerName: "Customer Name", field: "name"},
+            {
+                headerName: "Order Status ", field: "status",
+                cellRenderer: (params) => {
+                    switch (params.node.data.status.toLowerCase()) {
+                        case 'pending':
+                            return `<span class="badge text-bg-danger">${params.node.data.status.toUpperCase()}</span>`;
+                        case 'approved':
+                            return `<span class="badge text-bg-success">${params.node.data.status.toUpperCase()}</span>`;
+                        case 'readyforpickup':
+                            return `<span class="badge text-bg-dark">READY FOR PICKUP</span>`;
+                        case 'cancelled':
+                            return `<span class="badge text-bg-danger">${params.node.data.status.toUpperCase()}</span>`;
+                        case 'completed':
+                            return `<span class="badge text-bg-success">${params.node.data.status.toUpperCase()}</span>`;
+                        case 'refunded':
+                            return `<span class="badge text-bg-danger">${params.node.data.status.toUpperCase()}</span>`;
+                    }
+                }
+            },
+            {headerName: "Email", field: "email"},
+            {headerName: "Address", field: "address"},
+            {headerName: "Coupon Code", field: "couponCode"},
+            {headerName: "Discount", field: "discount", filter: "agNumberColumnFilter"},
+            {headerName: "Order Total", field: "orderTotal", filter: "agNumberColumnFilter"},
+
+            {
+                headerName: "Actions", field: "couponId", filter: false,
+                cellRenderer: (params) => {
+                    return `<button onclick="orderDetails(${params.node.data.orderHeaderId})" class="btn btn-sm btn-dark"><i class="fa-solid fa-pen-to-square"></i> Update</button>`;
+                }
             }
+
         ],
-    })
+        defaultColDef: {
+            filter: "agTextColumnFilter",
+            floatingFilter: true,
+        },
+        rowSelection: "multiple",
+        suppressRowClickSelection: true,
+        pagination: true,
+        paginationPageSize: 10,
+        paginationPageSizeSelector: [10, 25, 50],
+    };
+
+    const gridDiv = document.querySelector("#ordersGrid");
+    window.gridApi = agGrid.createGrid(gridDiv, gridOptions);
+    RefreshGridData();
 }
+
+function RefreshGridData() {
+    $.ajax({
+        url: '/Order/GetOrders',
+        method: 'GET',
+        success: function (response) {
+            console.log(response);
+
+            if (response.isSuccess) {
+                gridApi.setGridOption("rowData", response.result);
+            } else {
+                Swal.fire("Error!", `${response.message}`, "error");
+            }
+        }
+    });
+}
+
+function orderDetails(orderHeaderId) {
+    window.location = `/Order/OrderDetail?orderId=${orderHeaderId}`;
+}
+

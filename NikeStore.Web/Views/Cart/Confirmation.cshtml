@@ -1,7 +1,10 @@
 ﻿@model int
-<div class="text-center">
-    <h1 class="text-info pt-4">Congratulations! You are one step closer to your order.</h1>
-    <p class="pb-3">We have received your order.</p>
-    <h4 class="text-warning pb-3">Order ID - @Model</h4>
-    <img src="/img/order.gif" width="80%" />
+
+<div class="container my-3">
+    <h1 class="display-6 text-primary text-center text-uppercase">Congratulations!</h1>
+    <p class="lead text-success text-center">Order Confirmed. You are one step closer to your order.</p>
+    <p class="text-danger lead">Order ID - @Model</p>
+    <div>
+        <img src="/img/order.gif" class="w-75 h-auto"/>
+    </div>
 </div>

@@ -21,6 +21,29 @@ namespace NikeStore.Web.Controllers
             return View();
         }
 
+        [HttpGet]
+        public async Task<ResponseDto> GetOrders()
+        {
+            IEnumerable<OrderHeaderDto> list;
+            string userId = "";
+            if (!User.IsInRole(SD.Roles.Admin))
+            {
+                userId = User.Claims.Where(u => u.Type == JwtRegisteredClaimNames.Sub)?.FirstOrDefault()?.Value;
+            }
+
+            ResponseDto response = _orderService.GetAllOrder(userId).GetAwaiter().GetResult();
+            if (response != null && response.IsSuccess)
+            {
+                response.Result = JsonConvert.DeserializeObject<List<OrderHeaderDto>>(Convert.ToString(response.Result));
+            }
+            else
+            {
+                response.Result = new List<OrderHeaderDto>();
+            }
+
+            return response;
+        }
+
 
         public async Task<IActionResult> OrderDetail(int orderId)
         {
@@ -79,44 +102,6 @@ namespace NikeStore.Web.Controllers
             }
 
             return View("OrderIndex");
-        }
-
-
-        [HttpGet]
-        public IActionResult GetAll(string status)
-        {
-            IEnumerable<OrderHeaderDto> list;
-            string userId = "";
-            if (!User.IsInRole(SD.Roles.Admin))
-            {
-                userId = User.Claims.Where(u => u.Type == JwtRegisteredClaimNames.Sub)?.FirstOrDefault()?.Value;
-            }
-
-            ResponseDto response = _orderService.GetAllOrder(userId).GetAwaiter().GetResult();
-            if (response != null && response.IsSuccess)
-            {
-                list = JsonConvert.DeserializeObject<List<OrderHeaderDto>>(Convert.ToString(response.Result));
-                switch (status)
-                {
-                    case SD.OrderStatus.Approved:
-                        list = list.Where(u => u.Status == SD.OrderStatus.Approved);
-                        break;
-                    case SD.OrderStatus.ReadyForPickup:
-                        list = list.Where(u => u.Status == SD.OrderStatus.ReadyForPickup);
-                        break;
-                    case SD.OrderStatus.Cancelled:
-                        list = list.Where(u => u.Status == SD.OrderStatus.Cancelled || u.Status == SD.OrderStatus.Refunded);
-                        break;
-                    default:
-                        break;
-                }
-            }
-            else
-            {
-                list = new List<OrderHeaderDto>();
-            }
-
-            return Json(new { data = list.OrderByDescending(u => u.OrderHeaderId) });
         }
     }
 }

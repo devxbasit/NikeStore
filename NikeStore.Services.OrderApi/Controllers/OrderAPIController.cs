@@ -139,7 +139,8 @@ namespace NikeStore.Services.OrderApi.Controllers
                             ProductData = new SessionLineItemPriceDataProductDataOptions
                             {
                                 Name = item.Product.Name,
-                                Description = "Comfortable cotton t-shirt",
+                                Description = item.Product.Description,
+                                Images = new List<string>() { item.Product.ImageUrl }
                             }
                         },
                         Quantity = item.Count

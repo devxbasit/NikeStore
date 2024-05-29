@@ -18,7 +18,7 @@ function InitGrid() {
         rowData: [],
         columnDefs: [
             {
-                headerName: "ID", field: "productId", filter: "agNumberColumnFilter", headerCheckboxSelection: true,
+                headerName: "Product ID", field: "productId", filter: "agNumberColumnFilter", headerCheckboxSelection: true,
                 checkboxSelection: true,
                 showDisabledCheckboxes: true,
             },
@@ -30,7 +30,7 @@ function InitGrid() {
             {
                 headerName: "Actions", field: "productId", filter: false,
                 cellRenderer: (params) => {
-                    return `<button onclick="editProduct(${params.node.data.productId})" class="btn btn-sm btn-success"><i class="fa-solid fa-pen-to-square"></i> Edit</button>
+                    return `<button onclick="editProduct(${params.node.data.productId})" class="btn btn-sm btn-dark"><i class="fa-solid fa-pen-to-square"></i> Edit</button>
                             <button onclick="deleteProduct(${params.node.data.productId})" class="btn btn-sm btn-danger"><i class="fa-solid fa-trash-can"></i> Delete</button>`;
                 }
             }

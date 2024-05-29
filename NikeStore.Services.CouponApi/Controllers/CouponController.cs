@@ -50,9 +50,7 @@ public class CouponAPIController : ControllerBase
                     Id = couponDto.CouponCode,
                 };
                 var service = new Stripe.CouponService();
-                //service.Create(options);
-
-                _response.Result = _mapper.Map<CouponDto>(coupon);
+                var couponCreateResponse = service.Create(options);
             }
             else
             {
@@ -80,12 +78,9 @@ public class CouponAPIController : ControllerBase
         try
         {
             Coupon coupon = _mapper.Map<Coupon>(couponDto);
-
-            if (_db.Coupons.AsNoTracking().FirstOrDefault(x => x.CouponId == coupon.CouponId) is not null)
+            var dbCoupon = _db.Coupons.AsNoTracking().FirstOrDefault(x => x.CouponId == coupon.CouponId);
+            if (dbCoupon is not null)
             {
-                _db.Coupons.Update(coupon);
-                _db.SaveChanges();
-
                 var options = new Stripe.CouponCreateOptions
                 {
                     AmountOff = (long)(couponDto.DiscountAmount * 100),
@@ -93,8 +88,15 @@ public class CouponAPIController : ControllerBase
                     Currency = "inr",
                     Id = couponDto.CouponCode,
                 };
+
                 var service = new Stripe.CouponService();
-                //service.Create(options);
+
+                service.Delete(dbCoupon.CouponCode);
+                service.Create(options);
+
+                _db.Coupons.Update(coupon);
+                _db.SaveChanges();
+
 
                 _response.Result = _mapper.Map<CouponDto>(coupon);
             }
@@ -201,7 +203,7 @@ public class CouponAPIController : ControllerBase
             _db.SaveChanges();
 
             var service = new Stripe.CouponService();
-            // service.Delete(obj.CouponCode);
+            service.Delete(obj.CouponCode);
         }
         catch (Exception ex)
         {

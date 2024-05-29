@@ -21,6 +21,7 @@
 
     <ItemGroup>
       <Content Include="wwwroot\fonts\.DS_Store" />
+      <Content Remove="wwwroot\img\Settings.gif" />
     </ItemGroup>
 
 </Project>

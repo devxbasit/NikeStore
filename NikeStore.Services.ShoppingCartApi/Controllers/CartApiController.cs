@@ -257,14 +257,15 @@ public class CartApiController
         {
             var cartHeader = _db.CartHeaders.FirstOrDefault(ch => ch.UserId == userId);
 
-            if (cartHeader is null) throw new Exception("No item in user cart!");
+            if (cartHeader is not null)
+            {
+                var cartDetails = _db.CartDetails.FirstOrDefault(cd => cd.CartHeaderId == cartHeader.CartHeaderId);
 
-            var cartDetails = _db.CartDetails.FirstOrDefault(cd => cd.CartHeaderId == cartHeader.CartHeaderId);
+                _db.CartHeaders.Remove(cartHeader);
+                _db.CartDetails.Remove(cartDetails);
 
-            _db.CartHeaders.Remove(cartHeader);
-            _db.CartDetails.Remove(cartDetails);
-
-            await _db.SaveChangesAsync();
+                await _db.SaveChangesAsync();
+            }
 
             _response.Result = true;
         }

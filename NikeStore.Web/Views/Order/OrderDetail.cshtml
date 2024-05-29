@@ -1,13 +1,12 @@
-﻿
-@model NikeStore.Web.Models.Dto.OrderHeaderDto
+﻿@model NikeStore.Web.Models.Dto.OrderHeaderDto
 @using NikeStore.Web.Utility
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @using NikeStore.Web.Utility
 @using System.IdentityModel.Tokens.Jwt
 @using IdentityModel
 <form method="post">
-    <br />
-    <input asp-for="OrderHeaderId" hidden />
+    <br/>
+    <input asp-for="OrderHeaderId" hidden/>
     <div class="container">
         <div class="card">
             <div class="card-header bg-dark text-light ml-0">
@@ -27,14 +26,14 @@
                             <div class="row my-1">
                                 <div class="col-3">Name</div>
                                 <div class="col-9">
-                                    <input asp-for="Name" readonly class="form-control" />
+                                    <input asp-for="Name" readonly class="form-control"/>
                                 </div>
                             </div>
 
                             <div class="row my-1">
                                 <div class="col-3">Address</div>
                                 <div class="col-9">
-                                    <input asp-for="Address" readonly class="form-control" />
+                                    <input asp-for="Address" readonly class="form-control"/>
                                 </div>
                             </div>
 
@@ -47,7 +46,7 @@
                             <div class="row my-1">
                                 <div class="col-3">Order Date</div>
                                 <div class="col-9">
-                                    <input value="@Model.OrderTime.ToShortDateString()" readonly class="form-control" />
+                                    <input value="@Model.OrderTime.ToShortDateString()" readonly class="form-control"/>
                                 </div>
                             </div>
 
@@ -56,20 +55,20 @@
                                 <div class="row my-1">
                                     <div class="col-3">Session ID</div>
                                     <div class="col-9">
-                                        <input asp-for="StripeSessionId" readonly class="form-control" />
+                                        <input asp-for="StripeSessionId" readonly class="form-control"/>
                                     </div>
                                 </div>
                                 <div class="row my-1">
                                     <div class="col-3">Payment Intent ID</div>
                                     <div class="col-9">
-                                        <input asp-for="PaymentIntentId" readonly class="form-control" />
+                                        <input asp-for="PaymentIntentId" readonly class="form-control"/>
                                     </div>
                                 </div>
                             }
                             <div class="row my-1">
                                 <div class="col-3">Order Status</div>
                                 <div class="col-9">
-                                    <input asp-for="Status" readonly class="form-control" />
+                                    <input asp-for="Status" readonly class="form-control"/>
                                 </div>
                             </div>
 
@@ -81,20 +80,21 @@
                             <label class="bg-info text-dark text-center form-control my-2">Order Status - @Model.Status</label>
 
                             <ul class="list-group mb-3">
-                                @foreach(var detail in Model.OrderDetails){
-                                <li class="list-group-item d-flex justify-content-between p-2">
-                                    <div class="row container">
-                                        <div class="col-8">
+                                @foreach (var detail in Model.OrderDetails)
+                                {
+                                    <li class="list-group-item d-flex justify-content-between p-2">
+                                        <div class="row container">
+                                            <div class="col-8">
 
-                                            <h6 class="my-0 text-white-50">@detail.ProductName</h6>
-                                                <small class="text-muted">Price : @detail.Price.ToString("c")</small><br />
+                                                <h6 class="my-0 text-white-50">@detail.ProductName</h6>
+                                                <small class="text-muted">Price : @detail.Price.ToString("c")</small><br/>
                                                 <small class="text-muted">Quantity : @detail.Count</small>
+                                            </div>
+                                            <div class="col-4 text-end">
+                                                <p class="text-success">@((detail.Count * detail.Price).ToString("c"))</p>
+                                            </div>
                                         </div>
-                                        <div class="col-4 text-end">
-                                            <p class="text-success">@((detail.Count * detail.Price).ToString("c"))</p>
-                                        </div>
-                                    </div>
-                                </li>
+                                    </li>
                                 }
                                 <li class="list-group-item bg-primary">
                                     <div class="row container">
@@ -112,7 +112,7 @@
                             {
                                 @if (Model.Status == SD.OrderStatus.Approved)
                                 {
-                                    <button asp-action="OrderReadyForPickup" asp-route-orderId="@Model.OrderHeaderId" type="submit" class="btn btn-success form-control my-1">Ready for Pickup</button>
+                                    <button asp-action="OrderReadyForPickup" asp-route-orderId="@Model.OrderHeaderId" type="submit" class="btn  btn-success form-control my-1">Ready for Pickup</button>
                                 }
                                 @if (Model.Status == SD.OrderStatus.ReadyForPickup)
                                 {
@@ -131,5 +131,3 @@
         </div>
     </div>
 </form>
-
-
