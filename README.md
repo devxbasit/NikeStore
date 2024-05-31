@@ -30,6 +30,18 @@ coupon management.
 
 ![nike-store microservice app flow](https://github.com/devxbasit/NikeStore/blob/master/ss/login.png)
 
+#### Products
+
+![nike-store Products](https://github.com/devxbasit/NikeStore/blob/master/ss/ProductListHome.png)
+![nike-store Product](https://github.com/devxbasit/NikeStore/blob/master/ss/ProductDetails1.png)
+![nike-store Product](https://github.com/devxbasit/NikeStore/blob/master/ss/ProductDetails2.png)
+
+#### Cart & Checkout
+
+![nike-store Cart](https://github.com/devxbasit/NikeStore/blob/master/ss/Cart.png)
+![nike-store Checkout](https://github.com/devxbasit/NikeStore/blob/master/ss/CheckoutSummary.png)
+![nike-store Stripe Checkout](https://github.com/devxbasit/NikeStore/blob/master/ss/StripeCheckoutPage.png)
+
 #### Coupons
 
 ![nike-store Coupons Grid](https://github.com/devxbasit/NikeStore/blob/master/ss/CouponGrid.png)
