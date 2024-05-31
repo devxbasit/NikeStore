@@ -33,7 +33,7 @@ coupon management.
 #### Products
 
 ![nike-store Products](https://github.com/devxbasit/NikeStore/blob/master/ss/ProductListHome.png)
-![nike-store Product](https://github.com/devxbasit/NikeStore/blob/master/ss/ProductDetails1.png)
+![nike-store Product](https://github.com/devxbasit/NikeStore/blob/master/ss/ProductDetails.png)
 ![nike-store Product](https://github.com/devxbasit/NikeStore/blob/master/ss/ProductDetails2.png)
 
 #### Cart & Checkout
@@ -41,21 +41,6 @@ coupon management.
 ![nike-store Cart](https://github.com/devxbasit/NikeStore/blob/master/ss/Cart.png)
 ![nike-store Checkout](https://github.com/devxbasit/NikeStore/blob/master/ss/CheckoutSummary.png)
 ![nike-store Stripe Checkout](https://github.com/devxbasit/NikeStore/blob/master/ss/StripeCheckoutPage.png)
-
-#### Coupons
-
-![nike-store Coupons Grid](https://github.com/devxbasit/NikeStore/blob/master/ss/CouponGrid.png)
-![nike-store Stripe Coupons](https://github.com/devxbasit/NikeStore/blob/master/ss/StripeCouponsGrid.png)
-
-<p>
-  <img style="width: 350px; height: auto;" src="https://github.com/devxbasit/NikeStore/blob/master/ss/CouponAdd.png" hspace="10" >
-  <img style="width: 350px; height: auto;" src="https://github.com/devxbasit/NikeStore/blob/master/ss/CouponUpdate.png" hspace="10" >
-</p>
-
-<p>
-  <img style="width: 350px; height: auto;" src="https://github.com/devxbasit/NikeStore/blob/master/ss/CouponDeleteConfirmation.png" hspace="10" >
-  <img style="width: 350px; height: auto;" src="https://github.com/devxbasit/NikeStore/blob/master/ss/CouponDeleteSucces.png" hspace="10" >
-</p>
 
 #### Payment Integration with Stripe
 
@@ -99,6 +84,35 @@ coupon management.
 <p>
   <img style="width: 350px; height: auto;"  src="https://github.com/devxbasit/NikeStore/blob/master/ss/sql.png" hspace="10" >
   <img style="width: 350px; height: auto;"  src="https://github.com/devxbasit/NikeStore/blob/master/ss/rider-overview.png" hspace="10" >
+</p>
+
+#### Products
+
+![nike-store Stripe Coupons](https://github.com/devxbasit/NikeStore/blob/master/ss/ProductsGrid.png)
+
+<p style="text-align: center;">
+  <img style="width: 350px; height: auto;" src="https://github.com/devxbasit/NikeStore/blob/master/ss/ProductAdd.png" hspace="10" >
+  <img style="width: 350px; height: auto;" src="https://github.com/devxbasit/NikeStore/blob/master/ss/ProductUpdate.png" hspace="10" >
+</p>
+
+<p style="text-align: center;">
+  <img style="width: 350px; height: auto;" src="https://github.com/devxbasit/NikeStore/blob/master/ss/CouponDeleteConfirmation.png" hspace="10" >
+  <img style="width: 350px; height: auto;" src="https://github.com/devxbasit/NikeStore/blob/master/ss/CouponDeleteSucces.png" hspace="10" >
+</p>
+
+#### Coupons
+
+![nike-store Coupons Grid](https://github.com/devxbasit/NikeStore/blob/master/ss/CouponGrid.png)
+![nike-store Stripe Coupons](https://github.com/devxbasit/NikeStore/blob/master/ss/StripeCouponsGrid.png)
+
+<p>
+  <img style="width: 350px; height: auto;" src="https://github.com/devxbasit/NikeStore/blob/master/ss/CouponAdd.png" hspace="10" >
+  <img style="width: 350px; height: auto;" src="https://github.com/devxbasit/NikeStore/blob/master/ss/CouponUpdate.png" hspace="10" >
+</p>
+
+<p>
+  <img style="width: 350px; height: auto;" src="https://github.com/devxbasit/NikeStore/blob/master/ss/CouponDeleteConfirmation.png" hspace="10" >
+  <img style="width: 350px; height: auto;" src="https://github.com/devxbasit/NikeStore/blob/master/ss/CouponDeleteSucces.png" hspace="10" >
 </p>
 
 #### Commands
