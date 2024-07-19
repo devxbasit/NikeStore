@@ -62,7 +62,7 @@ public class AuthAPIController : ControllerBase
         return Ok(_response);
     }
 
-
+    [Authorize(Roles = "ADMIN")]
     [HttpPost("AssignRole")]
     public async Task<IActionResult> AssignRole([FromBody] AssignRoleDto model)
     {

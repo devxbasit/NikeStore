@@ -34,13 +34,21 @@
 
                     <form method="post">
                         <div class="form-group first">
+                            <label for="username"><span class="caption">Quick Login with below emails</span></label>
+                            <br/>
+                            <label for="username"><span class="caption"><span style="color: green">1. basit-as-customer@gmail.com</span></span></label>
+                            <br/>
+                            <label for="username"><span class="caption"><span style="color: green">2. basit-as-admin@gmail.com</span></span></label>
+                            <br/>
+                            <br/>
                             <label for="username">Username</label>
                             <input asp-for="UserName" type="text" required class="form-control" placeholder="your-email@gmail.com" id="username">
                             <span asp-validation-for="UserName" class="text-danger"/>
+
                         </div>
                         <div class="form-group last mb-3">
                             <label for="password">Password</label>
-                            <input asp-for="Password" type="password" class="form-control" placeholder="Your Password" id="password">
+                            <input value="HelloBasit" asp-for="Password" type="password" class="form-control" placeholder="Your Password" id="password">
                             <span asp-validation-for="Password" class="text-danger"/>
                         </div>
 
@@ -70,10 +78,12 @@
 </div>
 
 
+
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js" integrity="sha512-2rNj2KJ+D8s1ceNasTIex6z4HWyOnEYLVC3FigGOmyQCZc2eBXKgOxQmo3oKLHyfcj53uz4QMsRCWNbLd32Q1g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="~/js/login.js"></script>
 <partial name="_ValidationScriptsPartial"/>
+<partial name="_Notifications"/>
 </body>
 </html>

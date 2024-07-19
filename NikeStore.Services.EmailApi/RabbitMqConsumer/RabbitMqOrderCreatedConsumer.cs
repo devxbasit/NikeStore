@@ -15,7 +15,7 @@ public class RabbitMqOrderCreatedConsumer : BackgroundService
     private readonly IConfiguration _configuration;
     private readonly IDbLogService _dbLogService;
     private readonly ISmtpMailService _smtpMailService;
-    private readonly RabbitMQConnectionOptions _rabbitMqConnectionOptions;
+    private  RabbitMQConnectionOptions _rabbitMqConnectionOptions;
     private readonly IConnection _connection;
     private readonly IModel _channel;
 
@@ -23,18 +23,21 @@ public class RabbitMqOrderCreatedConsumer : BackgroundService
     private readonly string _queueName;
     private readonly string _routingKey;
 
-    public RabbitMqOrderCreatedConsumer(IConfiguration configuration, IDbLogService dbLogService, IOptions<RabbitMQConnectionOptions> rabbitMqConnectionOptions, ISmtpMailService smtpMailService)
+    public RabbitMqOrderCreatedConsumer(IConfiguration configuration, IDbLogService dbLogService, IOptionsMonitor<RabbitMQConnectionOptions> rabbitMqConnectionOptions, ISmtpMailService smtpMailService)
     {
         _configuration = configuration;
         _dbLogService = dbLogService;
         _smtpMailService = smtpMailService;
-        _rabbitMqConnectionOptions = rabbitMqConnectionOptions.Value;
+        _rabbitMqConnectionOptions = rabbitMqConnectionOptions.CurrentValue;
+        rabbitMqConnectionOptions.OnChange((newOptionsValue) => _rabbitMqConnectionOptions = newOptionsValue);
+
 
         var connectionFactory = new ConnectionFactory()
         {
             HostName = _rabbitMqConnectionOptions.HostName,
             UserName = _rabbitMqConnectionOptions.UserName,
-            Password = _rabbitMqConnectionOptions.Password
+            Password = _rabbitMqConnectionOptions.Password,
+            VirtualHost = _rabbitMqConnectionOptions.VirtualHost
         };
 
         _connection = connectionFactory.CreateConnection();

@@ -9,7 +9,14 @@ SELECT * FROM AspNetUserLogins
 SELECT * FROM AspNetUserClaims
 SELECT * FROM AspNetRoleClaims
 SELECT * FROM AspNetUserTokens
+GO
 
+
+-- Create new role and assign it to user
+DECLARE @AdminRoleId NVARCHAR(300) = '3ee3f0c8-3a48-41b7-b8e3-e8798938e24a', @AdminUserId NVARCHAR(300) = 'e0df0a9c-ab3c-495c-98b6-900b75ef3c1c';
+INSERT INTO AspNetRoles(Id, Name, NormalizedName,ConcurrencyStamp) VALUES(@AdminRoleId, 'ADMIN', 'ADMIN', NULL)
+UPDATE AspNetUserRoles SET RoleId = @AdminRoleId WHERE UserId = @AdminUserId 
+GO
 
 
 DELETE FROM AspNetUsers

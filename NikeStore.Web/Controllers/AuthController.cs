@@ -76,26 +76,18 @@ public class AuthController : Controller
     [HttpPost]
     public async Task<IActionResult> Register(RegistrationRequestDto obj)
     {
-        var IsAdminRegistration = false;
-
-        if (obj.Name.Split("#").Length > 0 && obj.Name.Split("#").First().ToLower() == "root")
-        {
-            IsAdminRegistration = true;
-            obj.Name = obj.Name.Split("#")[1];
-        }
-
         ResponseDto result = await _authService.RegisterAsync(obj);
         ResponseDto assingRole;
 
         if (result != null && result.IsSuccess)
         {
-            obj.Role = IsAdminRegistration ? SD.Roles.Admin : SD.Roles.Customer;
+            TempData["success"] = "Registration Successful";
+            return RedirectToAction(nameof(Login));
 
-            assingRole = await _authService.AssignRoleAsync(obj);
+            // obj.Role = SD.Roles.Customer;
+            //assingRole = await _authService.AssignRoleAsync(obj);
             if (assingRole != null && assingRole.IsSuccess)
             {
-                TempData["success"] = "Registration Successful";
-                return RedirectToAction(nameof(Otp));
             }
         }
         else

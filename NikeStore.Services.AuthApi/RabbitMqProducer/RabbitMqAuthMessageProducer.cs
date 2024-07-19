@@ -10,13 +10,14 @@ public class RabbitMqAuthMessageProducer : IRabbitMqAuthMessageProducer
 {
     private readonly IConfiguration _configuration;
     private IConnection _connection;
-    private readonly RabbitMQConnectionOptions _rabbitMqConnectionOptions;
+    private RabbitMQConnectionOptions _rabbitMqConnectionOptions;
 
     public RabbitMqAuthMessageProducer(IConfiguration configuration,
-        IOptions<RabbitMQConnectionOptions> rabbitMqConnectionOptions)
+        IOptionsMonitor<RabbitMQConnectionOptions> rabbitMqConnectionOptions)
     {
         _configuration = configuration;
-        _rabbitMqConnectionOptions = rabbitMqConnectionOptions.Value;
+        _rabbitMqConnectionOptions = rabbitMqConnectionOptions.CurrentValue;
+        rabbitMqConnectionOptions.OnChange((newOptionsValue) => _rabbitMqConnectionOptions = newOptionsValue);
     }
 
     public void SendMessage(object message, string queueName)
@@ -41,9 +42,10 @@ public class RabbitMqAuthMessageProducer : IRabbitMqAuthMessageProducer
     {
         var connectionFactory = new ConnectionFactory()
         {
-            HostName = _rabbitMqConnectionOptions.HostName,
             UserName = _rabbitMqConnectionOptions.UserName,
-            Password = _rabbitMqConnectionOptions.Password
+            Password = _rabbitMqConnectionOptions.Password,
+            HostName = _rabbitMqConnectionOptions.HostName,
+            VirtualHost = _rabbitMqConnectionOptions.VirtualHost
         };
 
         _connection = connectionFactory.CreateConnection();

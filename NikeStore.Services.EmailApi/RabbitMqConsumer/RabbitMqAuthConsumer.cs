@@ -20,8 +20,7 @@ public class RabbitMqAuthConsumer : BackgroundService
     private readonly IModel _channel;
     private readonly string _queueName;
 
-    public RabbitMqAuthConsumer(IConfiguration configuration, IDbLogService dbLogService,
-        IOptions<RabbitMQConnectionOptions> rabbitMqConnectionOptions, ISmtpMailService smtpMailService)
+    public RabbitMqAuthConsumer(IConfiguration configuration, IDbLogService dbLogService,IOptionsMonitor<RabbitMQConnectionOptions> rabbitMqConnectionOptions, ISmtpMailService smtpMailService)
     {
         _configuration = configuration;
         _dbLogService = dbLogService;
@@ -29,9 +28,10 @@ public class RabbitMqAuthConsumer : BackgroundService
 
         var connectionFactory = new ConnectionFactory()
         {
-            HostName = rabbitMqConnectionOptions.Value.HostName,
-            UserName = rabbitMqConnectionOptions.Value.UserName,
-            Password = rabbitMqConnectionOptions.Value.Password
+            HostName = rabbitMqConnectionOptions.CurrentValue.HostName,
+            UserName = rabbitMqConnectionOptions.CurrentValue.UserName,
+            Password = rabbitMqConnectionOptions.CurrentValue.Password,
+            VirtualHost = rabbitMqConnectionOptions.CurrentValue.VirtualHost
         };
 
         _connection = connectionFactory.CreateConnection();

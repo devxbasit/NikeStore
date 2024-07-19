@@ -11,22 +11,25 @@ namespace NikeStore.Services.OrderAPI.RabbmitMQSender
         private readonly IConnection _connection;
         private readonly IModel _channel;
         private readonly IConfiguration _configuration;
-        private readonly RabbitMQConnectionOptions _rabbitMqConnectionOptions;
+        private  RabbitMQConnectionOptions _rabbitMqConnectionOptions;
 
         private readonly string _exchangeName;
         private readonly string _queueName;
         private readonly string _routingKey;
 
-        public RabbitMqOrderMessageProducer(IConfiguration configuration, IOptions<RabbitMQConnectionOptions> rabbitMqConnectionOptions)
+        public RabbitMqOrderMessageProducer(IConfiguration configuration, IOptionsMonitor<RabbitMQConnectionOptions> rabbitMqConnectionOptions)
         {
             _configuration = configuration;
-            _rabbitMqConnectionOptions = rabbitMqConnectionOptions.Value;
+            _rabbitMqConnectionOptions = rabbitMqConnectionOptions.CurrentValue;
+            rabbitMqConnectionOptions.OnChange((newOptionsValue) => _rabbitMqConnectionOptions = newOptionsValue);
+
 
             var connectionFactory = new ConnectionFactory()
             {
                 HostName = _rabbitMqConnectionOptions.HostName,
                 UserName = _rabbitMqConnectionOptions.UserName,
-                Password = _rabbitMqConnectionOptions.Password
+                Password = _rabbitMqConnectionOptions.Password,
+                VirtualHost = _rabbitMqConnectionOptions.VirtualHost
             };
 
             _connection = connectionFactory.CreateConnection();

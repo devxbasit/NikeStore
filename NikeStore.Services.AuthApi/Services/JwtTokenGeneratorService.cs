@@ -10,11 +10,13 @@ namespace NikeStore.Services.AuthApi.Services;
 
 public class JwtTokenGeneratorService : IJwtTokenGeneratorService
 {
-    private readonly JwtOptions _jwtOptions;
+    private JwtOptions _jwtOptions;
 
-    public JwtTokenGeneratorService(IOptions<JwtOptions> jwtOptions)
+    public JwtTokenGeneratorService(IOptionsMonitor<JwtOptions> jwtOptions)
     {
-        _jwtOptions = jwtOptions.Value;
+        _jwtOptions = jwtOptions.CurrentValue;
+        jwtOptions.OnChange((newOptionsValue) => _jwtOptions = newOptionsValue);
+
     }
 
     public string GenerateToken(ApplicationUser applicationUser, IEnumerable<string> roles)

@@ -22,7 +22,7 @@ public class RabbitMqEmailCartConsumer : BackgroundService
 
 
     public RabbitMqEmailCartConsumer(IConfiguration configuration, IDbLogService dbLogService,
-        IOptions<RabbitMQConnectionOptions> rabbitMqConnectionOptions, ISmtpMailService smtpMailService)
+        IOptionsMonitor<RabbitMQConnectionOptions> rabbitMqConnectionOptions, ISmtpMailService smtpMailService)
     {
         _configuration = configuration;
         _dbLogService = dbLogService;
@@ -32,9 +32,10 @@ public class RabbitMqEmailCartConsumer : BackgroundService
 
         var connectionFactory = new ConnectionFactory()
         {
-            HostName = rabbitMqConnectionOptions.Value.HostName,
-            UserName = rabbitMqConnectionOptions.Value.UserName,
-            Password = rabbitMqConnectionOptions.Value.Password
+            HostName = rabbitMqConnectionOptions.CurrentValue.HostName,
+            UserName = rabbitMqConnectionOptions.CurrentValue.UserName,
+            Password = rabbitMqConnectionOptions.CurrentValue.Password,
+            VirtualHost = rabbitMqConnectionOptions.CurrentValue.VirtualHost
         };
 
         _connection = connectionFactory.CreateConnection();

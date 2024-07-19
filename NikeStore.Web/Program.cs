@@ -24,7 +24,7 @@ builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
-        // Todo - Fix Later 
+        // Todo - Fix Later
         options.ExpireTimeSpan = TimeSpan.FromDays(365);
         options.LoginPath = "/Auth/Login";
         options.LogoutPath = "/Auth/AccessDenied";
@@ -44,8 +44,7 @@ var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
+    // app.UseHsts();
 }
 
 //app.UseHttpsRedirection();

@@ -3,6 +3,7 @@ using NikeStore.Services.AuthApi.Data;
 using NikeStore.Services.AuthApi.Models;
 using NikeStore.Services.AuthApi.Models.Dto;
 using NikeStore.Services.AuthApi.Services.IService;
+using NikeStore.Services.AuthApi.Utility;
 
 namespace NikeStore.Services.AuthApi.Services;
 
@@ -25,7 +26,7 @@ public class AuthService : IAuthService
     public async Task<bool> AssignRole(string email, string roleName)
     {
         var user = _db.ApplicationUsers.FirstOrDefault(u => u.Email.ToLower() == email.ToLower());
-        
+
         if (user is not null)
         {
             if (!_roleManager.RoleExistsAsync(roleName).GetAwaiter().GetResult())
@@ -87,7 +88,9 @@ public class AuthService : IAuthService
         try
         {
             var result = await _userManager.CreateAsync(user, registrationRequestDto.Password);
-            if (result.Succeeded)
+            var roleResult = await AssignRole(user.Email, SD.Roles.Customer);
+
+            if (result.Succeeded && roleResult)
             {
                 var userToReturn = _db.ApplicationUsers.First(u => u.UserName == registrationRequestDto.Email);
 

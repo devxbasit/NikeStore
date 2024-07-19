@@ -11,11 +11,14 @@ namespace NikeStore.Services.EmailApi.Services.IService;
 public class SmtpMailService : ISmtpMailService
 {
     private readonly SmtpClient _smtpClient;
-    private readonly MailKitConnectionOptions _mailKitConnectionOptions;
+    private MailKitConnectionOptions _mailKitConnectionOptions;
 
-    public SmtpMailService(IOptions<MailKitConnectionOptions> mailKitConnectionOptions)
+    public SmtpMailService(IOptionsMonitor<MailKitConnectionOptions> mailKitConnectionOptions)
     {
-        _mailKitConnectionOptions = mailKitConnectionOptions.Value;
+        _mailKitConnectionOptions = mailKitConnectionOptions.CurrentValue;
+        mailKitConnectionOptions.OnChange((newOptionsValue) => _mailKitConnectionOptions = newOptionsValue);
+
+
         // using var smtp = new SmtpClient();
         _smtpClient = new SmtpClient();
         _smtpClient.Connect(_mailKitConnectionOptions.SenderMailAddressHost, _mailKitConnectionOptions.SenderMailAddressHostPort, SecureSocketOptions.StartTls);
