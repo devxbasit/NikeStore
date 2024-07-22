@@ -48,7 +48,7 @@ public class RabbitMqOrderCreatedConsumer : BackgroundService
         _queueName = _configuration.GetValue<string>("RabbitMQSetting:QueueNames:OrderCreatedQueue");
 
         _channel.ExchangeDeclare(_exchangeName, ExchangeType.Direct, durable: false);
-        _channel.QueueDeclare(_queueName, false, false, false, null);
+        _channel.QueueDeclare(_queueName, true, false, false, null);
         _channel.QueueBind(_queueName, _exchangeName, _routingKey);
     }
 
@@ -91,8 +91,7 @@ public class RabbitMqOrderCreatedConsumer : BackgroundService
     {
         var log = new DbMailLogs()
         {
-            // To = orderCreatedMessage.Email,
-            To = "devxbasit@gmail.com",
+            To = orderCreatedMessage.Email,
             Subject = "Your NikeStore order is confirmed!",
             Body = GetMailBody(orderCreatedMessage),
             CreatedDateTime = DateTime.Now,

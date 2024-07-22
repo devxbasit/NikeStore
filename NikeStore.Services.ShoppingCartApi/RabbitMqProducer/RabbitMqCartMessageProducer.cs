@@ -28,7 +28,7 @@ public class RabbitMqCartMessageProducer : IRabbitMqCartMessageProducer
 
         if (!ConnectionExists()) CreateConnection();
         var channel = _connection.CreateModel();
-        channel.QueueDeclare(queueName, true, false, false);
+        channel.QueueDeclare(queueName, true, false, false, null);
         channel.BasicPublish(exchange: "", routingKey: queueName, basicProperties: null, body: body);
     }
 

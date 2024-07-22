@@ -38,7 +38,7 @@ public class RabbitMqAuthConsumer : BackgroundService
         _channel = _connection.CreateModel();
 
         _queueName = _configuration.GetValue<string>("RabbitMQSetting:QueueNames:UserRegisteredQueue");
-        _channel.QueueDeclare(_queueName, true, false, false);
+        _channel.QueueDeclare(_queueName, true, false, false, null);
     }
 
     public override Task StopAsync(CancellationToken cancellationToken)
@@ -98,8 +98,7 @@ public class RabbitMqAuthConsumer : BackgroundService
     {
         var log = new DbMailLogs()
         {
-            // To = message.Email,
-            To = "devxbasit@gmail.com",
+             To = message.Email,
             Subject = "Thanks for registration with NikeStore!",
             Body = GetMailBody(message),
             CreatedDateTime = DateTime.Now,

@@ -87,8 +87,7 @@ public class RabbitMqEmailCartConsumer : BackgroundService
     {
         var log = new DbMailLogs()
         {
-            //To = message.CartHeader.Email,
-            To = "devxbasit@gmail.com",
+            To = message.CartHeader.Email,
             Subject = "Your Shopping Cart from NikeStore!",
             Body = GetMailBody(message),
             CreatedDateTime = DateTime.Now,

@@ -24,7 +24,6 @@ builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
-        // Todo - Fix Later
         options.ExpireTimeSpan = TimeSpan.FromDays(365);
         options.LoginPath = "/Auth/Login";
         options.LogoutPath = "/Auth/AccessDenied";
@@ -39,6 +38,7 @@ SD.OrderApiBase = builder.Configuration["ServiceUrls:OrderApi"];
 
 
 var app = builder.Build();
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

@@ -40,7 +40,7 @@ namespace NikeStore.Services.OrderAPI.RabbmitMQSender
             _queueName = _configuration.GetValue<string>("RabbitMQSetting:QueueNames:OrderCreatedQueue");
 
             _channel.ExchangeDeclare(_exchangeName, ExchangeType.Direct, durable: false);
-            _channel.QueueDeclare(_queueName, false, false, false, null);
+            _channel.QueueDeclare(_queueName, true, false, false, null);
             _channel.QueueBind(_queueName, _exchangeName, _routingKey);
 
         }
