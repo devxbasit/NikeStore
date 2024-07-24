@@ -11,4 +11,5 @@ export interface IEnvironment {
   rabbitMqManagerBaseUrl: string;
   swaggerRoutePath: string;
   hangfireServeRoutePath: string;
+  nikeStoreLoginRoutePath: string;
 }

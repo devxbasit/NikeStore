@@ -17,4 +17,5 @@ export const environment: IEnvironment = {
 
   swaggerRoutePath: 'swagger/index.html',
   hangfireServeRoutePath: 'hangfire',
+  nikeStoreLoginRoutePath: 'auth/login',
 };

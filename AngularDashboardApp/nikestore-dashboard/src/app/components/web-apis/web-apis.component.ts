@@ -1,19 +1,15 @@
 import { Component } from '@angular/core';
-import { IEnvironment } from '../../../environments/ienvironment.interface';
-import { environment } from '../../../environments/environment';
+import { IIframeEndpoint } from 'src/app/interfaces/IIframeEndpoint.interface';
+import { environment } from 'src/environments/environment';
+import { IEnvironment } from 'src/environments/ienvironment.interface';
 
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css'],
+  selector: 'app-web-apis',
+  templateUrl: './web-apis.component.html',
+  styleUrls: ['./web-apis.component.css'],
 })
-export class DashboardComponent {
+export class WebApisComponent {
   env: IEnvironment = environment;
-
-  swaggerEndpoint: IIframeEndpoint = {
-    url: `${this.env.emailApiBaseUrl}/${this.env.hangfireServeRoutePath}`,
-    title: 'Hangfire Server',
-  };
 
   swaggerEndpoints: IIframeEndpoint[] = [
     {
@@ -41,9 +37,4 @@ export class DashboardComponent {
       title: 'Email API',
     },
   ];
-}
-
-interface IIframeEndpoint {
-  url: string;
-  title: string;
 }

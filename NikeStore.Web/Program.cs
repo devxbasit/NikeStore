@@ -40,6 +40,12 @@ SD.OrderApiBase = builder.Configuration["ServiceUrls:OrderApi"];
 var app = builder.Build();
 
 
+app.Use(async (context, next) =>
+{
+    context.Response.Headers.Add("X-Frame-Options", "ALLOW");
+    await next();
+});
+
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {

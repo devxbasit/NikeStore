@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { IframeComponent } from './iframe.component';
+import { WebApisComponent } from './web-apis.component';
 
-describe('IframeComponent', () => {
-  let component: IframeComponent;
-  let fixture: ComponentFixture<IframeComponent>;
+describe('WebApisComponent', () => {
+  let component: WebApisComponent;
+  let fixture: ComponentFixture<WebApisComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [IframeComponent]
+      declarations: [WebApisComponent]
     });
-    fixture = TestBed.createComponent(IframeComponent);
+    fixture = TestBed.createComponent(WebApisComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

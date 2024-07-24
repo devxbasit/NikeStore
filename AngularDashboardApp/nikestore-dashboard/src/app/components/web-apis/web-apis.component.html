@@ -1,0 +1,9 @@
+<div class="grid grid-cols-3 gap-16">
+  <div class="h-" *ngFor="let endpoint of swaggerEndpoints">
+    <app-iframe-wrapper
+      [src]="endpoint.url"
+      [title]="endpoint.title"
+      height="600"
+    ></app-iframe-wrapper>
+  </div>
+</div>

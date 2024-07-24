@@ -1,0 +1,19 @@
+<div>
+  <p>
+    <span class="badge badge-neutral mr-1">{{ title }}</span>
+    <a class="inline-block align-middle" target="_blank" [href]="src">
+      <div
+        class="tooltip"
+        [attr.data-tip]="'Open ' + title + ' in new browser tab'"
+      >
+        <i-bs name="arrow-up-right-square"></i-bs>
+      </div>
+    </a>
+  </p>
+
+  <iframe
+    [src]="src | safe : 'resourceUrl'"
+    [height]="height"
+    width="100%"
+  ></iframe>
+</div>
