@@ -10,9 +10,5 @@ import { IEnvironment } from 'src/environments/ienvironment.interface';
 })
 export class NikeStoreAppComponent {
   env: IEnvironment = environment;
-
-  nikeStoreAppEndpoint: IIframeEndpoint = {
-    url: `${this.env.nikeStoreWebAppBaseUrl}`,
-    title: 'NikeStore App',
-  };
+  nikeStoreAppLoginUrl = `${this.env.nikeStoreWebAppBaseUrl}`;
 }

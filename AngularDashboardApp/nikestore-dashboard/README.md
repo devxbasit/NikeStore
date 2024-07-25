@@ -14,6 +14,14 @@ Run `ng generate component component-name` to generate a new component. You can 
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
 
+## Commands to publish on surge
+
+$ `ng build --configuration=production`
+
+$ `cd dist/nikestore-dashboard/`
+
+$ `surge --domain https://therapeutic-fang.surge.sh` or `surge --domain http://therapeutic-fang.surge.sh`
+
 ## Running unit tests
 
 Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).

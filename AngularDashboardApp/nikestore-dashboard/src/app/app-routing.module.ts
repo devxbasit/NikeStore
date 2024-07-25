@@ -9,7 +9,7 @@ import { WebApisComponent } from './components/web-apis/web-apis.component';
 import { NikeStoreAppComponent } from './components/nikestore-app/nikestore-app.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/nikestore-app', pathMatch: 'full' },
+  { path: '', redirectTo: '/app-flow-diagram', pathMatch: 'full' },
   { path: 'app-flow-diagram', component: FlowDiagramComponent },
   { path: 'nikestore-app', component: NikeStoreAppComponent },
   { path: 'web-apis', component: WebApisComponent },
