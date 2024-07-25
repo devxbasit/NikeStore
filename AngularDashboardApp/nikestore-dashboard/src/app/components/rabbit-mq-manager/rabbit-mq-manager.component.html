@@ -1,3 +1,37 @@
-Goto live rabbit server
-<p>username:</p>
-<p>password:</p>
+<p class="text-center text-5xl">
+  All the Queues, Exchanges, Messages "LIVE IN ACTION"
+</p>
+
+<div class="flex justify-center mt-20">
+  <div class="m-auto">
+    <a
+      class="link link-primary text-center"
+      target="_blank"
+      [href]="env.rabbitMqManagerBaseUrl"
+      >Open RabbitMQ Manager Instance
+    </a>
+
+    <p class="mt-5 mb-3 text-xl">Use below credentials to login</p>
+
+    <p class="flex">
+      Username: {{ username }}
+      <i-bs
+        class="ml-1"
+        [cdkCopyToClipboard]="username"
+        title="copy to clipboard"
+        name="clipboard-check"
+      >
+      </i-bs>
+    </p>
+    <p class="flex">
+      Password: {{ hiddenPassword }}
+      <i-bs
+        class="ml-1"
+        [cdkCopyToClipboard]="password"
+        title="copy to clipboard"
+        name="clipboard-check"
+      >
+      </i-bs>
+    </p>
+  </div>
+</div>

@@ -18,4 +18,10 @@ export const environment: IEnvironment = {
   swaggerRoutePath: 'swagger/index.html',
   hangfireServeRoutePath: 'hangfire',
   nikeStoreLoginRoutePath: 'auth/login',
+  rabbitMqUsername: 'wsboneme',
+  rabbitMqPassword: 'XQYNmhXlwyHDSQhcj_kxeuNRicn5n-CN',
+  LinkedInProfileUrl: 'https://www.linkedin.com/in/devxbasit/',
+  GithubProfileUrl: 'https://github.com/devxbasit',
+  StackOverFlowProfileUrl: 'https://stackoverflow.com/users/16456741/basit',
+  NikeStoreGithubRepositoryUrl: 'https://github.com/devxbasit/NikeStore',
 };

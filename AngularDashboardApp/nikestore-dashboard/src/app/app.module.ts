@@ -13,6 +13,37 @@ import { FlowDiagramComponent } from './components/flow-diagram/flow-diagram.com
 import { HangfireServeComponent } from './components/hangfire-serve/hangfire-serve.component';
 import { WebApisComponent } from './components/web-apis/web-apis.component';
 import { NikeStoreAppComponent } from './components/nikestore-app/nikestore-app.component';
+import {
+  clipboardCheck,
+  arrowUpRightSquare,
+  github,
+  linkedin,
+  stackOverflow,
+  NgxBootstrapIconsModule,
+  shop,
+  diagram3,
+  tools,
+  listTask,
+  chatRightText,
+  listOl,
+  stack,
+} from 'ngx-bootstrap-icons';
+import { ClipboardModule } from '@angular/cdk/clipboard';
+
+const icons = {
+  clipboardCheck,
+  arrowUpRightSquare,
+  github,
+  linkedin,
+  stackOverflow,
+  shop,
+  diagram3,
+  tools,
+  listTask,
+  chatRightText,
+  listOl,
+  stack,
+};
 
 @NgModule({
   declarations: [
@@ -27,7 +58,14 @@ import { NikeStoreAppComponent } from './components/nikestore-app/nikestore-app.
     WebApisComponent,
     NikeStoreAppComponent,
   ],
-  imports: [BrowserModule, CommonModule, AppRoutingModule, SharedModule],
+  imports: [
+    BrowserModule,
+    CommonModule,
+    AppRoutingModule,
+    SharedModule,
+    NgxBootstrapIconsModule.pick(icons),
+    ClipboardModule,
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })

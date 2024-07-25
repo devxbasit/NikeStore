@@ -1,1 +1,26 @@
-<p>about works!</p>
+<div class="flex justify-center mt-10">
+  <div class="xl:w-full 2xl:w-3/6">
+    <h2 class="mb-2 text-md font-semibold text-gray-900 dark:text-white">
+      NikeStore is an enterprise-grade microservice-based web application,
+      leveraging clean architecture, Ocelot API gateway, RabbitMQ, Hangfire, JWT
+      tokens, .NET Identity, MailKit, & Entity Framework Core.
+      <br />
+      <a
+        target="_blank"
+        [href]="env.NikeStoreGithubRepositoryUrl"
+        class="link link-primary mr-2"
+        >Source Code</a
+      >
+      <a
+        target="_blank"
+        [href]="env.nikeStoreWebAppBaseUrl"
+        class="link link-primary mr-2"
+        >NikeStore Web App</a
+      >
+    </h2>
+
+    <ol class="space-y-1 list-decimal list-inside dark:text-gray-400">
+      <li *ngFor="let feature of nikeStoreFeatures" [innerHTML]="feature"></li>
+    </ol>
+  </div>
+</div>

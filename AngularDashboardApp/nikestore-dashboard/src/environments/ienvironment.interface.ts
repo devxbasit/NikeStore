@@ -12,4 +12,11 @@ export interface IEnvironment {
   swaggerRoutePath: string;
   hangfireServeRoutePath: string;
   nikeStoreLoginRoutePath: string;
+
+  rabbitMqUsername: string;
+  rabbitMqPassword: string;
+  LinkedInProfileUrl: string;
+  GithubProfileUrl: string;
+  StackOverFlowProfileUrl: string;
+  NikeStoreGithubRepositoryUrl: string;
 }

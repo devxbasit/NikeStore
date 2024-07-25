@@ -11,6 +11,7 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "^16.2.0",
+    "@angular/cdk": "^16.2.14",
     "@angular/common": "^16.2.0",
     "@angular/compiler": "^16.2.0",
     "@angular/core": "^16.2.0",
@@ -27,7 +28,6 @@
     "@angular-devkit/build-angular": "^16.2.14",
     "@angular/cli": "^16.2.14",
     "@angular/compiler-cli": "^16.2.0",
-    "@tailwindcss/typography": "^0.5.13",
     "@types/jasmine": "~4.3.0",
     "autoprefixer": "^10.4.19",
     "daisyui": "^4.12.10",
