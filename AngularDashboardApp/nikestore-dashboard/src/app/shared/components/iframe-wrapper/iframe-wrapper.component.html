@@ -16,10 +16,10 @@
     class="iframe-container"
   >
     <iframe
+      #iframe
       [src]="src | safe : 'resourceUrl'"
       [height]="height"
       width="100%"
-      (load)="onLoadEnd()"
     ></iframe>
   </div>
 </div>
