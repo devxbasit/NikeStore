@@ -6,7 +6,8 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "deploy-to-surge": "ng build --configuration=production && cd dist/nikestore-dashboard/ && cp index.html 200.html && surge --domain http://therapeutic-fang.surge.sh"
   },
   "private": true,
   "dependencies": {

@@ -98,8 +98,6 @@ DELETE FROM DbMailLogs
 
 
 set identity_insert [#tempProducts] on;
-
-
 insert [#tempProducts] ([ProductId],[Name],[Price],[Description],[CategoryName],[ImageUrl],[ImageLocalPath])
 select 4013,N'Dell MS116 Wired Optical Mouse',499,N'Dell MS116 Wired Optical Mouse, 1000DPI, LED Tracking, Scrolling Wheel, Plug and Play',N'electronics',N'http://nikestoreproductapi.runasp.net/ProductImages/4013.jpg',N'wwwroot/ProductImages/4013.jpg' UNION ALL
 select 4014,N'Lymio Men T-Shirt',367,N'Lymio Men T-Shirt || T-Shirt for Men || Plain T Shirt || T-Shirt (Polo-18-21)
@@ -113,14 +111,10 @@ select 4017,N'Safari Pentagon 65 Cms',1790,N'Safari Pentagon 65 Cms Medium Check
 select 4018,N'Redmi 12 5G Pastel Blue',11999,N'Redmi 12 5G Pastel Blue 4GB RAM 128GB ROM
 ',N'electronics',N'http://nikestoreproductapi.runasp.net/ProductImages/4018.jpg',N'wwwroot/ProductImages/4018.jpg' UNION ALL
 select 4019,N'HP 64GB Pen Drive',359,N'HP v236w USB 2.0 64GB Pen Drive',N'electronics',N'http://nikestoreproductapi.runasp.net/ProductImages/4019.jpg',N'wwwroot/ProductImages/4019.jpg';
-
 set identity_insert [#tempProducts] off;
 
 
-
 set identity_insert [#tempCoupons] on;
-
-
 insert [#tempCoupons] ([CouponId],[CouponCode],[DiscountAmount],[MinAmount],[CreatedDateTime],[LastUpdatedDateTime])
 select 1,N'GUEST_100_OFF',100,1500,'0001-01-01 00:00:00.0000000','0001-01-01 00:00:00.0000000' UNION ALL
 select 2,N'GUEST_200_OFF',200,2500,'0001-01-01 00:00:00.0000000','0001-01-01 00:00:00.0000000' UNION ALL

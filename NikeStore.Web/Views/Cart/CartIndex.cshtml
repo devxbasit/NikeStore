@@ -279,7 +279,7 @@ select.form-control {
                             <td class="text-center">
                                 <p>@cartObj.Count</p>
                             </td>
-                            <td class="text-center text-lg text-medium">@string.Format("{0:c}", cartObj.Product.Price)</td>
+                            <td class="text-center text-lg text-medium">@string.Format("{0:N}", cartObj.Product.Price)</td>
                             <td class="text-center">
                                 <a asp-action="Remove" asp-route-cartDetailsId="@cartObj.CartDetailsId" class="remove-from-cart" data-toggle="tooltip" title data-original-title="Remove item">
                                     <i class="fa fa-trash"></i>
@@ -308,10 +308,10 @@ select.form-control {
                     </div>
 
                 </div>
-                <span class="text-danger text-medium"> Order Total : @string.Format("{0:c}", Model.CartHeader.CartTotal) <br/></span>
+                <span class="text-danger text-medium"> Order Total : @string.Format("{0:N}", Model.CartHeader.CartTotal) <br/></span>
                 @if (Model.CartHeader.Discount > 0)
                 {
-                    <span class="text-success text-medium"> Order Discount : @string.Format("{0:c}", Model.CartHeader.Discount) </span>
+                    <span class="text-success text-medium"> Order Discount : @string.Format("{0:N}", Model.CartHeader.Discount) </span>
                 }
 
             </div>

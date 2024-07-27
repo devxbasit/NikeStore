@@ -9,4 +9,10 @@ export class IframeWrapperComponent {
   @Input({ required: true }) src = '';
   @Input({ required: true }) title = '';
   @Input({ required: true }) height = '';
+
+  isLoading = true;
+
+  onLoadEnd() {
+    this.isLoading = false;
+  }
 }

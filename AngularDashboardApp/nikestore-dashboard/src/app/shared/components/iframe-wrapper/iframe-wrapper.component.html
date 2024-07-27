@@ -11,9 +11,15 @@
     </a>
   </p>
 
-  <iframe
-    [src]="src | safe : 'resourceUrl'"
-    [height]="height"
-    width="100%"
-  ></iframe>
+  <div
+    [ngClass]="{ 'iframe-container-background': isLoading }"
+    class="iframe-container"
+  >
+    <iframe
+      [src]="src | safe : 'resourceUrl'"
+      [height]="height"
+      width="100%"
+      (load)="onLoadEnd()"
+    ></iframe>
+  </div>
 </div>

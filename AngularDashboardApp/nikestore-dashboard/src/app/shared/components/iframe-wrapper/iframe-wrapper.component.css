@@ -2,3 +2,8 @@ iframe {
   border: 1px solid silver;
   border-radius: 4px;
 }
+
+.iframe-container-background {
+  background: url("/assets/img/loading.gif") center center no-repeat;
+  background-size: 100% auto;
+}
