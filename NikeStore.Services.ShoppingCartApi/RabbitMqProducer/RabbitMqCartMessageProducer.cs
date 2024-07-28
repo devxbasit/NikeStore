@@ -18,7 +18,7 @@ public class RabbitMqCartMessageProducer : IRabbitMqCartMessageProducer
         _configuration = configuration;
         _rabbitMqConnectionOptions = rabbitMqConnectionOptions.CurrentValue;
         rabbitMqConnectionOptions.OnChange((newOptionsValue) => _rabbitMqConnectionOptions = newOptionsValue);
-
+         CreateConnection();
     }
 
     public void SendMessage(object message, string queueName)
@@ -26,17 +26,9 @@ public class RabbitMqCartMessageProducer : IRabbitMqCartMessageProducer
         string jsonMessage = JsonConvert.SerializeObject(message);
         byte[] body = Encoding.UTF8.GetBytes(jsonMessage);
 
-        if (!ConnectionExists()) CreateConnection();
         var channel = _connection.CreateModel();
         channel.QueueDeclare(queueName, true, false, false, null);
         channel.BasicPublish(exchange: "", routingKey: queueName, basicProperties: null, body: body);
-    }
-
-    private bool ConnectionExists()
-    {
-        if (_connection is null) return false;
-
-        return true;
     }
 
     private void CreateConnection()

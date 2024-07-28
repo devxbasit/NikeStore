@@ -56,7 +56,7 @@ coupon management.
 
 #### Stripe Transactions
 
-![nike-store Stripe Checkout](https://github.com/devxbasit/NikeStore/blob/master/ss/StripeTransactions.png)
+![nike-store Stripe Checkout](https://github.com/devxbasit/NikeStore/blob/master/ss/StripeTransactionsGrid.png)
 
 #### Stripe Transactions Details
 

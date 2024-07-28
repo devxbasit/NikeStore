@@ -56,7 +56,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 
 builder.Services.AddScoped<IJwtTokenGeneratorService, JwtTokenGeneratorService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
-builder.Services.AddScoped<IRabbitMqAuthMessageProducer, RabbitMqAuthMessageProducer>();
+builder.Services.AddSingleton<IRabbitMqAuthMessageProducer, RabbitMqAuthMessageProducer>();
 
 
 builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("ApiSettings:JwtOptions"));

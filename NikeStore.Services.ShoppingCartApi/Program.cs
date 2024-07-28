@@ -51,7 +51,7 @@ builder.Services.AddDbContext<AppDbContext>(option =>
 
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICouponService, CouponService>();
-builder.Services.AddScoped<IRabbitMqCartMessageProducer, RabbitMqCartMessageProducer>();
+builder.Services.AddSingleton<IRabbitMqCartMessageProducer, RabbitMqCartMessageProducer>();
 builder.Services.Configure<RabbitMQConnectionOptions>(builder.Configuration.GetSection("RabbitMQSetting:RabbitMQConnectionOptions"));
 
 

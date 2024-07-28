@@ -47,7 +47,7 @@ builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("ApiSett
 builder.Services.Configure<RabbitMQConnectionOptions>(builder.Configuration.GetSection("RabbitMQSetting:RabbitMQConnectionOptions"));
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-builder.Services.AddScoped<IRabbitMqOrderMessageProducer, RabbitMqOrderMessageProducer>();
+builder.Services.AddSingleton<IRabbitMqOrderMessageProducer, RabbitMqOrderMessageProducer>();
 
 builder.Services.AddControllers();
 builder.AddAppAuthentication();
