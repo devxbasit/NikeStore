@@ -22,17 +22,37 @@ coupon management.
 
 ![nike-store microservice app flow](https://github.com/devxbasit/NikeStore/blob/master/ss/nikestore-app-flow.png)
 
-#### Registration
-
-![nike-store microservice app flow](https://github.com/devxbasit/NikeStore/blob/master/ss/register.png)
-
-#### Login
-
-![nike-store microservice app flow](https://github.com/devxbasit/NikeStore/blob/master/ss/login.png)
-
 #### Products Home
 
 ![nike-store Products](https://github.com/devxbasit/NikeStore/blob/master/ss/ProductListHome.png)
+
+#### Stripe Checkout page
+
+![nike-store Stripe Checkout](https://github.com/devxbasit/NikeStore/blob/master/ss/StripeCheckoutPage.png)
+
+#### Customer Cart
+
+![nike-store Cart](https://github.com/devxbasit/NikeStore/blob/master/ss/Cart.png)
+
+#### Hangfire Dashboard
+
+![nike-store microservice app flow](https://github.com/devxbasit/NikeStore/blob/master/ss/hangfire-dashboard.png)
+
+#### Hangfire Succeeded Jobs
+
+![nike-store microservice app flow](https://github.com/devxbasit/NikeStore/blob/master/ss/hangfire-succeeded-jobs.png)
+
+#### RabbitMQ Queues
+
+![nike-store microservice app flow](https://github.com/devxbasit/NikeStore/blob/master/ss/rabbit-mq-queues.png)
+
+#### Stripe Transactions Details
+
+![nike-store Stripe Checkout](https://github.com/devxbasit/NikeStore/blob/master/ss/StripeTransactionsDetail.png)
+
+#### Stripe Transactions
+
+![nike-store Stripe Checkout](https://github.com/devxbasit/NikeStore/blob/master/ss/StripeTransactionsGrid.png)
 
 #### Product Details
 
@@ -42,21 +62,33 @@ coupon management.
 
 ![nike-store Product](https://github.com/devxbasit/NikeStore/blob/master/ss/ProductDetails2.png)
 
-#### Customer Cart
+#### Login
 
-![nike-store Cart](https://github.com/devxbasit/NikeStore/blob/master/ss/Cart.png)
+![nike-store microservice app flow](https://github.com/devxbasit/NikeStore/blob/master/ss/login.png)
 
-#### Stripe Checkout page
+#### Registration
 
-![nike-store Stripe Checkout](https://github.com/devxbasit/NikeStore/blob/master/ss/StripeCheckoutPage.png)
+![nike-store microservice app flow](https://github.com/devxbasit/NikeStore/blob/master/ss/register.png)
 
-#### Stripe Transactions
+#### Customer Registration Mail
 
-![nike-store Stripe Checkout](https://github.com/devxbasit/NikeStore/blob/master/ss/StripeTransactionsGrid.png)
+![nike-store microservice app flow](https://github.com/devxbasit/NikeStore/blob/master/ss/registration-mail.png)
 
-#### Stripe Transactions Details
+#### Order Confirmation Mail
 
-![nike-store Stripe Checkout](https://github.com/devxbasit/NikeStore/blob/master/ss/StripeTransactionsDetail.png)
+![nike-store microservice app flow](https://github.com/devxbasit/NikeStore/blob/master/ss/order-confirmation-mail.png)
+
+#### Email Cart Mail
+
+![nike-store microservice app flow](https://github.com/devxbasit/NikeStore/blob/master/ss/email-cart-mail.png)
+
+#### Coupons Grid
+
+![nike-store Coupons Grid](https://github.com/devxbasit/NikeStore/blob/master/ss/CouponGrid.png)
+
+#### Database Coupons in Sync with StripeAPI
+
+![nike-store Stripe Coupons](https://github.com/devxbasit/NikeStore/blob/master/ss/StripeCouponsGrid.png)
 
 #### Orders Grid Admin
 
@@ -80,14 +112,6 @@ coupon management.
   <img style="width: 350px; height: auto;" src="https://github.com/devxbasit/NikeStore/blob/master/ss/CouponDeleteSucces.png" hspace="10" >
 </p>
 
-#### Coupons Grid
-
-![nike-store Coupons Grid](https://github.com/devxbasit/NikeStore/blob/master/ss/CouponGrid.png)
-
-#### Database Coupons in Sync with StripeAPI
-
-![nike-store Stripe Coupons](https://github.com/devxbasit/NikeStore/blob/master/ss/StripeCouponsGrid.png)
-
 #### Coupons Add, Update
 
 <p>
@@ -101,34 +125,6 @@ coupon management.
   <img style="width: 350px; height: auto;" src="https://github.com/devxbasit/NikeStore/blob/master/ss/CouponDeleteConfirmation.png" hspace="10" >
   <img style="width: 350px; height: auto;" src="https://github.com/devxbasit/NikeStore/blob/master/ss/CouponDeleteSucces.png" hspace="10" >
 </p>
-
-#### Hangfire Dashboard
-
-![nike-store microservice app flow](https://github.com/devxbasit/NikeStore/blob/master/ss/hangfire-dashboard.png)
-
-#### Hangfire Succeeded Jobs
-
-![nike-store microservice app flow](https://github.com/devxbasit/NikeStore/blob/master/ss/hangfire-succeeded-jobs.png)
-
-#### Hangfire Servers
-
-![nike-store microservice app flow](https://github.com/devxbasit/NikeStore/blob/master/ss/hangfire-servers.png)
-
-#### RabbitMQ Queues
-
-![nike-store microservice app flow](https://github.com/devxbasit/NikeStore/blob/master/ss/rabbit-mq-queues.png)
-
-#### Customer Registration Mail
-
-![nike-store microservice app flow](https://github.com/devxbasit/NikeStore/blob/master/ss/registration-mail.png)
-
-#### Order Confirmation Mail
-
-![nike-store microservice app flow](https://github.com/devxbasit/NikeStore/blob/master/ss/order-confirmation-mail.png)
-
-#### Email Cart Mail
-
-![nike-store microservice app flow](https://github.com/devxbasit/NikeStore/blob/master/ss/email-cart-mail.png)
 
 #### Microservices Architecture Screenshot - 1
 
