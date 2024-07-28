@@ -46,10 +46,6 @@ coupon management.
 
 ![nike-store Cart](https://github.com/devxbasit/NikeStore/blob/master/ss/Cart.png)
 
-#### Checkout
-
-![nike-store Checkout](https://github.com/devxbasit/NikeStore/blob/master/ss/CheckoutSummary.png)
-
 #### Stripe Checkout page
 
 ![nike-store Stripe Checkout](https://github.com/devxbasit/NikeStore/blob/master/ss/StripeCheckoutPage.png)
