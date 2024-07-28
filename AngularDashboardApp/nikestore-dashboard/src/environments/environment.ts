@@ -17,7 +17,7 @@ export const environment: IEnvironment = {
 
   LinkedInProfileUrl: 'https://www.linkedin.com/in/devxbasit/',
   GithubProfileUrl: 'https://github.com/devxbasit',
-  StackOverFlowProfileUrl: 'https://stackoverflow.com/users/16456741/basit',
+  StackOverFlowProfileUrl: 'https://stackoverflow.com/users/16456741/basit?tab=profile',
   NikeStoreGithubRepositoryUrl: 'https://github.com/devxbasit/NikeStore',
 
   swaggerRoutePath: 'swagger/index.html',

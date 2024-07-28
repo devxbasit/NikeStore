@@ -42,7 +42,7 @@ public class AuthController : Controller
             var role = await SignInUser(loginResponseDto);
             _tokenProvider.SetToken(loginResponseDto.Token);
 
-            return role.ToLower() == "admin" ? RedirectToAction("OrderIndex", "Order") : RedirectToAction("Index", "Home");
+            return role.ToLower() == "admin" ? RedirectToAction("CouponIndex", "Coupon") : RedirectToAction("Index", "Home");
         }
         else
         {

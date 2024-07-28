@@ -42,8 +42,8 @@ function InitGrid() {
         rowSelection: "multiple",
         suppressRowClickSelection: true,
         pagination: true,
-        paginationPageSize: 10,
-        paginationPageSizeSelector: [10, 25, 50],
+        paginationPageSize: 100,
+        paginationPageSizeSelector: [100, 200, 300, 400],
     };
 
     const gridDiv = document.querySelector("#productsGrid");
