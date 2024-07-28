@@ -6,6 +6,7 @@
     >NikeStore</span
   >
 </h1>
+
 <div class="flex justify-center mt-10">
   <div class="xl:w-full 2xl:w-3/6">
     <h2 class="mb-2 text-md font-semibold text-gray-900">
@@ -27,7 +28,7 @@
       >
     </h2>
 
-    <ol class="space-y-1 list-decimal list-inside">
+    <ol class="space-y-1 list-decimal list-outside">
       <li *ngFor="let feature of nikeStoreFeatures" [innerHTML]="feature"></li>
     </ol>
   </div>
