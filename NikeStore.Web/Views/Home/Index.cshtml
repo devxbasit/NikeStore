@@ -524,6 +524,9 @@
                 border-radius: 0.25rem 0.25rem 0.25rem;
                 -moz-border-radius: 0.25rem 0.25rem 0.25rem;
             }
+            .block, .block img {
+                border-radius: 20px;
+                }
 
             .block:after,
             .block:before {
@@ -578,11 +581,23 @@
             .block .block-image img {
                 max-width: 100%;
                 height: 250px;
+                transition: all .2s ease-out;
             }
-            .z-depth-2-top,
-            .z-depth-2-top--hover:hover {
-                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+             .z-depth-2-top img:hover {
+                                        transform: scale(1.1);
+                                    }
+
+            .z-depth-2-top{
+                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
             }
+
+            .z-depth-2-top:hover {
+                            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.8);
+                        }
+
+
+
+
             .text-uppercase {
                 text-transform: uppercase !important;
             }
@@ -627,8 +642,8 @@
         <div class="row">
             @foreach (var product in Model)
             {
-                <div class="col-md-4">
-                    <div class="block product no-border z-depth-2-top z-depth-2--hover">
+                <div class="col-md-4 mb-5">
+                    <div class="block product no-border z-depth-2-top z-depth-2--hover py-3">
                         <div class="block-image" style="text-align: center">
                             <a asp-action="ProductDetails" asp-route-productId="@product.ProductId">
                                 <img src="@product.ImageUrl" class="img-center img-fluid rounded"/>
@@ -639,7 +654,7 @@
 
 
                         </div>
-                        <div class="block-body p-2">
+                        <div class="block-body">
                             <h3 class="text-center text-truncate heading heading-5 strong-600 text-capitalize my-3 px-3"> @product.Name</h3>
                             <p class="text-sm text-truncate px-3"> @Html.Raw(product.Description)</p>
                             <div class="row mt-3">

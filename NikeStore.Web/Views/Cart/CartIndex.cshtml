@@ -237,12 +237,14 @@ select.form-control {
 
     </style>
 
-<div class="container padding-bottom-3x mb-1">
 
+
+<div class="container padding-bottom-3x mb-1 mt-2">
     <a asp-controller="Home" asp-action="Index" type="button" class="btn btn-sm btn-danger my-3"><i class="fa-solid fa-arrow-left"></i> Back</a>
 
     @if (Model.CartHeader != null && Model.CartDetails?.Count() > 0)
     {
+    <p class="display-6 text-center">Cart Details</p>
         <form method="post" asp-action="EmailCart">
             <input asp-for="CartHeader.UserId" hidden/>
             <input asp-for="CartHeader.CartHeaderId" hidden/>
@@ -307,13 +309,22 @@ select.form-control {
                             <button class="btn btn-outline-danger btn-sm" type="submit" asp-action="RemoveCoupon">Remove Coupon</button>
                         }
                     </div>
-
                 </div>
-                <span class="text-danger text-medium"> Order Total : @string.Format("{0:N}", Model.CartHeader.CartTotal) <br/></span>
+                <div class="row">
+                    <div class="col-12 text-end">
                 @if (Model.CartHeader.Discount > 0)
-                {
-                    <span class="text-success text-medium"> Order Discount : @string.Format("{0:N}", Model.CartHeader.Discount) </span>
-                }
+                                {
+                                    <span class="text-success text-medium">Discount : @string.Format("{0:N}", Model.CartHeader.Discount) </span>
+                                }
+                    </div>
+                    <div class="col-12 text-end">
+                        <span class="text-primary text-medium">Total : @string.Format("{0:N}", Model.CartHeader.CartTotal) <br/></span>
+                    </div>
+                </div>
+
+
+
+
 
             </div>
             <div class="shopping-cart-footer">
@@ -328,6 +339,6 @@ select.form-control {
     }
     else
     {
-        <img src="~/img/cart empty.jpg" style="width: 100%; height: auto;"/>
+        <img  src="~/img/1cart empty.jpg" style="width: 100%; height: auto;"/>
     }
 </div>

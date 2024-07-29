@@ -51,13 +51,13 @@ body.loading .loader-gif-overlay{
         @if (User.Identity.IsAuthenticated && User.Claims.Where(c => c.Type == ClaimTypes.Role).FirstOrDefault().Value.ToLower() == "admin")
         {
             <a asp-controller="Order" asp-action="OrderIndex" class="navbar-brand">
-                <img src='~/img/nikestore-neon-logo.png' alt='NikeStore' style='display: block; max-width: 200px;'>
+                <img src='~/img/nikestore-logo.png' alt='NikeStore' style='display: block; max-width: 200px;'>
             </a>
         }
         else
         {
             <a asp-controller="Home" asp-action="Index" class="navbar-brand">
-                <img src='~/img/nikestore-neon-logo.png' alt='NikeStore' style='display: block; max-width: 200px;'>
+                <img src='~/img/nikestore-logo.png' alt='NikeStore' style='display: block; max-width: 200px;'>
             </a>
         }
 
