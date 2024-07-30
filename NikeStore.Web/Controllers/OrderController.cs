@@ -31,7 +31,7 @@ namespace NikeStore.Web.Controllers
                 userId = User.Claims.Where(u => u.Type == JwtRegisteredClaimNames.Sub)?.FirstOrDefault()?.Value;
             }
 
-            ResponseDto response = _orderService.GetAllOrder(userId).GetAwaiter().GetResult();
+            ResponseDto response = await _orderService.GetAllOrder(userId);
             if (response != null && response.IsSuccess)
             {
                 response.Result = JsonConvert.DeserializeObject<List<OrderHeaderDto>>(Convert.ToString(response.Result));

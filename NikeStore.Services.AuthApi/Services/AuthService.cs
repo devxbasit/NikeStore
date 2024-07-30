@@ -29,10 +29,10 @@ public class AuthService : IAuthService
 
         if (user is not null)
         {
-            if (!_roleManager.RoleExistsAsync(roleName).GetAwaiter().GetResult())
+            if (! await _roleManager.RoleExistsAsync(roleName))
             {
                 //create role if it does not exist
-                _roleManager.CreateAsync(new IdentityRole(roleName)).GetAwaiter().GetResult();
+                await _roleManager.CreateAsync(new IdentityRole(roleName));
             }
 
             await _userManager.AddToRoleAsync(user, roleName);
