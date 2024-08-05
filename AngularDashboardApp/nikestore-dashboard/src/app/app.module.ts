@@ -27,6 +27,7 @@ import {
   chatRightText,
   listOl,
   stack,
+  sendCheck,
 } from 'ngx-bootstrap-icons';
 import { ClipboardModule } from '@angular/cdk/clipboard';
 
@@ -43,6 +44,7 @@ const icons = {
   chatRightText,
   listOl,
   stack,
+  sendCheck,
 };
 
 @NgModule({

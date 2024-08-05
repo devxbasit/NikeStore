@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { IEnvironment } from 'src/environments/ienvironment.interface';
 
@@ -7,7 +7,7 @@ import { IEnvironment } from 'src/environments/ienvironment.interface';
   templateUrl: './about.component.html',
   styleUrls: ['./about.component.css'],
 })
-export class AboutComponent {
+export class AboutComponent implements OnInit {
   env: IEnvironment = environment;
 
   nikeStoreFeatures: string[] = [
@@ -20,5 +20,12 @@ export class AboutComponent {
     'Implemented Ocelot API gateway to provide a unified entry point, streamlining<strong> 25+ API endpoints </strong>into one cohesive access point.',
     'Configured <strong>middleware pipeline</strong> for functionalities like authentication, logging & global exceptional handling & CORS.',
     'Integrated all coupon codes & discount amounts with the Stripe payment gateway & database, ensuring seamless transactions.',
-  ];
+  ].map((feature) =>
+    feature.replaceAll(
+      '<strong>',
+      "<strong class='text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400'>"
+    )
+  );
+
+  ngOnInit(): void {}
 }

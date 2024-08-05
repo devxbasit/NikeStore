@@ -2,30 +2,16 @@
   <div>
     <p class="text-center">Connect with developer</p>
     <div class="text-center">
-      <a
-        title="LinkedIn"
-        target="_blank"
-        [href]="env.LinkedInProfileUrl"
-        class="inline-block p-2"
-      >
-        <i-bs name="linkedin"> </i-bs
-      ></a>
-      <a
-        title="Github"
-        target="_blank"
-        [href]="env.GithubProfileUrl"
-        class="inline-block p-2"
-      >
-        <i-bs name="github"> </i-bs
-      ></a>
-      <a
-        title="Stack OverFlow"
-        target="_blank"
-        [href]="env.StackOverFlowProfileUrl"
-        class="inline-block p-2"
-      >
-        <i-bs name="stack-overflow"> </i-bs
-      ></a>
+      <a title="LinkedIn" target="_blank" [href]="env.LinkedInProfileUrl" class="inline-block p-2">
+        <i-bs name="linkedin"> </i-bs></a>
+      <a [title]="'Mail to ' + env.professionalEmailId" [href]="'mailto:'+ env.professionalEmailId"
+        class="inline-block p-2">
+        <i-bs name="send-check"> </i-bs></a>
+
+      <a title="Github" target="_blank" [href]="env.GithubProfileUrl" class="inline-block p-2">
+        <i-bs name="github"> </i-bs></a>
+      <a title="Stack OverFlow" target="_blank" [href]="env.StackOverFlowProfileUrl" class="inline-block p-2">
+        <i-bs name="stack-overflow"> </i-bs></a>
     </div>
   </div>
 </div>

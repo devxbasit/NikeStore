@@ -13,6 +13,7 @@ export interface IEnvironment {
   rabbitMqManagerBaseUrl: string;
 
   LinkedInProfileUrl: string;
+  professionalEmailId: string;
   GithubProfileUrl: string;
   StackOverFlowProfileUrl: string;
   NikeStoreGithubRepositoryUrl: string;

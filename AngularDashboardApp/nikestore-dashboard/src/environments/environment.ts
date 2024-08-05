@@ -16,8 +16,11 @@ export const environment: IEnvironment = {
   rabbitMqManagerBaseUrl: 'https://chimpanzee.rmq.cloudamqp.com',
 
   LinkedInProfileUrl: 'https://www.linkedin.com/in/devxbasit/',
+  professionalEmailId: 'basitshafi.dev@gmail.com',
+
   GithubProfileUrl: 'https://github.com/devxbasit',
-  StackOverFlowProfileUrl: 'https://stackoverflow.com/users/16456741/basit?tab=profile',
+  StackOverFlowProfileUrl:
+    'https://stackoverflow.com/users/16456741/basit?tab=profile',
   NikeStoreGithubRepositoryUrl: 'https://github.com/devxbasit/NikeStore',
 
   swaggerRoutePath: 'swagger/index.html',
