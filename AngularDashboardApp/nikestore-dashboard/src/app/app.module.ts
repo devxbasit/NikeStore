@@ -28,6 +28,8 @@ import {
   listOl,
   stack,
   sendCheck,
+  person,
+  personFill,
 } from 'ngx-bootstrap-icons';
 import { ClipboardModule } from '@angular/cdk/clipboard';
 
@@ -45,6 +47,8 @@ const icons = {
   listOl,
   stack,
   sendCheck,
+  person,
+  personFill,
 };
 
 @NgModule({
