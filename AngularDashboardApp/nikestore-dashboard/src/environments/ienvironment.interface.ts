@@ -10,8 +10,6 @@ export interface IEnvironment {
   nikeStoreWebAppBaseUrl: string;
   nikeStoreApiGatewayBaseUrl: string;
 
-  rabbitMqManagerBaseUrl: string;
-
   LinkedInProfileUrl: string;
   professionalEmailId: string;
   GithubProfileUrl: string;
@@ -22,6 +20,7 @@ export interface IEnvironment {
   hangfireServeRoutePath: string;
   nikeStoreLoginRoutePath: string;
 
+  rabbitMqManagerBaseUrl: string;
   rabbitMqUsername: string;
   rabbitMqPassword: string;
 }

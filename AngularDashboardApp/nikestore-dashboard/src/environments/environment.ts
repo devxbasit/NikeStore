@@ -13,8 +13,6 @@ export const environment: IEnvironment = {
   nikeStoreWebAppBaseUrl: 'http://nikestoreweb.runasp.net',
   nikeStoreApiGatewayBaseUrl: 'http://nikestoregatewaysolution.runasp.net',
 
-  rabbitMqManagerBaseUrl: 'https://chimpanzee.rmq.cloudamqp.com',
-
   LinkedInProfileUrl: 'https://www.linkedin.com/in/devxbasit/',
   professionalEmailId: 'basitshafi.dev@gmail.com',
 
@@ -26,6 +24,8 @@ export const environment: IEnvironment = {
   swaggerRoutePath: 'swagger/index.html',
   hangfireServeRoutePath: 'hangfire',
   nikeStoreLoginRoutePath: 'auth/login',
-  rabbitMqUsername: 'wsboneme',
-  rabbitMqPassword: 'XQYNmhXlwyHDSQhcj_kxeuNRicn5n-CN',
+
+  rabbitMqManagerBaseUrl: 'https://ostrich.lmq.cloudamqp.com/login',
+  rabbitMqUsername: 'hcidvfyh',
+  rabbitMqPassword: '85COkXI6Qx42VSwSJSABqrglJ_4MvCId',
 };
